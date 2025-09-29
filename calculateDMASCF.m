@@ -70,7 +70,7 @@ function acousticImage = calculateDMASCF(dataSignals, delayMatrix, methodImaging
             enableMex = 0;
             enableGPU = 0;         
         otherwise
-            warning('Processing method not supported: %s. Using native Matlab version.', methodImaging);
+            warning('Processing method not supported: %s. Using native Matlab version.', methodProcessing);
             enableMex = 0;
             enableGPU = 0;
     end
@@ -105,7 +105,7 @@ function acousticImage = calculateDMASCF(dataSignals, delayMatrix, methodImaging
                 toggleCF = int32(1); 
                 warning("SCF is not supported by MEX versions of calculateDMASCF! using normal CF instead.");
             otherwise
-                error('Coherence Factor type not supported: %s', methodImaging);
+                error('Coherence Factor type not supported: %s', coherenceType);
         end
 
         if(enableGPU)

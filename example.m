@@ -40,9 +40,32 @@ structSensor.coordinatesMicrophones = [0 -0.0384 0.0151; 0 -0.0232 0.0101; 0 -0.
     dataMicrophones = simulateMicrophoneData(structScene, structSensor);
     dataMicrophones = dataMicrophones + 0.1 * randn(size(dataMicrophones));
 
-%% Run image calculation
+%% Run only DAS
 
-    processingMethod = 'mexcuda'; 
+    structImageDAS = structImage;
+    structImageDAS.methodImaging = 'DAS';
+    structImageDAS.coherenceType = 'none';
+    structImageDAS.methodProcessing = 'mexcpu'; 
+    imageDAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
+
+    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;    
+    rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
+
+    dbCut = -80;
+    imageDASLog = normLog( imageDAS, dbCut );
+
+    figure(); 
+    imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
+    xlabel( 'Azimuth (°)' )
+    ylabel( 'Range (m)')
+    set( gca, 'ydir', 'normal' )
+    title( 'DAS' )
+    colorbar
+    caxis( [ dbCut 0 ] )  
+
+%% Run full image calculation
+
+    processingMethod = 'mexcpu'; 
     
     tic
     % --- DAS ---

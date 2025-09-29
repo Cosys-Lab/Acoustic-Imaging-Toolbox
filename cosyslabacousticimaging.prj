@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="1773251784" file="D:\BigProjects\dmas\Source\cosyslabacousticimaging.prj" location="D:\BigProjects\dmas\Source" name="cosyslabacousticimaging" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="1773251784" file="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox\cosyslabacousticimaging.prj" location="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox" name="cosyslabacousticimaging" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Cosys-Lab Acoustic Imaging Toolbox</param.appname>
     <param.authnamewatermark>Wouter Jansen &amp; Jan Steckel</param.authnamewatermark>
     <param.email>jan.steckel@uantwerpen.be</param.email>
@@ -42,14 +42,14 @@
 .git
 .idea
 __pycache__
-test.m
-test2.m
 *asv
-*mltbx</param.exclude.filters>
+*mltbx
+*mexw64
+*mexa64</param.exclude.filters>
     <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
     <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;examples&gt;
-   &lt;exampleCategory name="Source"&gt;
+   &lt;exampleCategory name="cosys-lab-acoustic-imaging-toolbox"&gt;
       &lt;example name="example" type="html"&gt;
          &lt;file type="source"&gt;/html/example.html&lt;/file&gt;
          &lt;file type="main"&gt;/example.m&lt;/file&gt;
@@ -113,15 +113,15 @@ test2.m
       <file>${PROJECT_ROOT}</file>
     </fileset.rootdir>
     <fileset.rootfiles>
+      <file>${PROJECT_ROOT}\.gitignore</file>
       <file>${PROJECT_ROOT}\calculateAcousticImage.m</file>
       <file>${PROJECT_ROOT}\calculateDelayMatrix.m</file>
       <file>${PROJECT_ROOT}\calculateDMASCF.m</file>
       <file>${PROJECT_ROOT}\calculateDMASCFMexCPU.cpp</file>
-      <file>${PROJECT_ROOT}\calculateDMASCFMexCPU.mexw64</file>
       <file>${PROJECT_ROOT}\calculateDMASCFMexGPU.cu</file>
-      <file>${PROJECT_ROOT}\calculateDMASCFMexGPU.mexw64</file>
       <file>${PROJECT_ROOT}\calculateDMASCFNative.m</file>
       <file>${PROJECT_ROOT}\calculateDMASCFNativeSingleDirection.m</file>
+      <file>${PROJECT_ROOT}\CHANGELOG</file>
       <file>${PROJECT_ROOT}\compileCLAIT.m</file>
       <file>${PROJECT_ROOT}\demos.xml</file>
       <file>${PROJECT_ROOT}\Doc</file>
@@ -136,7 +136,7 @@ test2.m
     <fileset.depfun.excluded />
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}" name="Cosys-Lab Acoustic Imaging Toolbox.mltbx" optional="false">D:\BigProjects\dmas\Source\Cosys-Lab Acoustic Imaging Toolbox.mltbx</file>
+      <file location="${PROJECT_ROOT}" name="Cosys-Lab Acoustic Imaging Toolbox.mltbx" optional="false">D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox\Cosys-Lab Acoustic Imaging Toolbox.mltbx</file>
     </build-deliverables>
     <workflow />
     <matlab>
