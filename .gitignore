@@ -1,0 +1,17 @@
+*.so
+build/
+*/build/*
+dist/
+*/dist/*
+*.egg-info/
+*/*.egg-info/
+*.egg
+*.log
+/.idea/*
+/.vscode/*
+*.pyc
+*.asv
+*.mp4
+*.mltbx
+*.mexw64
+*.mexa64
