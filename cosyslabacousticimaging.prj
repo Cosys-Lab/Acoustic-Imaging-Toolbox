@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="3557913358" file="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox\cosyslabacousticimaging.prj" location="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox" name="cosyslabacousticimaging" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="487763337" file="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox\cosyslabacousticimaging.prj" location="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox" name="cosyslabacousticimaging" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Cosys-Lab Acoustic Imaging Toolbox</param.appname>
     <param.authnamewatermark>Wouter Jansen &amp; Jan Steckel</param.authnamewatermark>
     <param.email>jan.steckel@uantwerpen.be</param.email>
@@ -7,7 +7,7 @@
     <param.summary>A MATLAB toolbox from Cosys-Lab for high-performance acoustic imaging, featuring MEX-accelerated DMAS-CF beamforming and signal processing.</param.summary>
     <param.description>A MATLAB toolbox from Cosys-Lab for high-performance acoustic imaging, featuring GPU &amp; MEX-accelerated DMAS-CF beamforming and signal processing.</param.description>
     <param.screenshot />
-    <param.version>1.0.0</param.version>
+    <param.version>1.0.1</param.version>
     <param.output>${PROJECT_ROOT}\Cosys-Lab Acoustic Imaging Toolbox.mltbx</param.output>
     <param.products.name>
       <item>MATLAB</item>
