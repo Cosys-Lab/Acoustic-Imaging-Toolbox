@@ -1,7 +1,7 @@
 
 # Cosys\-Lab Acoustic Imaging Toolbox
 
-This toolbox provides a high\-performance framework for advanced acoustic imaging, specifically designed around Delay\-and\-Sum (DAS) and Differential/Generalized Multi\-Channel Summation (DMAS) beamforming techniques, including optional Coherence Factor (CF) application. Performance is enhanced through built\-in MEX\-CPU and MEX\-CUDA acceleration options. Note that the GPU acceleration is only available for NVIDIA GPUs.
+A MATLAB toolbox from Cosys\-Lab for high\-performance acoustic imaging, featuring GPU & MEX\-accelerated DMAS\-CF beamforming and signal processing.
 
 <a name="beginToc"></a>
 
