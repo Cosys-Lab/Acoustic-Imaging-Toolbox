@@ -3,6 +3,52 @@
 
 This toolbox provides a high\-performance framework for advanced acoustic imaging, specifically designed around Delay\-and\-Sum (DAS) and Differential/Generalized Multi\-Channel Summation (DMAS) beamforming techniques, including optional Coherence Factor (CF) application. Performance is enhanced through built\-in MEX\-CPU and MEX\-CUDA acceleration options. Note that the GPU acceleration is only available for NVIDIA GPUs.
 
+<a name="beginToc"></a>
+
+## Table of Contents
+&emsp;[Installation](#installation)
+ 
+&emsp;[General Usage](#general-usage)
+ 
+&emsp;&emsp;[**Function Signature**](#-textbf-function-signature-)
+ 
+&emsp;&emsp;[**Input Arguments**](#-textbf-input-arguments-)
+ 
+&emsp;&emsp;[**Detailed Breakdown of Input Structures**](#-textbf-detailed-breakdown-of-input-structures-)
+ 
+&emsp;&emsp;&emsp;[**1. structSensor**](#-textbf-1-structsensor-)
+ 
+&emsp;&emsp;&emsp;[**2. structImage**](#-textbf-2-structimage-)
+ 
+&emsp;&emsp;[**Output**](#-textbf-output-)
+ 
+&emsp;[Example](#example)
+ 
+&emsp;[Compiling MEX Files](#compiling-mex-files)
+ 
+&emsp;&emsp;[Dependencies](#dependencies)
+ 
+&emsp;&emsp;[Automatically Compiling MEX files when Toolbox is installed](#automatically-compiling-mex-files-when-toolbox-is-installed)
+ 
+&emsp;&emsp;[Manually Compiling MEX files](#manually-compiling-mex-files)
+ 
+&emsp;[Conversion from *Fast RTIS Processing in Matlab*](#conversion-from-textit-fast-rtis-processing-in-matlab-)
+ 
+&emsp;&emsp;[Input Data Transposition](#input-data-transposition)
+ 
+&emsp;&emsp;[Configuration Restructuring](#configuration-restructuring)
+ 
+&emsp;&emsp;&emsp;[**Mapping Toggles and Processing Method**](#-textbf-mapping-toggles-and-processing-method-)
+ 
+&emsp;&emsp;&emsp;[**Removing Redundant Inputs**](#-textbf-removing-redundant-inputs-)
+ 
+&emsp;&emsp;[Required New Fields](#required-new-fields)
+ 
+<a name="endToc"></a>
+
+# Installation
+
+Find the latest release [here](https://cosysgit.uantwerpen.be/wjansen/cosys-lab-acoustic-imaging-toolbox/-/releases) and use the download link for the toolbox. You can also clone or download this repository and use it from source.s
 
 # General Usage
 

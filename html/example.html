@@ -89,13 +89,16 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <a href="#3">Generate microphone data</a>
 </li>
 <li>
-<a href="#4">Run image calculation</a>
+<a href="#4">Run only DAS</a>
 </li>
 <li>
-<a href="#5">Plot results</a>
+<a href="#5">Run full image calculation</a>
 </li>
 <li>
-<a href="#6">Helper functions</a>
+<a href="#6">Plot results</a>
+</li>
+<li>
+<a href="#7">Helper functions</a>
 </li>
 </ul>
 </div>
@@ -138,8 +141,30 @@ structSensor.coordinatesMicrophones = [0 -0.0384 0.0151; 0 -0.0232 0.0101; 0 -0.
 <pre class="codeinput">    dataMicrophones = simulateMicrophoneData(structScene, structSensor);
     dataMicrophones = dataMicrophones + 0.1 * randn(size(dataMicrophones));
 </pre>
-<h2 id="4">Run image calculation</h2>
-<pre class="codeinput">    processingMethod = <span class="string">'mexcuda'</span>;
+<h2 id="4">Run only DAS</h2>
+<pre class="codeinput">    structImageDAS = structImage;
+    structImageDAS.methodImaging = <span class="string">'DAS'</span>;
+    structImageDAS.coherenceType = <span class="string">'none'</span>;
+    structImageDAS.methodProcessing = <span class="string">'mexcpu'</span>;
+    imageDAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
+
+    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;
+    rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
+
+    dbCut = -80;
+    imageDASLog = normLog( imageDAS, dbCut );
+
+    figure();
+    imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
+    xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+    ylabel( <span class="string">'Range (m)'</span>)
+    set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+    title( <span class="string">'DAS'</span> )
+    colorbar
+    caxis( [ dbCut 0 ] )
+</pre>
+<img vspace="5" hspace="5" src="example_01.png" alt=""> <h2 id="5">Run full image calculation</h2>
+<pre class="codeinput">    processingMethod = <span class="string">'mexcpu'</span>;
 
     tic
     <span class="comment">% --- DAS ---</span>
@@ -213,9 +238,9 @@ structSensor.coordinatesMicrophones = [0 -0.0384 0.0151; 0 -0.0232 0.0101; 0 -0.
     imageDMAS5CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5CF);
     toc
 </pre>
-<pre class="codeoutput">Elapsed time is 0.266506 seconds.
+<pre class="codeoutput">Elapsed time is 33.226290 seconds.
 </pre>
-<h2 id="5">Plot results</h2>
+<h2 id="6">Plot results</h2>
 <pre class="codeinput">    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;
     rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
 
@@ -314,7 +339,7 @@ structSensor.coordinatesMicrophones = [0 -0.0384 0.0151; 0 -0.0232 0.0101; 0 -0.
             colorbar
             caxis( [ dbCut 0 ] )
 </pre>
-<img vspace="5" hspace="5" src="example_01.png" alt=""> <h2 id="6">Helper functions</h2>
+<img vspace="5" hspace="5" src="example_02.png" alt=""> <h2 id="7">Helper functions</h2>
 <pre class="codeinput">
 <span class="keyword">function</span> dataMicrophonesOut = simulateMicrophoneData( structScene, structSensor )
 <span class="comment">%SIMULATEMICROPHONEDATA Simulates microphone data from point targets in a scene.</span>
@@ -527,9 +552,32 @@ structSensor.coordinatesMicrophones = [0 -0.0384 0.0151; 0 -0.0232 0.0101; 0 -0.
     dataMicrophones = simulateMicrophoneData(structScene, structSensor);
     dataMicrophones = dataMicrophones + 0.1 * randn(size(dataMicrophones));
 
-%% Run image calculation
+%% Run only DAS
 
-    processingMethod = 'mexcuda'; 
+    structImageDAS = structImage;
+    structImageDAS.methodImaging = 'DAS';
+    structImageDAS.coherenceType = 'none';
+    structImageDAS.methodProcessing = 'mexcpu'; 
+    imageDAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
+
+    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;    
+    rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
+
+    dbCut = -80;
+    imageDASLog = normLog( imageDAS, dbCut );
+
+    figure(); 
+    imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
+    xlabel( 'Azimuth (°)' )
+    ylabel( 'Range (m)')
+    set( gca, 'ydir', 'normal' )
+    title( 'DAS' )
+    colorbar
+    caxis( [ dbCut 0 ] )  
+
+%% Run full image calculation
+
+    processingMethod = 'mexcpu'; 
     
     tic
     % REPLACE_WITH_DASH_DASH- DAS REPLACE_WITH_DASH_DASH-
