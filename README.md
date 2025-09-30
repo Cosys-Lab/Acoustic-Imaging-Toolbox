@@ -3,6 +3,8 @@
 
 A MATLAB toolbox from Cosys\-Lab for high\-performance acoustic imaging, featuring GPU & MEX\-accelerated DMAS\-CF beamforming and signal processing.
 
+<a name="beginToc"></a>
+
 # Installation
 
 Find the latest release [here](https://cosysgit.uantwerpen.be/wjansen/cosys-lab-acoustic-imaging-toolbox/-/releases) and use the download link for the toolbox. You can also clone or download this repository and use it from source.
@@ -14,7 +16,7 @@ Note that if you want to use any of the accelerated GPU and CPU\-based MEX imple
 
 The toolbox has 6 major functions: 2 main ones and 3 helper ones. The following table lists all the available functions:
 
-1.   `calculateAcousticImage:` Primary High\-Level Function. Executes the full imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post\-processing.
+1.   `calculateAcousticImage:` Primary High\-Level Function. Executes the full imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post\-processing. 
 2. `calculateDMASCF:` Core beamforming function. Computes the image using D(M)AS(\-CF).
 3. `calculateDelayMatrix:` Calculates the necessary sample delays array steering to specified directions.
 4. `generalizedMatchedFilter:` Applies various matched filter and generalized correlation transforms (Normal, PHAT, ROTH, SCOT).
@@ -30,7 +32,7 @@ All functions in this Toolbox exist within the `clait` namespace. For calling th
 
 # Examples
 
-A few examples are available, to quickly open them after installing the toolbox, run the following commands
+A few examples are available, to quickly open them after installing the toolbox, run the following commands or find them manually in the `examples` folder.
 
 ```matlab
 clait.openClaitAcousticImageExample
@@ -69,7 +71,7 @@ clait.compileClaitMexFunctions(enableCPUCompile, enableGPUCompile)
 
 ## Manually Compiling MEX files
 
-Go in your Matlab to the folder containing `calculateDMASCFMexCPU.cpp (`found in the `toolbox/+clait/cpp` folder`)`. 
+Go in your Matlab to the folder containing `calculateDMASCFMexCPU.cpp (`found in the `+clait` folder`)`. 
 
 
 Use the command below to compile the function:
@@ -78,7 +80,7 @@ Use the command below to compile the function:
 mex calculateDMASCFMexCPU.cpp
 ```
 
-Go in your Matlab to the folder containing `calculateDMASCFMexGPU.cu (`found in the `toolbox/+clait/cpp` folder`)`. 
+Go in your Matlab to the folder containing `calculateDMASCFMexGPU.cu (`found in the `+clait` folder`)`. 
 
 
 Use the command below to compile the function:
