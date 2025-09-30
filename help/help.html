@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2024b"><title>Cosys-Lab Acoustic Imaging Toolbox</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(192, 76, 11); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S2 { margin-bottom: 20px; padding-bottom: 4px;  }
+.S3 { margin: 0px; padding: 10px 0px 10px 5px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 700; text-align: start;  }
+.S4 { margin: -1px 0px 0px; padding: 10px 0px 10px 7px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: start;  }
+.S5 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 25px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 20px; font-weight: 700; text-align: left;  }
+.S6 { margin: 20px 10px 5px 4px; padding: 0px; line-height: 25px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 20px; font-weight: 700; text-align: left;  }
+.S7 { margin: 10px 0px 20px; padding-left: 0px; font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-size: 14px;  }
+.S8 { margin-left: 56px; line-height: 21px; min-height: 0px; text-align: left; white-space: pre-wrap;  }
+.CodeBlock { background-color: #F5F5F5; margin: 10px 15px 10px 0; display: inline-block }
+.S9 { border-left: 0.8px solid rgb(217, 217, 217); border-right: 0.8px solid rgb(217, 217, 217); border-top: 0.8px solid rgb(217, 217, 217); border-bottom: 0px none rgb(33, 33, 33); border-radius: 4px 4px 0px 0px; padding: 6px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace, Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S10 { border-left: 0.8px solid rgb(217, 217, 217); border-right: 0.8px solid rgb(217, 217, 217); border-top: 0px none rgb(33, 33, 33); border-bottom: 0.8px solid rgb(217, 217, 217); border-radius: 0px 0px 4px 4px; padding: 0px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace, Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S11 { margin: 15px 10px 5px 4px; padding: 0px; line-height: 18px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 17px; font-weight: 700; text-align: left;  }
+.S12 { border-left: 0.8px solid rgb(217, 217, 217); border-right: 0.8px solid rgb(217, 217, 217); border-top: 0.8px solid rgb(217, 217, 217); border-bottom: 0.8px solid rgb(217, 217, 217); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace, Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S13 { border-left: 0.8px solid rgb(217, 217, 217); border-right: 0.8px solid rgb(217, 217, 217); border-top: 0px none rgb(33, 33, 33); border-bottom: 0px none rgb(33, 33, 33); border-radius: 0px; padding: 0px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace, Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S14 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }</style></head><body><div class = rtcContent><h1  class = 'S0' id = 'T_3400' ><span>Cosys-Lab Acoustic Imaging Toolbox</span></h1><div  class = 'S1'><span>A MATLAB toolbox from Cosys-Lab for high-performance acoustic imaging, featuring GPU &amp; MEX-accelerated DMAS-CF beamforming and signal processing.</span></div><div  class = 'S2'><div  class = 'S3'><span style=' font-weight: bold;'>Table of Contents</span></div><div  class = 'S4'><a href = "#H_4dd9"><span>Installation
+</span></a><a href = "#H_33ac"><span>General Usage
+</span></a><a href = "#H_4b1e"><span>Examples
+</span></a><a href = "#H_4b25"><span>Compiling MEX Files
+</span></a><span>    </span><a href = "#H_5795"><span>Dependencies
+</span></a><span>    </span><a href = "#H_464d"><span>Automatically Compiling MEX files when Toolbox is installed
+</span></a><span>    </span><a href = "#H_0889"><span>Manually Compiling MEX files</span></a></div></div><h2  class = 'S5' id = 'H_4dd9' ><span>Installation</span></h2><div  class = 'S1'><span>Find the latest release </span><a href = "https://cosysgit.uantwerpen.be/wjansen/cosys-lab-acoustic-imaging-toolbox/-/releases"><span>here</span></a><span> and use the download link for the toolbox. You can also clone or download this repository and use it from source.</span></div><div  class = 'S1'><span>Note that if you want to use any of the accelerated GPU and CPU-based MEX implementations for beamforming you will first need to compile these MEX files. See the </span><a href = "#H_4b25"><span>this section</span></a><span> for how to do that!</span></div><h2  class = 'S6' id = 'H_33ac' ><span>General Usage</span></h2><div  class = 'S1'><span>The toolbox has 6 major functions: 2 main ones and 3 helper ones. The following table lists all the available functions:</span></div><ol  class = 'S7'><li  class = 'S8'><span style=' font-family: monospace;'>calculateAcousticImage: </span><span>Primary High-Level Function. Executes the full imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post-processing. Seperate help page available </span><a href = "./AcousticImageInfo.html"><span>here</span></a><span>.</span></li><li  class = 'S8'><span style=' font-family: monospace;'>calculateDMASCF: </span><span>Core beamforming function. Computes the image using D(M)AS(-CF).</span></li><li  class = 'S8'><span style=' font-family: monospace;'>calculateDelayMatrix: </span><span>Calculates the necessary sample delays array steering to specified directions.</span></li><li  class = 'S8'><span style=' font-family: monospace;'>generalizedMatchedFilter: </span><span>Applies various matched filter and generalized correlation transforms (Normal, PHAT, ROTH, SCOT).</span></li><li  class = 'S8'><span style=' font-family: monospace;'>generate2DEnergyscape:</span><span> Primary High-Level Function. Generates a specific acoustic image called an Energyscape containing 2D azimuth/range/intensity data. Seperate help page available </span><a href = "./energyscapeInfo.html"><span>here</span></a><span>.</span></li><li  class = 'S8'><span style=' font-family: monospace;'>plot2DEnergyscape:H</span><span>elper function to plot the generated Energyscape.</span></li></ol><div  class = 'S1' id = 'H_4320' ><span>All functions in this Toolbox exist within the </span><span style=' font-family: monospace;'>clait</span><span> namespace. For calling these functions you therefore have to add the namespace name to the beginning.</span></div><div  class = 'S1'><span style=' font-family: monospace;'>output = clait.functionName(...)</span></div><div  class = 'S1'><span style=' font-family: monospace;'></span></div><h2  class = 'S5' id = 'H_4b1e' ><span>Examples</span></h2><div  class = 'S1'><span>A few examples are available, to quickly open them after installing the toolbox, run the following commands</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S9'><span style="white-space: pre"><span >clait.openClaitAcousticImageExample</span></span></div></div><div class="inlineWrapper"><div  class = 'S10'><span style="white-space: pre"><span >clait.openClaitEnergyscapeExample</span></span></div></div></div><h2  class = 'S5' id = 'H_4b25' ><span>Compiling MEX Files</span></h2><div  class = 'S1'><span>You will have to compile the MEX files after installing the Toolbox or when using this repository from source. </span></div><h3  class = 'S11' id = 'H_41f8' ><span></span></h3><h3  class = 'S11' id = 'H_5795' ><span>Dependencies</span></h3><ul  class = 'S7'><li  class = 'S8'><span>Parallel Computing Toolbox</span></li><li  class = 'S8'><span>Compatible C MEX compiler.</span></li></ul><div  class = 'S1'><span>For compatibility C MEX compiler dependent on your operating system, see this resource: </span><a href = "https://www.mathworks.com/support/requirements/supported-compilers.html"><span>https://www.mathworks.com/support/requirements/supported-compilers.html</span></a></div><div  class = 'S1'><span>Make sure to correctly configure Matlab first for MEX compiling. Run the following command and make sure you either have the right compiler selected on Windows.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S12'><span style="white-space: pre"><span >mex </span><span style="color: #a709f5;">-setup c++</span></span></div></div></div><h3  class = 'S11' id = 'H_9f98' ><span></span></h3><h3  class = 'S11' id = 'H_464d' ><span>Automatically Compiling MEX files when Toolbox is installed</span></h3><div  class = 'S1'><span>Once you have installed the dependencies you can run the following command to automatically compile the source MEX files.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S9'><span style="white-space: pre"><span >enableCPUCompile = true;</span></span></div></div><div class="inlineWrapper"><div  class = 'S13'><span style="white-space: pre"><span >enableGPUCompile = true;</span></span></div></div><div class="inlineWrapper"><div  class = 'S10'><span style="white-space: pre"><span >clait.compileClaitMexFunctions(enableCPUCompile, enableGPUCompile)</span></span></div></div></div><h3  class = 'S11' id = 'H_5bc0' ><span></span></h3><h3  class = 'S11' id = 'H_0889' ><span>Manually Compiling MEX files</span></h3><div  class = 'S1'><span>Go in your Matlab to the folder containing </span><span style=' font-family: monospace;'>calculateDMASCFMexCPU.cpp (</span><span>found in the</span><span style=' font-family: monospace;'> toolbox/+clait/cpp </span><span>folder</span><span style=' font-family: monospace;'>)</span><span>. </span></div><div  class = 'S1'><span>Use the command below to compile the function:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S12'><span style="white-space: pre"><span >mex </span><span style="color: #a709f5;">calculateDMASCFMexCPU.cpp</span></span></div></div></div><div  class = 'S14'><span>Go in your Matlab to the folder containing </span><span style=' font-family: monospace;'>calculateDMASCFMexGPU.cu (</span><span>found in the</span><span style=' font-family: monospace;'> toolbox/+clait/cpp </span><span>folder</span><span style=' font-family: monospace;'>)</span><span>. </span></div><div  class = 'S1'><span>Use the command below to compile the function:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S12'><span style="white-space: pre"><span >mexcuda </span><span style="color: #a709f5;">-v calculateDMASCFMexGPU.cu</span></span></div></div></div><div  class = 'S14'><span>You can use the </span><span style=' font-family: monospace;'>-v</span><span> argument to see the compilation process.</span></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% Cosys-Lab Acoustic Imaging Toolbox
+% A MATLAB toolbox from Cosys-Lab for high-performance acoustic imaging, featuring 
+% GPU & MEX-accelerated DMAS-CF beamforming and signal processing.
+%% Installation
+% Find the latest release <https://cosysgit.uantwerpen.be/wjansen/cosys-lab-acoustic-imaging-toolbox/-/releases 
+% here> and use the download link for the toolbox. You can also clone or download 
+% this repository and use it from source.
+% 
+% Note that if you want to use any of the accelerated GPU and CPU-based MEX 
+% implementations for beamforming you will first need to compile these MEX files. 
+% See the this section for how to do that!
+%% General Usage
+% The toolbox has 6 major functions: 2 main ones and 3 helper ones. The following 
+% table lists all the available functions:
+%% 
+% # |calculateAcousticImage:| Primary High-Level Function. Executes the full 
+% imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post-processing. 
+% Seperate help page available <./AcousticImageInfo.mlx here>.
+% # |calculateDMASCF:| Core beamforming function. Computes the image using D(M)AS(-CF).
+% # |calculateDelayMatrix:| Calculates the necessary sample delays array steering 
+% to specified directions.
+% # |generalizedMatchedFilter:| Applies various matched filter and generalized 
+% correlation transforms (Normal, PHAT, ROTH, SCOT).
+% # |generate2DEnergyscape:| Primary High-Level Function. Generates a specific 
+% acoustic image called an Energyscape containing 2D azimuth/range/intensity data. 
+% Seperate help page available <./energyscapeInfo.mlx here>.
+% # |plot2DEnergyscape:H|elper function to plot the generated Energyscape.
+%% 
+% All functions in this Toolbox exist within the |clait| namespace. For calling 
+% these functions you therefore have to add the namespace name to the beginning.
+% 
+% |output = clait.functionName(...)|
+% 
+% 
+%% Examples
+% A few examples are available, to quickly open them after installing the toolbox, 
+% run the following commands
+
+clait.openClaitAcousticImageExample
+clait.openClaitEnergyscapeExample
+%% Compiling MEX Files
+% You will have to compile the MEX files after installing the Toolbox or when 
+% using this repository from source. 
+% 
+% Dependencies
+%% 
+% * Parallel Computing Toolbox
+% * Compatible C MEX compiler.
+%% 
+% For compatibility C MEX compiler dependent on your operating system, see this 
+% resource: <https://www.mathworks.com/support/requirements/supported-compilers.html 
+% https://www.mathworks.com/support/requirements/supported-compilers.html>
+% 
+% Make sure to correctly configure Matlab first for MEX compiling. Run the following 
+% command and make sure you either have the right compiler selected on Windows.
+
+mex -setup c++
+% 
+% Automatically Compiling MEX files when Toolbox is installed
+% Once you have installed the dependencies you can run the following command 
+% to automatically compile the source MEX files.
+
+enableCPUCompile = true;
+enableGPUCompile = true;
+clait.compileClaitMexFunctions(enableCPUCompile, enableGPUCompile)
+% 
+% Manually Compiling MEX files
+% Go in your Matlab to the folder containing |calculateDMASCFMexCPU.cpp (|found 
+% in the |toolbox/+clait/cpp| folder|)|. 
+% 
+% Use the command below to compile the function:
+
+mex calculateDMASCFMexCPU.cpp
+%% 
+% Go in your Matlab to the folder containing |calculateDMASCFMexGPU.cu (|found 
+% in the |toolbox/+clait/cpp| folder|)|. 
+% 
+% Use the command below to compile the function:
+
+mexcuda -v calculateDMASCFMexGPU.cu
+%% 
+% You can use the |-v| argument to see the compilation process.
+##### SOURCE END #####
+-->
+</div></body></html>

@@ -6,12 +6,18 @@
    <website/>
    <description>A MATLAB toolbox from Cosys-Lab for high-performance acoustic imaging, featuring GPU &amp; MEX-accelerated DMAS-CF beamforming and signal processing.</description>
    <demosection>
-      <label>cosys-lab-acoustic-imaging-toolbox</label>
+      <label>examples</label>
       <demoitem>
-         <label>example</label>
+         <label>acousticImageExample</label>
          <type>other</type>
-         <source>example</source>
-         <file>html/example.html</file>
+         <source>acousticImageExample</source>
+         <file>examples/html/acousticImageExample.html</file>
+      </demoitem>
+      <demoitem>
+         <label>energyscapeExample</label>
+         <type>other</type>
+         <source>energyscapeExample</source>
+         <file>examples/html/energyscapeExample.html</file>
       </demoitem>
    </demosection>
 </demos>

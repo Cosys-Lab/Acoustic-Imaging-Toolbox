@@ -1,21 +1,24 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="487763337" file="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox\cosyslabacousticimaging.prj" location="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox" name="cosyslabacousticimaging" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="311705080" file="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox\cosyslabacousticimaging.prj" location="D:\BigProjects\dmas\cosys-lab-acoustic-imaging-toolbox" name="cosyslabacousticimaging" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>Cosys-Lab Acoustic Imaging Toolbox</param.appname>
-    <param.authnamewatermark>Wouter Jansen &amp; Jan Steckel</param.authnamewatermark>
+    <param.authnamewatermark>Cosys-Lab</param.authnamewatermark>
     <param.email>jan.steckel@uantwerpen.be</param.email>
     <param.company>Cosys-Lab, University of Antwerp</param.company>
     <param.summary>A MATLAB toolbox from Cosys-Lab for high-performance acoustic imaging, featuring MEX-accelerated DMAS-CF beamforming and signal processing.</param.summary>
     <param.description>A MATLAB toolbox from Cosys-Lab for high-performance acoustic imaging, featuring GPU &amp; MEX-accelerated DMAS-CF beamforming and signal processing.</param.description>
     <param.screenshot />
-    <param.version>1.0.1</param.version>
+    <param.version>1.1.0</param.version>
     <param.output>${PROJECT_ROOT}\Cosys-Lab Acoustic Imaging Toolbox.mltbx</param.output>
     <param.products.name>
       <item>MATLAB</item>
+      <item>Parallel Computing Toolbox</item>
     </param.products.name>
     <param.products.id>
       <item>1</item>
+      <item>80</item>
     </param.products.id>
     <param.products.version>
+      <item>24.2</item>
       <item>24.2</item>
     </param.products.version>
     <param.platforms />
@@ -45,24 +48,32 @@ __pycache__
 *asv
 *mltbx
 *mexw64
-*mexa64</param.exclude.filters>
+*mexa64
+**/release
+**/.gitignore</param.exclude.filters>
     <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
     <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;examples&gt;
-   &lt;exampleCategory name="cosys-lab-acoustic-imaging-toolbox"&gt;
-      &lt;example name="example" type="html"&gt;
-         &lt;file type="source"&gt;/html/example.html&lt;/file&gt;
-         &lt;file type="main"&gt;/example.m&lt;/file&gt;
-         &lt;file type="thumbnail"&gt;/html/example.png&lt;/file&gt;
-         &lt;file type="image"&gt;/html/example_01.png&lt;/file&gt;
-         &lt;file type="image"&gt;/html/example_02.png&lt;/file&gt;
+   &lt;exampleCategory name="examples"&gt;
+      &lt;example name="acousticImageExample" type="html"&gt;
+         &lt;file type="source"&gt;/examples/html/acousticImageExample.html&lt;/file&gt;
+         &lt;file type="main"&gt;/examples/acousticImageExample.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/examples/html/acousticImageExample.png&lt;/file&gt;
+         &lt;file type="image"&gt;/examples/html/acousticImageExample_01.png&lt;/file&gt;
+         &lt;file type="image"&gt;/examples/html/acousticImageExample_02.png&lt;/file&gt;
+      &lt;/example&gt;
+      &lt;example name="energyscapeExample" type="html"&gt;
+         &lt;file type="source"&gt;/examples/html/energyscapeExample.html&lt;/file&gt;
+         &lt;file type="main"&gt;/examples/energyscapeExample.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/examples/html/energyscapeExample.png&lt;/file&gt;
+         &lt;file type="image"&gt;/examples/html/energyscapeExample_01.png&lt;/file&gt;
       &lt;/example&gt;
    &lt;/exampleCategory&gt;
 &lt;/examples&gt;</param.examples>
     <param.demosxml />
     <param.apps />
     <param.registered.apps />
-    <param.docs />
+    <param.docs>${PROJECT_ROOT}\info.xml</param.docs>
     <param.getting.started.guide>${PROJECT_ROOT}\doc\GettingStarted.mlx</param.getting.started.guide>
     <param.matlabpath.excludes />
     <param.javaclasspath.excludes />
@@ -70,7 +81,7 @@ __pycache__
     <param.required.addons />
     <param.matlab.project.id />
     <param.matlab.project.name />
-    <param.release.start>R2024b</param.release.start>
+    <param.release.start>R2024a</param.release.start>
     <param.release.end>latest</param.release.end>
     <param.release.current.only>false</param.release.current.only>
     <param.compatiblity.windows>true</param.compatiblity.windows>
@@ -84,7 +95,6 @@ __pycache__
     <param.additional.sw.mac.url />
     <param.additional.sw.linux.url />
     <unset>
-      <param.authnamewatermark />
       <param.email />
       <param.company />
       <param.screenshot />
@@ -94,7 +104,6 @@ __pycache__
       <param.demosxml />
       <param.apps />
       <param.registered.apps />
-      <param.docs />
       <param.matlabpath.excludes />
       <param.javaclasspath.excludes />
       <param.required.addons />
@@ -113,23 +122,13 @@ __pycache__
       <file>${PROJECT_ROOT}</file>
     </fileset.rootdir>
     <fileset.rootfiles>
-      <file>${PROJECT_ROOT}\.gitignore</file>
-      <file>${PROJECT_ROOT}\calculateAcousticImage.m</file>
-      <file>${PROJECT_ROOT}\calculateDelayMatrix.m</file>
-      <file>${PROJECT_ROOT}\calculateDMASCF.m</file>
-      <file>${PROJECT_ROOT}\calculateDMASCFMexCPU.cpp</file>
-      <file>${PROJECT_ROOT}\calculateDMASCFMexGPU.cu</file>
-      <file>${PROJECT_ROOT}\calculateDMASCFNative.m</file>
-      <file>${PROJECT_ROOT}\calculateDMASCFNativeSingleDirection.m</file>
+      <file>${PROJECT_ROOT}\+clait</file>
       <file>${PROJECT_ROOT}\CHANGELOG</file>
-      <file>${PROJECT_ROOT}\compileCLAIT.m</file>
       <file>${PROJECT_ROOT}\demos.xml</file>
-      <file>${PROJECT_ROOT}\Doc</file>
-      <file>${PROJECT_ROOT}\example.m</file>
-      <file>${PROJECT_ROOT}\findCLAITFolder.m</file>
-      <file>${PROJECT_ROOT}\generalizedMatchedFilter.m</file>
-      <file>${PROJECT_ROOT}\html</file>
-      <file>${PROJECT_ROOT}\openCLAITExample.m</file>
+      <file>${PROJECT_ROOT}\doc</file>
+      <file>${PROJECT_ROOT}\examples</file>
+      <file>${PROJECT_ROOT}\help</file>
+      <file>${PROJECT_ROOT}\info.xml</file>
       <file>${PROJECT_ROOT}\README.md</file>
     </fileset.rootfiles>
     <fileset.depfun.included />

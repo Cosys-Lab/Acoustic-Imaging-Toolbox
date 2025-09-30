@@ -12,6 +12,5 @@ dist/
 *.pyc
 *.asv
 *.mp4
-*.mltbx
 *.mexw64
 *.mexa64

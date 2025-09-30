@@ -95,15 +95,15 @@ function acousticImage = calculateAcousticImage(dataMicrophones, structSensor, s
     dataMatchedFiltered = dataMicrophones;
     if( structImage.doMatchedFilter == 1 )
         for cntChannel = 1 : size( structSensor.coordinatesMicrophones, 1 )
-            dataMatchedFiltered(:, cntChannel ) = generalizedMatchedFilter( dataMicrophones(:, cntChannel ), structSensor.emissionSignal(:), structImage.matchedFilterMethod, structImage.matchedFilterFreq, structSensor.sampleRate);
+            dataMatchedFiltered(:, cntChannel ) = clait.generalizedMatchedFilter( dataMicrophones(:, cntChannel ), structSensor.emissionSignal(:), structImage.matchedFilterMethod, structImage.matchedFilterFreq, structSensor.sampleRate);
         end
     end
     
     % 2. Delay Matrix Calculation
-    [ delayMatrix, ~ ] = calculateDelayMatrix( structImage.directionsAzimuth, structImage.directionsElevation, structSensor.coordinatesMicrophones , structSensor.sampleRate );
+    [ delayMatrix, ~ ] = clait.calculateDelayMatrix( structImage.directionsAzimuth, structImage.directionsElevation, structSensor.coordinatesMicrophones , structSensor.sampleRate );
        
     % 3. Beamforming (DMAS/DAS with CF, using parameters from structImage)
-    acousticImage = calculateDMASCF(dataMatchedFiltered, delayMatrix, ...
+    acousticImage = clait.calculateDMASCF(dataMatchedFiltered, delayMatrix, ...
                                  structImage.methodImaging, ...
                                  structImage.coherenceType, ...
                                  structImage.methodProcessing);

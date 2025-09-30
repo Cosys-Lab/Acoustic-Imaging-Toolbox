@@ -1,0 +1,406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2024b"><title>Acoustic Image Info</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(192, 76, 11); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S2 { margin: 15px 10px 5px 4px; padding: 0px; line-height: 18px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 17px; font-weight: 700; text-align: left;  }
+.S3 { margin: 3px; border: 0.8px solid rgb(191, 191, 191); border-collapse: collapse;  }
+.S4 { background-color: rgba(0, 0, 0, 0);  }
+.S5 { border: 0.8px solid rgb(191, 191, 191); vertical-align: top;  }
+.S6 { margin: 2px 10px 2px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: break-spaces; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S7 { margin: 10px 10px 5px 4px; padding: 0px; line-height: 18px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 15px; font-weight: 700; text-align: left;  }
+.S8 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 25px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 20px; font-weight: 700; text-align: left;  }
+.CodeBlock { background-color: #F5F5F5; margin: 10px 15px 10px 0; display: inline-block }
+.S9 { border-left: 0.8px solid rgb(217, 217, 217); border-right: 0.8px solid rgb(217, 217, 217); border-top: 0.8px solid rgb(217, 217, 217); border-bottom: 0.8px solid rgb(217, 217, 217); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace, Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S10 { margin: 10px 0px 20px; padding-left: 0px; font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-size: 14px;  }
+.S11 { margin-left: 56px; line-height: 21px; min-height: 0px; text-align: left; white-space: pre-wrap;  }
+.S12 { border-left: 0.8px solid rgb(217, 217, 217); border-right: 0.8px solid rgb(217, 217, 217); border-top: 0.8px solid rgb(217, 217, 217); border-bottom: 0px none rgb(33, 33, 33); border-radius: 4px 4px 0px 0px; padding: 6px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace, Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S13 { border-left: 0.8px solid rgb(217, 217, 217); border-right: 0.8px solid rgb(217, 217, 217); border-top: 0px none rgb(33, 33, 33); border-bottom: 0px none rgb(33, 33, 33); border-radius: 0px; padding: 0px 45px 0px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace, Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S14 { border-left: 0.8px solid rgb(217, 217, 217); border-right: 0.8px solid rgb(217, 217, 217); border-top: 0px none rgb(33, 33, 33); border-bottom: 0.8px solid rgb(217, 217, 217); border-radius: 0px 0px 4px 4px; padding: 0px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace, Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }
+.S15 { margin: 10px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }</style></head><body><div class = rtcContent><h1  class = 'S0' id = 'T_3400' ><span>Acoustic Image Info</span></h1><div  class = 'S1'><span>The primary function of the Acoustic Imaging Toolbox is </span><span style=' font-family: monospace;'>calculateAcousticImage</span><span>. It takes three inputs—raw data, sensor configuration, and imaging parameters—and outputs a complete, processed acoustic image.</span></div><h3  class = 'S2' id = 'H_61b0' ><span style=' font-weight: bold;'>Namespace and calling functions</span></h3><div  class = 'S1' id = 'H_4320' ><span>All functions in this Toolbox exist within the </span><span style=' font-family: monospace;'>clait</span><span> namespace. For calling these functions you therefore have to add the namespace name to the beginning.</span></div><div  class = 'S1'><span style=' font-family: monospace;'>output = clait.calculateAcousticImage(...)</span></div><h3  class = 'S2' id = 'H_8d31' ><span style=' font-weight: bold;'>Function Signature</span></h3><div  class = 'S1'><span style=' font-family: monospace;'>acousticImage = clait.calculateAcousticImage(dataMicrophones, structSensor, structImage)</span></div><h3  class = 'S2' id = 'H_3565' ><span style=' font-weight: bold;'>Input Arguments</span></h3><table  class = 'S3'><col/><col/><col/><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Argument</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Type</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Description</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>dataMicrophones</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Matrix</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Received Signal Data.</span><span> This is the raw time-series data captured by the microphone array.</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span></span></div></td><td  class = 'S5'><div  class = 'S6'><span></span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Dimensions:</span><span> </span><span style=' font-family: monospace;'>[samples x channels]</span><span> (where </span><span style=' font-family: monospace;'>channels</span><span> is </span><span style=' font-family: monospace;'>numMics</span><span>).</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>structSensor</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Struct</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Sensor Array &amp; Signal Properties.</span><span> Defines the physical setup of the microphone array and the characteristics of the emitted signal.</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>structImage</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Struct</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Imaging &amp; Processing Parameters.</span><span> Controls the beamforming algorithm, acceleration method, and all post-processing steps. Contains extensive default values if fields are omitted.</span></div></td></tr></table><div  class = 'S1'><span style=' font-weight: bold;'></span></div><h3  class = 'S2' id = 'H_102e' ><span style=' font-weight: bold;'>Detailed Breakdown of Input Structures for </span><span>calculateAcousticImage</span></h3><h4  class = 'S7' id = 'H_350e' ><span style=' font-weight: bold;'>1. structSensor</span></h4><div  class = 'S1'><span>This structure provides the necessary physical and electrical context for the signal processing:</span></div><table  class = 'S3'><col/><col/><col/><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Field</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Description</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Dimensions/Units</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.coordinatesMicrophones</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Positions of the array elements.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>[numMics x 3]</span><span> (m, right-handed system [X Y Z])</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.sampleRate</span></div></td><td  class = 'S5'><div  class = 'S6'><span>ADC sampling frequency.</span></div></td><td  class = 'S5'><div  class = 'S6'><span>(Hz)</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.emissionSignal</span></div></td><td  class = 'S5'><div  class = 'S6'><span>The specific transmitted waveform used for matched filtering.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>[numSamplesBase x 1]</span></div></td></tr></table><div  class = 'S1'><span style=' font-weight: bold;'></span></div><h4  class = 'S7' id = 'H_9537' ><span style=' font-weight: bold;'>2. structImage </span></h4><div  class = 'S1'><span>This structure defines the entire acoustic imaging approach, from spatial sampling to output formatting. All optional fields will revert to a safe default if not provided.</span></div><table  class = 'S3'><col/><col/><col/><col/><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Field</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Description</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Default</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Options</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.directionsAzimuth</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Vector of azimuth angles of interest for beamforming.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-style: italic;'>(None - Mandatory)</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Degrees (right-handed system)</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.directionsElevation</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Vector of elevation angles of interest for beamforming.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-style: italic;'>(None - Mandatory)</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Degrees (right-handed system)</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.methodImaging</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Beamforming algorithm to use.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>'DAS'</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>'DAS'</span><span>, </span><span style=' font-family: monospace;'>'DMAS'</span><span>, </span><span style=' font-family: monospace;'>'DMAS3'</span><span>, </span><span style=' font-family: monospace;'>'DMAS4'</span><span>, </span><span style=' font-family: monospace;'>'DMAS5'</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.coherenceType</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Coherence Factor applied to the beamformed output.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>'cf'</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>'none'</span><span>, </span><span style=' font-family: monospace;'>'cf'</span><span>, </span><span style=' font-family: monospace;'>'pcf'</span><span>, </span><span style=' font-family: monospace;'>'scf'</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.methodProcessing</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Backend acceleration used for beamforming.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>'mexcpu'</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>'mexcuda'</span><span> (NVIDIA GPU), </span><span style=' font-family: monospace;'>'mexcpu'</span><span> (CPU), </span><span style=' font-family: monospace;'>'native'</span><span> (MATLAB)</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.doMatchedFilter</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Flag to enable the matched filter preprocessing step (1=On, 0=Off).</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>1</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>0</span><span>, </span><span style=' font-family: monospace;'>1</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.matchedFilterMethod</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Generalized matched filter type.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>'Normal'</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>'Normal'</span><span>, </span><span style=' font-family: monospace;'>'PHAT'</span><span>, </span><span style=' font-family: monospace;'>'ROTH'</span><span>, </span><span style=' font-family: monospace;'>'SCOT'</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.matchedFilterFreq</span></div></td><td  class = 'S5'><div  class = 'S6'><span>The frequency band for the matched filter.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>[20e3 80e3]</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Vector in Hz</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.doEnvelope</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Flag to enable envelope detection (LPF of the absolute signal) (1=On, 0=Off).</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>1</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>0</span><span>, </span><span style=' font-family: monospace;'>1</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.lowpassFreq</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Cutoff frequency for the low-pass filter used in envelope detection.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>5e3</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Hz</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.doThresholdAtZero</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Flag to clip all negative image values to zero (1=On, 0=Off).</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>1</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>0</span><span>, </span><span style=' font-family: monospace;'>1</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.decimationFactor</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Factor </span><span>N</span><span> by which to downsample the final image in time/range.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>10</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Integer </span><span>N</span><span>≥</span><span>1</span><span></span></div></td></tr></table><div  class = 'S1'><span style=' font-weight: bold;'></span></div><h3  class = 'S2' id = 'H_2a43' ><span style=' font-weight: bold;'>Output</span></h3><table  class = 'S3'><col/><col/><col/><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Argument</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Type</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Description</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>acousticImage</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Matrix</span></div></td><td  class = 'S5'><div  class = 'S6'><span>The final beamformed, processed image, ready for visualization.</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span></span></div></td><td  class = 'S5'><div  class = 'S6'><span></span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Dimensions:</span><span> </span><span style=' font-family: monospace;'>[(original samples / decimationFactor) x numDirections]</span></div></td></tr></table><h2  class = 'S8' id = 'H_4b1e' ><span>Example</span></h2><div  class = 'S1'><span>A full example is available, to quickly open it after installing the toolbox, run the following command:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S9'><span style="white-space: pre"><span >clait.openClaitAcousticImageExample</span></span></div></div></div><h2  class = 'S8' id = 'H_4b25' ><span>Compiling MEX Files</span></h2><div  class = 'S1'><span>You will have to compile the MEX files after installing the Toolbox or when using this repository from source. </span></div><h3  class = 'S2' id = 'H_41f8' ><span></span></h3><h3  class = 'S2' id = 'H_5795' ><span>Dependencies</span></h3><ul  class = 'S10'><li  class = 'S11'><span>Parallel Computing Toolbox</span></li><li  class = 'S11'><span>Compatible C MEX compiler.</span></li></ul><div  class = 'S1'><span>For compatibility C MEX compiler dependent on your operating system, see this resource: </span><a href = "https://www.mathworks.com/support/requirements/supported-compilers.html"><span>https://www.mathworks.com/support/requirements/supported-compilers.html</span></a></div><div  class = 'S1'><span>Make sure to correctly configure Matlab first for MEX compiling. Run the following command and make sure you either have the right compiler selected on Windows.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S9'><span style="white-space: pre"><span >mex </span><span style="color: #a709f5;">-setup c++</span></span></div></div></div><h3  class = 'S2' id = 'H_9f98' ><span></span></h3><h3  class = 'S2' id = 'H_464d' ><span>Automatically Compiling MEX files when Toolbox is installed</span></h3><div  class = 'S1'><span>Once you have installed the dependencies you can run the following command to automatically compile the source MEX files.</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S12'><span style="white-space: pre"><span >enableCPUCompile = true;</span></span></div></div><div class="inlineWrapper"><div  class = 'S13'><span style="white-space: pre"><span >enableGPUCompile = true;</span></span></div></div><div class="inlineWrapper"><div  class = 'S14'><span style="white-space: pre"><span >clait.compileClaitMexFunctions(enableCPUCompile, enableGPUCompile)</span></span></div></div></div><h3  class = 'S2' id = 'H_5bc0' ><span></span></h3><h3  class = 'S2' id = 'H_0889' ><span>Manually Compiling MEX files</span></h3><div  class = 'S1'><span>Go in your Matlab to the folder containing </span><span style=' font-family: monospace;'>calculateDMASCFMexCPU.cpp (</span><span>found in the</span><span style=' font-family: monospace;'> toolbox/+clait/cpp </span><span>folder</span><span style=' font-family: monospace;'>)</span><span>. </span></div><div  class = 'S1'><span>Use the command below to compile the function:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S9'><span style="white-space: pre"><span >mex </span><span style="color: #a709f5;">calculateDMASCFMexCPU.cpp</span></span></div></div></div><div  class = 'S15'><span>Go in your Matlab to the folder containing </span><span style=' font-family: monospace;'>calculateDMASCFMexGPU.cu (</span><span>found in the</span><span style=' font-family: monospace;'> toolbox/+clait/cpp </span><span>folder</span><span style=' font-family: monospace;'>)</span><span>. </span></div><div  class = 'S1'><span>Use the command below to compile the function:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S9'><span style="white-space: pre"><span >mexcuda </span><span style="color: #a709f5;">-v calculateDMASCFMexGPU.cu</span></span></div></div></div><div  class = 'S15'><span>You can use the </span><span style=' font-family: monospace;'>-v</span><span> argument to see the compilation process.</span></div><h2  class = 'S8' id = 'H_00c8' ><span>Conversion from </span><span style=' font-style: italic;'>Fast RTIS Processing in Matlab</span></h2><div  class = 'S1'><span>If you used the older toolbox, these are the basic steps to convert your code to use this newer, better toolbox. </span></div><div  class = 'S1'><span>The new </span><span style=' font-family: monospace;'>clait.calculateAcousticImage</span><span> function simplifies the top-level call by organizing all configuration into two structures (</span><span style=' font-family: monospace;'>structSensor</span><span> and </span><span style=' font-family: monospace;'>structImage</span><span>), reducing the argument count from three to two primary structures plus the data.</span></div><div  class = 'S1'><span>The main changes required for conversion involve </span><span style=' font-weight: bold;'>data transposition</span><span> and </span><span style=' font-weight: bold;'>configuration restructuring</span><span>.</span></div><h3  class = 'S2' id = 'H_7386' ><span>Input Data Transposition</span></h3><div  class = 'S1'><span>The most important change is the required orientation of the received data.</span></div><table  class = 'S3'><col/><col/><col/><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Old Function (</span><span style=' font-weight: bold; font-family: monospace;'>fastrtisprocessing</span><span style=' font-weight: bold;'>)</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>New Function (</span><span style=' font-weight: bold; font-family: monospace;'>calculateAcousticImage</span><span style=' font-weight: bold;'>)</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Action Needed</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>dataMatrix</span><span> (</span><span style=' font-family: monospace;'>N x S</span><span>)</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>dataMicrophones</span><span> (</span><span style=' font-family: monospace;'>S x C</span><span>)</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>You MUST Transpose.</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span>Channels (</span><span style=' font-family: monospace;'>N</span><span>) are rows.</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Samples (</span><span style=' font-family: monospace;'>S</span><span>) are rows.</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>dataMicrophones = dataMatrix';</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span>Samples (</span><span style=' font-family: monospace;'>S</span><span>) are columns.</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Channels (</span><span style=' font-family: monospace;'>C</span><span>) are columns.</span></div></td><td  class = 'S5'><div  class = 'S6'><span></span></div></td></tr></table><h3  class = 'S2' id = 'H_98fb' ><span></span></h3><h3  class = 'S2' id = 'H_41ef' ><span>Configuration Restructuring</span></h3><div  class = 'S1'><span>Instead of using the flat </span><span style=' font-family: monospace;'>settingsStruct</span><span> and the separate </span><span style=' font-family: monospace;'>gpuToggle</span><span>, all settings are now organized into </span><span style=' font-family: monospace;'>structSensor</span><span> (hardware) and </span><span style=' font-family: monospace;'>structImage</span><span> (processing).</span></div><div  class = 'S1'><span></span></div><h4  class = 'S7' id = 'H_0e86' ><span style=' font-weight: bold;'>Mapping Toggles and Processing Method</span></h4><div  class = 'S1'><span>The simple </span><span style=' font-family: monospace;'>0/1</span><span> toggles and the </span><span style=' font-family: monospace;'>gpuToggle</span><span> must be mapped to fields within </span><span style=' font-family: monospace;'>structImage</span><span>.</span></div><table  class = 'S3'><col/><col/><col/><col/><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Old Variable / Field</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>New Structure</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>New Field / Value</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Description</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>gpuToggle = 1</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>structImage</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.methodProcessing = 'mexcuda'</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Enables GPU acceleration.</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>gpuToggle = 0</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>structImage</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.methodProcessing = 'mexcpu'</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Uses the optimized CPU version.</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>settingsStruct.matchedFilterToggle</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>structImage</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.doMatchedFilter</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Direct 1:1 map (</span><span style=' font-family: monospace;'>1</span><span> or </span><span style=' font-family: monospace;'>0</span><span>).</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>settingsStruct.envelopeToggle</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>structImage</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.doEnvelope</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Direct 1:1 map (</span><span style=' font-family: monospace;'>1</span><span> or </span><span style=' font-family: monospace;'>0</span><span>).</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>settingsStruct.baseSignal</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-family: monospace;'>structSensor</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>.emissionSignal</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Renamed for clarity.</span></div></td></tr></table><h4  class = 'S7' id = 'H_7293' ><span style=' font-weight: bold;'></span></h4><h4  class = 'S7' id = 'H_6013' ><span style=' font-weight: bold;'>Removing Redundant Inputs</span></h4><div  class = 'S1'><span>The new function calculates filter coefficients and delays internally, simplifying setup:</span></div><table  class = 'S3'><col/><col/><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Old Field</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>New Approach</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>settingsStruct.aLp</span><span style=' font-weight: bold;'>, </span><span style=' font-weight: bold; font-family: monospace;'>settingsStruct.bLp</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>REMOVE.</span><span> The new function calculates these based on </span><span style=' font-family: monospace;'>structImage.lowpassFreq</span><span> (default </span><span style=' font-family: monospace;'>5e3</span><span>) and </span><span style=' font-family: monospace;'>structSensor.sampleRate</span><span>. You only need to set the cutoff frequency in </span><span style=' font-family: monospace;'>structImage</span><span>.</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>settingsStruct.delayMatrix</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>REMOVE.</span><span> The new function calculates this using a separate call to </span><span style=' font-family: monospace;'>calculateDelayMatrix</span><span> internally, using </span><span style=' font-family: monospace;'>structImage.directionsAzimuth</span><span>, </span><span style=' font-family: monospace;'>structImage.directionsElevation</span><span>, and </span><span style=' font-family: monospace;'>structSensor.coordinatesMicrophones</span><span>.</span></div></td></tr></table><h3  class = 'S2' id = 'H_5873' ><span></span></h3><h3  class = 'S2' id = 'H_89d7' ><span>Required New Fields</span></h3><div  class = 'S1'><span>You must define the following fields, which were previously implied or calculated separately:</span></div><ul  class = 'S10'><li  class = 'S11'><span style=' font-weight: bold; font-family: monospace;'>structSensor.coordinatesMicrophones</span><span>: The coordinates used to calculate the delay matrix must now be passed via </span><span style=' font-family: monospace;'>structSensor</span><span>.</span></li><li  class = 'S11'><span style=' font-weight: bold; font-family: monospace;'>structSensor.sampleRate</span><span>: The sample rate is critical for internal calculations.</span></li><li  class = 'S11'><span style=' font-weight: bold; font-family: monospace;'>structImage.directionsAzimuth</span><span>: The full vector of directions must be included in </span><span style=' font-family: monospace;'>structImage</span><span>.</span></li><li  class = 'S11'><span style=' font-weight: bold; font-family: monospace;'>structImage.directionsElevation</span><span>: The elevation vector (even if all zeros).</span></li><li  class = 'S11'><span style=' font-weight: bold; font-family: monospace;'>structImage.lowpassFreq</span><span>: The desired low-pass filter cutoff frequency (e.g., </span><span style=' font-family: monospace;'>1000</span><span> Hz from the example).</span></li></ul>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% Acoustic Image Info
+% The primary function of the Acoustic Imaging Toolbox is |calculateAcousticImage|. 
+% It takes three inputs—raw data, sensor configuration, and imaging parameters—and 
+% outputs a complete, processed acoustic image.
+% *Namespace and calling functions*
+% All functions in this Toolbox exist within the |clait| namespace. For calling 
+% these functions you therefore have to add the namespace name to the beginning.
+% 
+% |output = clait.calculateAcousticImage(...)|
+% *Function Signature*
+% |acousticImage = clait.calculateAcousticImage(dataMicrophones, structSensor, 
+% structImage)|
+% *Input Arguments*
+%% 
+% *Argument*
+%% 
+% *Type*
+%% 
+% *Description*
+%% 
+% |*dataMicrophones*|
+%% 
+% Matrix
+%% 
+% *Received Signal Data.* This is the raw time-series data captured by the microphone 
+% array.
+%% 
+% 
+%% 
+% 
+%% 
+% *Dimensions:* |[samples x channels]| (where |channels| is |numMics|).
+%% 
+% |*structSensor*|
+%% 
+% Struct
+%% 
+% *Sensor Array & Signal Properties.* Defines the physical setup of the microphone 
+% array and the characteristics of the emitted signal.
+%% 
+% |*structImage*|
+%% 
+% Struct
+%% 
+% *Imaging & Processing Parameters.* Controls the beamforming algorithm, acceleration 
+% method, and all post-processing steps. Contains extensive default values if 
+% fields are omitted.
+%% 
+% 
+% *Detailed Breakdown of Input Structures for* calculateAcousticImage
+% *1. structSensor*
+% This structure provides the necessary physical and electrical context for 
+% the signal processing:
+%% 
+% *Field*
+%% 
+% *Description*
+%% 
+% *Dimensions/Units*
+%% 
+% |*.coordinatesMicrophones*|
+%% 
+% Positions of the array elements.
+%% 
+% |[numMics x 3]| (m, right-handed system [X Y Z])
+%% 
+% |*.sampleRate*|
+%% 
+% ADC sampling frequency.
+%% 
+% (Hz)
+%% 
+% |*.emissionSignal*|
+%% 
+% The specific transmitted waveform used for matched filtering.
+%% 
+% |[numSamplesBase x 1]|
+%% 
+% 
+% *2. structImage* 
+% This structure defines the entire acoustic imaging approach, from spatial 
+% sampling to output formatting. All optional fields will revert to a safe default 
+% if not provided.
+%% 
+% *Field*
+%% 
+% *Description*
+%% 
+% *Default*
+%% 
+% *Options*
+%% 
+% |*.directionsAzimuth*|
+%% 
+% Vector of azimuth angles of interest for beamforming.
+%% 
+% _(None - Mandatory)_
+%% 
+% Degrees (right-handed system)
+%% 
+% |*.directionsElevation*|
+%% 
+% Vector of elevation angles of interest for beamforming.
+%% 
+% _(None - Mandatory)_
+%% 
+% Degrees (right-handed system)
+%% 
+% |*.methodImaging*|
+%% 
+% Beamforming algorithm to use.
+%% 
+% |'DAS'|
+%% 
+% |'DAS'|, |'DMAS'|, |'DMAS3'|, |'DMAS4'|, |'DMAS5'|
+%% 
+% |*.coherenceType*|
+%% 
+% Coherence Factor applied to the beamformed output.
+%% 
+% |'cf'|
+%% 
+% |'none'|, |'cf'|, |'pcf'|, |'scf'|
+%% 
+% |*.methodProcessing*|
+%% 
+% Backend acceleration used for beamforming.
+%% 
+% |'mexcpu'|
+%% 
+% |'mexcuda'| (NVIDIA GPU), |'mexcpu'| (CPU), |'native'| (MATLAB)
+%% 
+% |*.doMatchedFilter*|
+%% 
+% Flag to enable the matched filter preprocessing step (1=On, 0=Off).
+%% 
+% |1|
+%% 
+% |0|, |1|
+%% 
+% |*.matchedFilterMethod*|
+%% 
+% Generalized matched filter type.
+%% 
+% |'Normal'|
+%% 
+% |'Normal'|, |'PHAT'|, |'ROTH'|, |'SCOT'|
+%% 
+% |*.matchedFilterFreq*|
+%% 
+% The frequency band for the matched filter.
+%% 
+% |[20e3 80e3]|
+%% 
+% Vector in Hz
+%% 
+% |*.doEnvelope*|
+%% 
+% Flag to enable envelope detection (LPF of the absolute signal) (1=On, 0=Off).
+%% 
+% |1|
+%% 
+% |0|, |1|
+%% 
+% |*.lowpassFreq*|
+%% 
+% Cutoff frequency for the low-pass filter used in envelope detection.
+%% 
+% |5e3|
+%% 
+% Hz
+%% 
+% |*.doThresholdAtZero*|
+%% 
+% Flag to clip all negative image values to zero (1=On, 0=Off).
+%% 
+% |1|
+%% 
+% |0|, |1|
+%% 
+% |*.decimationFactor*|
+%% 
+% Factor N by which to downsample the final image in time/range.
+%% 
+% |10|
+%% 
+% Integer N≥1
+%% 
+% 
+% *Output*
+%% 
+% *Argument*
+%% 
+% *Type*
+%% 
+% *Description*
+%% 
+% |*acousticImage*|
+%% 
+% Matrix
+%% 
+% The final beamformed, processed image, ready for visualization.
+%% 
+% 
+%% 
+% 
+%% 
+% *Dimensions:* |[(original samples / decimationFactor) x numDirections]|
+%% Example
+% A full example is available, to quickly open it after installing the toolbox, 
+% run the following command:
+
+clait.openClaitAcousticImageExample
+%% Compiling MEX Files
+% You will have to compile the MEX files after installing the Toolbox or when 
+% using this repository from source. 
+% 
+% Dependencies
+%% 
+% * Parallel Computing Toolbox
+% * Compatible C MEX compiler.
+%% 
+% For compatibility C MEX compiler dependent on your operating system, see this 
+% resource: <https://www.mathworks.com/support/requirements/supported-compilers.html 
+% https://www.mathworks.com/support/requirements/supported-compilers.html>
+% 
+% Make sure to correctly configure Matlab first for MEX compiling. Run the following 
+% command and make sure you either have the right compiler selected on Windows.
+
+mex -setup c++
+% 
+% Automatically Compiling MEX files when Toolbox is installed
+% Once you have installed the dependencies you can run the following command 
+% to automatically compile the source MEX files.
+
+enableCPUCompile = true;
+enableGPUCompile = true;
+clait.compileClaitMexFunctions(enableCPUCompile, enableGPUCompile)
+% 
+% Manually Compiling MEX files
+% Go in your Matlab to the folder containing |calculateDMASCFMexCPU.cpp (|found 
+% in the |toolbox/+clait/cpp| folder|)|. 
+% 
+% Use the command below to compile the function:
+
+mex calculateDMASCFMexCPU.cpp
+%% 
+% Go in your Matlab to the folder containing |calculateDMASCFMexGPU.cu (|found 
+% in the |toolbox/+clait/cpp| folder|)|. 
+% 
+% Use the command below to compile the function:
+
+mexcuda -v calculateDMASCFMexGPU.cu
+%% 
+% You can use the |-v| argument to see the compilation process.
+%% Conversion from _Fast RTIS Processing in Matlab_
+% If you used the older toolbox, these are the basic steps to convert your code 
+% to use this newer, better toolbox. 
+% 
+% The new |clait.calculateAcousticImage| function simplifies the top-level call 
+% by organizing all configuration into two structures (|structSensor| and |structImage|), 
+% reducing the argument count from three to two primary structures plus the data.
+% 
+% The main changes required for conversion involve *data transposition* and 
+% *configuration restructuring*.
+% Input Data Transposition
+% The most important change is the required orientation of the received data.
+%% 
+% *Old Function (|fastrtisprocessing|)*
+%% 
+% *New Function (|calculateAcousticImage|)*
+%% 
+% *Action Needed*
+%% 
+% |*dataMatrix*| (|N x S|)
+%% 
+% |*dataMicrophones*| (|S x C|)
+%% 
+% *You MUST Transpose.*
+%% 
+% Channels (|N|) are rows.
+%% 
+% Samples (|S|) are rows.
+%% 
+% |dataMicrophones = dataMatrix';|
+%% 
+% Samples (|S|) are columns.
+%% 
+% Channels (|C|) are columns.
+%% 
+% 
+% 
+% Configuration Restructuring
+% Instead of using the flat |settingsStruct| and the separate |gpuToggle|, all 
+% settings are now organized into |structSensor| (hardware) and |structImage| 
+% (processing).
+% 
+% 
+% *Mapping Toggles and Processing Method*
+% The simple |0/1| toggles and the |gpuToggle| must be mapped to fields within 
+% |structImage|.
+%% 
+% *Old Variable / Field*
+%% 
+% *New Structure*
+%% 
+% *New Field / Value*
+%% 
+% *Description*
+%% 
+% |*gpuToggle = 1*|
+%% 
+% |structImage|
+%% 
+% |*.methodProcessing = 'mexcuda'*|
+%% 
+% Enables GPU acceleration.
+%% 
+% |*gpuToggle = 0*|
+%% 
+% |structImage|
+%% 
+% |*.methodProcessing = 'mexcpu'*|
+%% 
+% Uses the optimized CPU version.
+%% 
+% |*settingsStruct.matchedFilterToggle*|
+%% 
+% |structImage|
+%% 
+% |*.doMatchedFilter*|
+%% 
+% Direct 1:1 map (|1| or |0|).
+%% 
+% |*settingsStruct.envelopeToggle*|
+%% 
+% |structImage|
+%% 
+% |*.doEnvelope*|
+%% 
+% Direct 1:1 map (|1| or |0|).
+%% 
+% |*settingsStruct.baseSignal*|
+%% 
+% |structSensor|
+%% 
+% |*.emissionSignal*|
+%% 
+% Renamed for clarity.
+% 
+% *Removing Redundant Inputs*
+% The new function calculates filter coefficients and delays internally, simplifying 
+% setup:
+%% 
+% *Old Field*
+%% 
+% *New Approach*
+%% 
+% |*settingsStruct.aLp|, |settingsStruct.bLp*|
+%% 
+% *REMOVE.* The new function calculates these based on |structImage.lowpassFreq| 
+% (default |5e3|) and |structSensor.sampleRate|. You only need to set the cutoff 
+% frequency in |structImage|.
+%% 
+% |*settingsStruct.delayMatrix*|
+%% 
+% *REMOVE.* The new function calculates this using a separate call to |calculateDelayMatrix| 
+% internally, using |structImage.directionsAzimuth|, |structImage.directionsElevation|, 
+% and |structSensor.coordinatesMicrophones|.
+% 
+% Required New Fields
+% You must define the following fields, which were previously implied or calculated 
+% separately:
+%% 
+% * |*structSensor.coordinatesMicrophones*|: The coordinates used to calculate 
+% the delay matrix must now be passed via |structSensor|.
+% * |*structSensor.sampleRate*|: The sample rate is critical for internal calculations.
+% * |*structImage.directionsAzimuth*|: The full vector of directions must be 
+% included in |structImage|.
+% * |*structImage.directionsElevation*|: The elevation vector (even if all zeros).
+% * |*structImage.lowpassFreq*|: The desired low-pass filter cutoff frequency 
+% (e.g., |1000| Hz from the example).
+##### SOURCE END #####
+-->
+</div></body></html>

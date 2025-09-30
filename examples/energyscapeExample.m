@@ -21,224 +21,49 @@ structSensor.coordinatesMicrophones = [0 -0.0384 0.0151; 0 -0.0232 0.0101; 0 -0.
                                        0 -0.0084 -0.0047; 0 0.0107 -0.0111; 0 0.0189 -0.0166; 0 0.0363 -0.0101; ...
                                        0 0.0057 -0.0224; 0 -0.0036 -0.0223; 0 0.0315 -0.0161; 0 0.0083 -0.0178];
     
-%% Setup Imaging
+%% Setup Energyscape
 
-    structImage = struct();
-    structImage.directionsAzimuth = -90:2:90;
-    structImage.directionsElevation = zeros(size( structImage.directionsAzimuth));
-    structImage.numDirections = length(structImage.directionsAzimuth);
-    structImage.lowpassFreq = 5e3;
-    structImage.doEnvelope = 1;
-    structImage.doThresholdAtZero = 1;
-    structImage.decimationFactor = 10;
-    structImage.matchedFilterMethod = 'Normal';
-    structImage.matchedFilterFreq = [20e3 80e3];
-    structImage.doMatchedFilter = 1;
+structEnergyscapeGeneration = struct();
+structEnergyscapeGeneration.azimuthResolution = 1;
+structEnergyscapeGeneration.lowpassFreq = 5e3;
+structEnergyscapeGeneration.doEnvelope = 1;
+structEnergyscapeGeneration.decimationFactor = 10;
+structEnergyscapeGeneration.matchedFilterMethod = 'Normal';
+structEnergyscapeGeneration.matchedFilterFreq = [20e3 80e3];
+structEnergyscapeGeneration.doMatchedFilter = 1;
+structEnergyscapeGeneration.methodImaging = 'DMAS3';
+structEnergyscapeGeneration.coherenceType = 'CF';
+structEnergyscapeGeneration.methodProcessing = 'mexcuda'; 
+structEnergyscapeGeneration.sizeFactor = 1.5;    
+structEnergyscapeGeneration.filterSize = [101, 7];
+structEnergyscapeGeneration.dbCut = -60;
+structEnergyscapeGeneration.dbMax = 70;
+structEnergyscapeGeneration.minRange = 0.5;
+structEnergyscapeGeneration.maxRange = 3.5;
+structEnergyscapeGeneration.tanhFactor = 1;
     
 %% Generate microphone data
 
-    dataMicrophones = simulateMicrophoneData(structScene, structSensor);
-    dataMicrophones = dataMicrophones + 0.1 * randn(size(dataMicrophones));
+dataMicrophones = simulateMicrophoneData(structScene, structSensor);
+dataMicrophones = dataMicrophones + 0.1 * randn(size(dataMicrophones));
 
-%% Run only DAS
+%% Generate energyscape
 
-    structImageDAS = structImage;
-    structImageDAS.methodImaging = 'DAS';
-    structImageDAS.coherenceType = 'none';
-    structImageDAS.methodProcessing = 'mexcpu'; 
-    imageDAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
+structEnergyscape = clait.generate2DEnergyscape(dataMicrophones, structSensor, structEnergyscapeGeneration);
 
-    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;    
-    rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
+%% Plot energyscape
 
-    dbCut = -80;
-    imageDASLog = normLog( imageDAS, dbCut );
+colorMapSize = 1024;
+gridColor = [0.5 0.5 0.5];
+rangeSpacing = 0.5;
+azimuthSpacing = 15;
+cmap = jet(1024);
 
-    figure(); 
-    imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
-    xlabel( 'Azimuth (°)' )
-    ylabel( 'Range (m)')
-    set( gca, 'ydir', 'normal' )
-    title( 'DAS' )
-    colorbar
-    caxis( [ dbCut 0 ] )  
+figure;
+[energyscapePlotHandle, energyscapeColorBarHandle] = clait.plot2DEnergyscape(structEnergyscape, colorMapSize, cmap, gridColor, rangeSpacing, azimuthSpacing);
+drawnow;
+title("Energyscape")
 
-%% Run full image calculation
-
-    processingMethod = 'mexcpu'; 
-    
-    tic
-    % --- DAS ---
-    structImageDAS = structImage;
-    structImageDAS.methodImaging = 'DAS';
-    structImageDAS.coherenceType = 'none';
-    structImageDAS.methodProcessing = processingMethod; 
-    imageDAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
-    
-    % --- DAS-CF ---
-    structImageDASCF = structImage;
-    structImageDASCF.methodImaging = 'DAS';
-    structImageDASCF.coherenceType = 'CF';
-    structImageDASCF.methodProcessing = processingMethod; 
-    imageDASCF = calculateAcousticImage(dataMicrophones, structSensor, structImageDASCF);
-
-    % --- DMAS ---
-    structImageDMAS = structImage;
-    structImageDMAS.methodImaging = 'DMAS';
-    structImageDMAS.coherenceType = 'none';
-    structImageDMAS.methodProcessing = processingMethod; 
-    imageDMAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS);
-
-    % --- DMAS-CF ---
-    structImageDMASCF = structImage;
-    structImageDMASCF.methodImaging = 'DMAS';
-    structImageDMASCF.coherenceType = 'CF';
-    structImageDMASCF.methodProcessing = processingMethod;
-    imageDMASCF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMASCF);
-    
-    % --- DMAS3 ---
-    structImageDMAS3 = structImage;
-    structImageDMAS3.methodImaging = 'DMAS3';
-    structImageDMAS3.coherenceType = 'none';
-    structImageDMAS3.methodProcessing = processingMethod; 
-    imageDMAS3 = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3);
-    
-    % --- DMAS3-CF  ---
-    structImageDMAS3CF = structImage;
-    structImageDMAS3CF.methodImaging = 'DMAS3';
-    structImageDMAS3CF.coherenceType = 'CF';
-    structImageDMAS3CF.methodProcessing = processingMethod; 
-    imageDMAS3CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3CF);
-
-    % --- DMAS4 ---
-    structImageDMAS4 = structImage;
-    structImageDMAS4.methodImaging = 'DMAS4';
-    structImageDMAS4.coherenceType = 'none';
-    structImageDMAS4.methodProcessing = processingMethod;
-    imageDMAS4 = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4);
-
-    % --- DMAS4-CF  ---
-    structImageDMAS4CF = structImage;
-    structImageDMAS4CF.methodImaging = 'DMAS4';
-    structImageDMAS4CF.coherenceType = 'CF';
-    structImageDMAS4CF.methodProcessing = processingMethod; 
-    imageDMAS4CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4CF);
-    
-    % --- DMAS5 ---
-    structImageDMAS5 = structImage;
-    structImageDMAS5.methodImaging = 'DMAS5';
-    structImageDMAS5.coherenceType = 'none';
-    structImageDMAS5.methodProcessing = processingMethod; 
-    imageDMAS5 = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5);
-
-    % --- DMAS5-CF ---
-    structImageDMAS5CF = structImage;
-    structImageDMAS5CF.methodImaging = 'DMAS5';
-    structImageDMAS5CF.coherenceType = 'CF';
-    structImageDMAS5CF.methodProcessing = processingMethod;
-    imageDMAS5CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5CF);
-    toc
-    
-%% Plot results
-
-    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;    
-    rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );    
-
-    dbCut = -80;
-    imageDASLog = normLog( imageDAS, dbCut );
-    imageDASCFLog = normLog( imageDASCF, dbCut );
-    imageDMASLog = normLog( imageDMAS, dbCut );
-    imageDMASCFLog = normLog( imageDMASCF, dbCut );
-    imageDMAS3Log = normLog( imageDMAS3, dbCut );
-    imageDMAS3CFLog = normLog( imageDMAS3CF, dbCut );
-    imageDMAS4Log = normLog( imageDMAS4, dbCut );
-    imageDMAS4CFLog = normLog( imageDMAS4CF, dbCut );
-    imageDMAS5Log = normLog( imageDMAS5, dbCut );
-    imageDMAS5CFLog = normLog( imageDMAS5CF, dbCut );
-
-    figure(); 
-    set(gcf, 'units','normalized','outerposition',[0 0 0.75 0.75]);
-        tiledlayout( 2,5,'TileSpacing','tight','TileIndexing','columnmajor' )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DAS' )
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDASCFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DAS-CF' )   
-            colorbar
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMASLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS1' )    
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMASCFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS1-CF' ) 
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3Log )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS3' )  
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3CFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS3-CF' )  
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4Log )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS4' )   
-            colorbar
-            caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4CFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS4-CF' )  
-            colorbar
-            caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5Log )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS5' )   
-            colorbar
-            caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5CFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS5-CF' )  
-            colorbar
-            caxis( [ dbCut 0 ] )
-            
 %% Helper functions
 
 function dataMicrophonesOut = simulateMicrophoneData( structScene, structSensor )

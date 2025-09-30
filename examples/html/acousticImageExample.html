@@ -6,11 +6,11 @@
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
       -->
-<title>example</title>
+<title>acousticImageExample</title>
 <meta name="generator" content="MATLAB 24.2">
 <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
-<meta name="DC.date" content="2025-09-29">
-<meta name="DC.source" content="example.m">
+<meta name="DC.date" content="2025-09-30">
+<meta name="DC.source" content="acousticImageExample.m">
 <style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
@@ -125,221 +125,221 @@ structSensor.coordinatesMicrophones = [0 -0.0384 0.0151; 0 -0.0232 0.0101; 0 -0.
                                        0 0.0057 -0.0224; 0 -0.0036 -0.0223; 0 0.0315 -0.0161; 0 0.0083 -0.0178];
 </pre>
 <h2 id="2">Setup Imaging</h2>
-<pre class="codeinput">    structImage = struct();
-    structImage.directionsAzimuth = -90:2:90;
-    structImage.directionsElevation = zeros(size( structImage.directionsAzimuth));
-    structImage.numDirections = length(structImage.directionsAzimuth);
-    structImage.lowpassFreq = 5e3;
-    structImage.doEnvelope = 1;
-    structImage.doThresholdAtZero = 1;
-    structImage.decimationFactor = 10;
-    structImage.matchedFilterMethod = <span class="string">'Normal'</span>;
-    structImage.matchedFilterFreq = [20e3 80e3];
-    structImage.doMatchedFilter = 1;
+<pre class="codeinput">structImage = struct();
+structImage.directionsAzimuth = -90:2:90;
+structImage.directionsElevation = zeros(size( structImage.directionsAzimuth));
+structImage.numDirections = length(structImage.directionsAzimuth);
+structImage.lowpassFreq = 5e3;
+structImage.doEnvelope = 1;
+structImage.doThresholdAtZero = 1;
+structImage.decimationFactor = 10;
+structImage.matchedFilterMethod = <span class="string">'Normal'</span>;
+structImage.matchedFilterFreq = [20e3 80e3];
+structImage.doMatchedFilter = 1;
 </pre>
 <h2 id="3">Generate microphone data</h2>
-<pre class="codeinput">    dataMicrophones = simulateMicrophoneData(structScene, structSensor);
-    dataMicrophones = dataMicrophones + 0.1 * randn(size(dataMicrophones));
+<pre class="codeinput">dataMicrophones = simulateMicrophoneData(structScene, structSensor);
+dataMicrophones = dataMicrophones + 0.1 * randn(size(dataMicrophones));
 </pre>
 <h2 id="4">Run only DAS</h2>
-<pre class="codeinput">    structImageDAS = structImage;
-    structImageDAS.methodImaging = <span class="string">'DAS'</span>;
-    structImageDAS.coherenceType = <span class="string">'none'</span>;
-    structImageDAS.methodProcessing = <span class="string">'mexcpu'</span>;
-    imageDAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
+<pre class="codeinput">structImageDAS = structImage;
+structImageDAS.methodImaging = <span class="string">'DAS'</span>;
+structImageDAS.coherenceType = <span class="string">'none'</span>;
+structImageDAS.methodProcessing = <span class="string">'mexcuda'</span>;
+imageDAS = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
 
-    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;
-    rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
+maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;
+rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
 
-    dbCut = -80;
-    imageDASLog = normLog( imageDAS, dbCut );
+dbCut = -80;
+imageDASLog = normLog( imageDAS, dbCut );
 
-    figure();
-    imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
-    xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-    ylabel( <span class="string">'Range (m)'</span>)
-    set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-    title( <span class="string">'DAS'</span> )
-    colorbar
-    caxis( [ dbCut 0 ] )
+figure();
+imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
+xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+ylabel( <span class="string">'Range (m)'</span>)
+set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+title( <span class="string">'DAS'</span> )
+colorbar
+caxis( [ dbCut 0 ] )
 </pre>
-<img vspace="5" hspace="5" src="example_01.png" alt=""> <h2 id="5">Run full image calculation</h2>
-<pre class="codeinput">    processingMethod = <span class="string">'mexcpu'</span>;
+<img vspace="5" hspace="5" src="acousticImageExample_01.png" alt=""> <h2 id="5">Run full image calculation</h2>
+<pre class="codeinput">processingMethod = <span class="string">'mexcuda'</span>;
 
-    tic
-    <span class="comment">% --- DAS ---</span>
-    structImageDAS = structImage;
-    structImageDAS.methodImaging = <span class="string">'DAS'</span>;
-    structImageDAS.coherenceType = <span class="string">'none'</span>;
-    structImageDAS.methodProcessing = processingMethod;
-    imageDAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
+tic
+<span class="comment">% --- DAS ---</span>
+structImageDAS = structImage;
+structImageDAS.methodImaging = <span class="string">'DAS'</span>;
+structImageDAS.coherenceType = <span class="string">'none'</span>;
+structImageDAS.methodProcessing = processingMethod;
+imageDAS = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
 
-    <span class="comment">% --- DAS-CF ---</span>
-    structImageDASCF = structImage;
-    structImageDASCF.methodImaging = <span class="string">'DAS'</span>;
-    structImageDASCF.coherenceType = <span class="string">'CF'</span>;
-    structImageDASCF.methodProcessing = processingMethod;
-    imageDASCF = calculateAcousticImage(dataMicrophones, structSensor, structImageDASCF);
+<span class="comment">% --- DAS-CF ---</span>
+structImageDASCF = structImage;
+structImageDASCF.methodImaging = <span class="string">'DAS'</span>;
+structImageDASCF.coherenceType = <span class="string">'CF'</span>;
+structImageDASCF.methodProcessing = processingMethod;
+imageDASCF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDASCF);
 
-    <span class="comment">% --- DMAS ---</span>
-    structImageDMAS = structImage;
-    structImageDMAS.methodImaging = <span class="string">'DMAS'</span>;
-    structImageDMAS.coherenceType = <span class="string">'none'</span>;
-    structImageDMAS.methodProcessing = processingMethod;
-    imageDMAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS);
+<span class="comment">% --- DMAS ---</span>
+structImageDMAS = structImage;
+structImageDMAS.methodImaging = <span class="string">'DMAS'</span>;
+structImageDMAS.coherenceType = <span class="string">'none'</span>;
+structImageDMAS.methodProcessing = processingMethod;
+imageDMAS = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS);
 
-    <span class="comment">% --- DMAS-CF ---</span>
-    structImageDMASCF = structImage;
-    structImageDMASCF.methodImaging = <span class="string">'DMAS'</span>;
-    structImageDMASCF.coherenceType = <span class="string">'CF'</span>;
-    structImageDMASCF.methodProcessing = processingMethod;
-    imageDMASCF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMASCF);
+<span class="comment">% --- DMAS-CF ---</span>
+structImageDMASCF = structImage;
+structImageDMASCF.methodImaging = <span class="string">'DMAS'</span>;
+structImageDMASCF.coherenceType = <span class="string">'CF'</span>;
+structImageDMASCF.methodProcessing = processingMethod;
+imageDMASCF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMASCF);
 
-    <span class="comment">% --- DMAS3 ---</span>
-    structImageDMAS3 = structImage;
-    structImageDMAS3.methodImaging = <span class="string">'DMAS3'</span>;
-    structImageDMAS3.coherenceType = <span class="string">'none'</span>;
-    structImageDMAS3.methodProcessing = processingMethod;
-    imageDMAS3 = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3);
+<span class="comment">% --- DMAS3 ---</span>
+structImageDMAS3 = structImage;
+structImageDMAS3.methodImaging = <span class="string">'DMAS3'</span>;
+structImageDMAS3.coherenceType = <span class="string">'none'</span>;
+structImageDMAS3.methodProcessing = processingMethod;
+imageDMAS3 = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3);
 
-    <span class="comment">% --- DMAS3-CF  ---</span>
-    structImageDMAS3CF = structImage;
-    structImageDMAS3CF.methodImaging = <span class="string">'DMAS3'</span>;
-    structImageDMAS3CF.coherenceType = <span class="string">'CF'</span>;
-    structImageDMAS3CF.methodProcessing = processingMethod;
-    imageDMAS3CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3CF);
+<span class="comment">% --- DMAS3-CF  ---</span>
+structImageDMAS3CF = structImage;
+structImageDMAS3CF.methodImaging = <span class="string">'DMAS3'</span>;
+structImageDMAS3CF.coherenceType = <span class="string">'CF'</span>;
+structImageDMAS3CF.methodProcessing = processingMethod;
+imageDMAS3CF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3CF);
 
-    <span class="comment">% --- DMAS4 ---</span>
-    structImageDMAS4 = structImage;
-    structImageDMAS4.methodImaging = <span class="string">'DMAS4'</span>;
-    structImageDMAS4.coherenceType = <span class="string">'none'</span>;
-    structImageDMAS4.methodProcessing = processingMethod;
-    imageDMAS4 = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4);
+<span class="comment">% --- DMAS4 ---</span>
+structImageDMAS4 = structImage;
+structImageDMAS4.methodImaging = <span class="string">'DMAS4'</span>;
+structImageDMAS4.coherenceType = <span class="string">'none'</span>;
+structImageDMAS4.methodProcessing = processingMethod;
+imageDMAS4 = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4);
 
-    <span class="comment">% --- DMAS4-CF  ---</span>
-    structImageDMAS4CF = structImage;
-    structImageDMAS4CF.methodImaging = <span class="string">'DMAS4'</span>;
-    structImageDMAS4CF.coherenceType = <span class="string">'CF'</span>;
-    structImageDMAS4CF.methodProcessing = processingMethod;
-    imageDMAS4CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4CF);
+<span class="comment">% --- DMAS4-CF  ---</span>
+structImageDMAS4CF = structImage;
+structImageDMAS4CF.methodImaging = <span class="string">'DMAS4'</span>;
+structImageDMAS4CF.coherenceType = <span class="string">'CF'</span>;
+structImageDMAS4CF.methodProcessing = processingMethod;
+imageDMAS4CF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4CF);
 
-    <span class="comment">% --- DMAS5 ---</span>
-    structImageDMAS5 = structImage;
-    structImageDMAS5.methodImaging = <span class="string">'DMAS5'</span>;
-    structImageDMAS5.coherenceType = <span class="string">'none'</span>;
-    structImageDMAS5.methodProcessing = processingMethod;
-    imageDMAS5 = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5);
+<span class="comment">% --- DMAS5 ---</span>
+structImageDMAS5 = structImage;
+structImageDMAS5.methodImaging = <span class="string">'DMAS5'</span>;
+structImageDMAS5.coherenceType = <span class="string">'none'</span>;
+structImageDMAS5.methodProcessing = processingMethod;
+imageDMAS5 = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5);
 
-    <span class="comment">% --- DMAS5-CF ---</span>
-    structImageDMAS5CF = structImage;
-    structImageDMAS5CF.methodImaging = <span class="string">'DMAS5'</span>;
-    structImageDMAS5CF.coherenceType = <span class="string">'CF'</span>;
-    structImageDMAS5CF.methodProcessing = processingMethod;
-    imageDMAS5CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5CF);
-    toc
+<span class="comment">% --- DMAS5-CF ---</span>
+structImageDMAS5CF = structImage;
+structImageDMAS5CF.methodImaging = <span class="string">'DMAS5'</span>;
+structImageDMAS5CF.coherenceType = <span class="string">'CF'</span>;
+structImageDMAS5CF.methodProcessing = processingMethod;
+imageDMAS5CF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5CF);
+toc
 </pre>
-<pre class="codeoutput">Elapsed time is 33.536025 seconds.
+<pre class="codeoutput">Elapsed time is 0.234089 seconds.
 </pre>
 <h2 id="6">Plot results</h2>
-<pre class="codeinput">    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;
-    rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
+<pre class="codeinput">maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;
+rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
 
-    dbCut = -80;
-    imageDASLog = normLog( imageDAS, dbCut );
-    imageDASCFLog = normLog( imageDASCF, dbCut );
-    imageDMASLog = normLog( imageDMAS, dbCut );
-    imageDMASCFLog = normLog( imageDMASCF, dbCut );
-    imageDMAS3Log = normLog( imageDMAS3, dbCut );
-    imageDMAS3CFLog = normLog( imageDMAS3CF, dbCut );
-    imageDMAS4Log = normLog( imageDMAS4, dbCut );
-    imageDMAS4CFLog = normLog( imageDMAS4CF, dbCut );
-    imageDMAS5Log = normLog( imageDMAS5, dbCut );
-    imageDMAS5CFLog = normLog( imageDMAS5CF, dbCut );
+dbCut = -80;
+imageDASLog = normLog( imageDAS, dbCut );
+imageDASCFLog = normLog( imageDASCF, dbCut );
+imageDMASLog = normLog( imageDMAS, dbCut );
+imageDMASCFLog = normLog( imageDMASCF, dbCut );
+imageDMAS3Log = normLog( imageDMAS3, dbCut );
+imageDMAS3CFLog = normLog( imageDMAS3CF, dbCut );
+imageDMAS4Log = normLog( imageDMAS4, dbCut );
+imageDMAS4CFLog = normLog( imageDMAS4CF, dbCut );
+imageDMAS5Log = normLog( imageDMAS5, dbCut );
+imageDMAS5CFLog = normLog( imageDMAS5CF, dbCut );
 
-    figure();
-    set(gcf, <span class="string">'units'</span>,<span class="string">'normalized'</span>,<span class="string">'outerposition'</span>,[0 0 0.75 0.75]);
-        tiledlayout( 2,5,<span class="string">'TileSpacing'</span>,<span class="string">'tight'</span>,<span class="string">'TileIndexing'</span>,<span class="string">'columnmajor'</span> )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DAS'</span> )
-            colorbar
-           caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDASCFLog )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DAS-CF'</span> )
-            colorbar
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMASLog )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DMAS1'</span> )
-            colorbar
-           caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMASCFLog )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DMAS1-CF'</span> )
-            colorbar
-           caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3Log )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DMAS3'</span> )
-            colorbar
-           caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3CFLog )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DMAS3-CF'</span> )
-            colorbar
-           caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4Log )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DMAS4'</span> )
-            colorbar
-            caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4CFLog )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DMAS4-CF'</span> )
-            colorbar
-            caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5Log )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DMAS5'</span> )
-            colorbar
-            caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5CFLog )
-            xlabel( <span class="string">'Azimuth (&deg;)'</span> )
-            ylabel( <span class="string">'Range (m)'</span>)
-            set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
-            title( <span class="string">'DMAS5-CF'</span> )
-            colorbar
-            caxis( [ dbCut 0 ] )
+figure();
+set(gcf, <span class="string">'units'</span>,<span class="string">'normalized'</span>,<span class="string">'outerposition'</span>,[0 0 0.75 0.75]);
+    tiledlayout( 2,5,<span class="string">'TileSpacing'</span>,<span class="string">'tight'</span>,<span class="string">'TileIndexing'</span>,<span class="string">'columnmajor'</span> )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DAS'</span> )
+        colorbar
+       caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDASCFLog )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DAS-CF'</span> )
+        colorbar
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMASLog )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DMAS1'</span> )
+        colorbar
+       caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMASCFLog )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DMAS1-CF'</span> )
+        colorbar
+       caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3Log )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DMAS3'</span> )
+        colorbar
+       caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3CFLog )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DMAS3-CF'</span> )
+        colorbar
+       caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4Log )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DMAS4'</span> )
+        colorbar
+        caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4CFLog )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DMAS4-CF'</span> )
+        colorbar
+        caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5Log )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DMAS5'</span> )
+        colorbar
+        caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5CFLog )
+        xlabel( <span class="string">'Azimuth (&deg;)'</span> )
+        ylabel( <span class="string">'Range (m)'</span>)
+        set( gca, <span class="string">'ydir'</span>, <span class="string">'normal'</span> )
+        title( <span class="string">'DMAS5-CF'</span> )
+        colorbar
+        caxis( [ dbCut 0 ] )
 </pre>
-<img vspace="5" hspace="5" src="example_02.png" alt=""> <h2 id="7">Helper functions</h2>
+<img vspace="5" hspace="5" src="acousticImageExample_02.png" alt=""> <h2 id="7">Helper functions</h2>
 <pre class="codeinput">
 <span class="keyword">function</span> dataMicrophonesOut = simulateMicrophoneData( structScene, structSensor )
 <span class="comment">%SIMULATEMICROPHONEDATA Simulates microphone data from point targets in a scene.</span>
@@ -535,221 +535,221 @@ structSensor.coordinatesMicrophones = [0 -0.0384 0.0151; 0 -0.0232 0.0101; 0 -0.
     
 %% Setup Imaging
 
-    structImage = struct();
-    structImage.directionsAzimuth = -90:2:90;
-    structImage.directionsElevation = zeros(size( structImage.directionsAzimuth));
-    structImage.numDirections = length(structImage.directionsAzimuth);
-    structImage.lowpassFreq = 5e3;
-    structImage.doEnvelope = 1;
-    structImage.doThresholdAtZero = 1;
-    structImage.decimationFactor = 10;
-    structImage.matchedFilterMethod = 'Normal';
-    structImage.matchedFilterFreq = [20e3 80e3];
-    structImage.doMatchedFilter = 1;
+structImage = struct();
+structImage.directionsAzimuth = -90:2:90;
+structImage.directionsElevation = zeros(size( structImage.directionsAzimuth));
+structImage.numDirections = length(structImage.directionsAzimuth);
+structImage.lowpassFreq = 5e3;
+structImage.doEnvelope = 1;
+structImage.doThresholdAtZero = 1;
+structImage.decimationFactor = 10;
+structImage.matchedFilterMethod = 'Normal';
+structImage.matchedFilterFreq = [20e3 80e3];
+structImage.doMatchedFilter = 1;
     
 %% Generate microphone data
 
-    dataMicrophones = simulateMicrophoneData(structScene, structSensor);
-    dataMicrophones = dataMicrophones + 0.1 * randn(size(dataMicrophones));
+dataMicrophones = simulateMicrophoneData(structScene, structSensor);
+dataMicrophones = dataMicrophones + 0.1 * randn(size(dataMicrophones));
 
 %% Run only DAS
 
-    structImageDAS = structImage;
-    structImageDAS.methodImaging = 'DAS';
-    structImageDAS.coherenceType = 'none';
-    structImageDAS.methodProcessing = 'mexcpu'; 
-    imageDAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
+structImageDAS = structImage;
+structImageDAS.methodImaging = 'DAS';
+structImageDAS.coherenceType = 'none';
+structImageDAS.methodProcessing = 'mexcuda'; 
+imageDAS = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
 
-    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;    
-    rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
+maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;    
+rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );
 
-    dbCut = -80;
-    imageDASLog = normLog( imageDAS, dbCut );
+dbCut = -80;
+imageDASLog = normLog( imageDAS, dbCut );
 
-    figure(); 
-    imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
-    xlabel( 'Azimuth (°)' )
-    ylabel( 'Range (m)')
-    set( gca, 'ydir', 'normal' )
-    title( 'DAS' )
-    colorbar
-    caxis( [ dbCut 0 ] )  
+figure(); 
+imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
+xlabel( 'Azimuth (°)' )
+ylabel( 'Range (m)')
+set( gca, 'ydir', 'normal' )
+title( 'DAS' )
+colorbar
+caxis( [ dbCut 0 ] )  
 
 %% Run full image calculation
 
-    processingMethod = 'mexcpu'; 
-    
-    tic
-    % REPLACE_WITH_DASH_DASH- DAS REPLACE_WITH_DASH_DASH-
-    structImageDAS = structImage;
-    structImageDAS.methodImaging = 'DAS';
-    structImageDAS.coherenceType = 'none';
-    structImageDAS.methodProcessing = processingMethod; 
-    imageDAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
-    
-    % REPLACE_WITH_DASH_DASH- DAS-CF REPLACE_WITH_DASH_DASH-
-    structImageDASCF = structImage;
-    structImageDASCF.methodImaging = 'DAS';
-    structImageDASCF.coherenceType = 'CF';
-    structImageDASCF.methodProcessing = processingMethod; 
-    imageDASCF = calculateAcousticImage(dataMicrophones, structSensor, structImageDASCF);
+processingMethod = 'mexcuda'; 
 
-    % REPLACE_WITH_DASH_DASH- DMAS REPLACE_WITH_DASH_DASH-
-    structImageDMAS = structImage;
-    structImageDMAS.methodImaging = 'DMAS';
-    structImageDMAS.coherenceType = 'none';
-    structImageDMAS.methodProcessing = processingMethod; 
-    imageDMAS = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS);
+tic
+% REPLACE_WITH_DASH_DASH- DAS REPLACE_WITH_DASH_DASH-
+structImageDAS = structImage;
+structImageDAS.methodImaging = 'DAS';
+structImageDAS.coherenceType = 'none';
+structImageDAS.methodProcessing = processingMethod; 
+imageDAS = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDAS);
 
-    % REPLACE_WITH_DASH_DASH- DMAS-CF REPLACE_WITH_DASH_DASH-
-    structImageDMASCF = structImage;
-    structImageDMASCF.methodImaging = 'DMAS';
-    structImageDMASCF.coherenceType = 'CF';
-    structImageDMASCF.methodProcessing = processingMethod;
-    imageDMASCF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMASCF);
-    
-    % REPLACE_WITH_DASH_DASH- DMAS3 REPLACE_WITH_DASH_DASH-
-    structImageDMAS3 = structImage;
-    structImageDMAS3.methodImaging = 'DMAS3';
-    structImageDMAS3.coherenceType = 'none';
-    structImageDMAS3.methodProcessing = processingMethod; 
-    imageDMAS3 = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3);
-    
-    % REPLACE_WITH_DASH_DASH- DMAS3-CF  REPLACE_WITH_DASH_DASH-
-    structImageDMAS3CF = structImage;
-    structImageDMAS3CF.methodImaging = 'DMAS3';
-    structImageDMAS3CF.coherenceType = 'CF';
-    structImageDMAS3CF.methodProcessing = processingMethod; 
-    imageDMAS3CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3CF);
+% REPLACE_WITH_DASH_DASH- DAS-CF REPLACE_WITH_DASH_DASH-
+structImageDASCF = structImage;
+structImageDASCF.methodImaging = 'DAS';
+structImageDASCF.coherenceType = 'CF';
+structImageDASCF.methodProcessing = processingMethod; 
+imageDASCF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDASCF);
 
-    % REPLACE_WITH_DASH_DASH- DMAS4 REPLACE_WITH_DASH_DASH-
-    structImageDMAS4 = structImage;
-    structImageDMAS4.methodImaging = 'DMAS4';
-    structImageDMAS4.coherenceType = 'none';
-    structImageDMAS4.methodProcessing = processingMethod;
-    imageDMAS4 = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4);
+% REPLACE_WITH_DASH_DASH- DMAS REPLACE_WITH_DASH_DASH-
+structImageDMAS = structImage;
+structImageDMAS.methodImaging = 'DMAS';
+structImageDMAS.coherenceType = 'none';
+structImageDMAS.methodProcessing = processingMethod; 
+imageDMAS = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS);
 
-    % REPLACE_WITH_DASH_DASH- DMAS4-CF  REPLACE_WITH_DASH_DASH-
-    structImageDMAS4CF = structImage;
-    structImageDMAS4CF.methodImaging = 'DMAS4';
-    structImageDMAS4CF.coherenceType = 'CF';
-    structImageDMAS4CF.methodProcessing = processingMethod; 
-    imageDMAS4CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4CF);
-    
-    % REPLACE_WITH_DASH_DASH- DMAS5 REPLACE_WITH_DASH_DASH-
-    structImageDMAS5 = structImage;
-    structImageDMAS5.methodImaging = 'DMAS5';
-    structImageDMAS5.coherenceType = 'none';
-    structImageDMAS5.methodProcessing = processingMethod; 
-    imageDMAS5 = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5);
+% REPLACE_WITH_DASH_DASH- DMAS-CF REPLACE_WITH_DASH_DASH-
+structImageDMASCF = structImage;
+structImageDMASCF.methodImaging = 'DMAS';
+structImageDMASCF.coherenceType = 'CF';
+structImageDMASCF.methodProcessing = processingMethod;
+imageDMASCF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMASCF);
 
-    % REPLACE_WITH_DASH_DASH- DMAS5-CF REPLACE_WITH_DASH_DASH-
-    structImageDMAS5CF = structImage;
-    structImageDMAS5CF.methodImaging = 'DMAS5';
-    structImageDMAS5CF.coherenceType = 'CF';
-    structImageDMAS5CF.methodProcessing = processingMethod;
-    imageDMAS5CF = calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5CF);
-    toc
+% REPLACE_WITH_DASH_DASH- DMAS3 REPLACE_WITH_DASH_DASH-
+structImageDMAS3 = structImage;
+structImageDMAS3.methodImaging = 'DMAS3';
+structImageDMAS3.coherenceType = 'none';
+structImageDMAS3.methodProcessing = processingMethod; 
+imageDMAS3 = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3);
+
+% REPLACE_WITH_DASH_DASH- DMAS3-CF  REPLACE_WITH_DASH_DASH-
+structImageDMAS3CF = structImage;
+structImageDMAS3CF.methodImaging = 'DMAS3';
+structImageDMAS3CF.coherenceType = 'CF';
+structImageDMAS3CF.methodProcessing = processingMethod; 
+imageDMAS3CF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS3CF);
+
+% REPLACE_WITH_DASH_DASH- DMAS4 REPLACE_WITH_DASH_DASH-
+structImageDMAS4 = structImage;
+structImageDMAS4.methodImaging = 'DMAS4';
+structImageDMAS4.coherenceType = 'none';
+structImageDMAS4.methodProcessing = processingMethod;
+imageDMAS4 = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4);
+
+% REPLACE_WITH_DASH_DASH- DMAS4-CF  REPLACE_WITH_DASH_DASH-
+structImageDMAS4CF = structImage;
+structImageDMAS4CF.methodImaging = 'DMAS4';
+structImageDMAS4CF.coherenceType = 'CF';
+structImageDMAS4CF.methodProcessing = processingMethod; 
+imageDMAS4CF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS4CF);
+
+% REPLACE_WITH_DASH_DASH- DMAS5 REPLACE_WITH_DASH_DASH-
+structImageDMAS5 = structImage;
+structImageDMAS5.methodImaging = 'DMAS5';
+structImageDMAS5.coherenceType = 'none';
+structImageDMAS5.methodProcessing = processingMethod; 
+imageDMAS5 = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5);
+
+% REPLACE_WITH_DASH_DASH- DMAS5-CF REPLACE_WITH_DASH_DASH-
+structImageDMAS5CF = structImage;
+structImageDMAS5CF.methodImaging = 'DMAS5';
+structImageDMAS5CF.coherenceType = 'CF';
+structImageDMAS5CF.methodProcessing = processingMethod;
+imageDMAS5CF = clait.calculateAcousticImage(dataMicrophones, structSensor, structImageDMAS5CF);
+toc
     
 %% Plot results
 
-    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;    
-    rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );    
+maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * 343 / 2;    
+rangeVector = linspace( 0, maxRange, size( imageDAS, 1 ) );    
 
-    dbCut = -80;
-    imageDASLog = normLog( imageDAS, dbCut );
-    imageDASCFLog = normLog( imageDASCF, dbCut );
-    imageDMASLog = normLog( imageDMAS, dbCut );
-    imageDMASCFLog = normLog( imageDMASCF, dbCut );
-    imageDMAS3Log = normLog( imageDMAS3, dbCut );
-    imageDMAS3CFLog = normLog( imageDMAS3CF, dbCut );
-    imageDMAS4Log = normLog( imageDMAS4, dbCut );
-    imageDMAS4CFLog = normLog( imageDMAS4CF, dbCut );
-    imageDMAS5Log = normLog( imageDMAS5, dbCut );
-    imageDMAS5CFLog = normLog( imageDMAS5CF, dbCut );
+dbCut = -80;
+imageDASLog = normLog( imageDAS, dbCut );
+imageDASCFLog = normLog( imageDASCF, dbCut );
+imageDMASLog = normLog( imageDMAS, dbCut );
+imageDMASCFLog = normLog( imageDMASCF, dbCut );
+imageDMAS3Log = normLog( imageDMAS3, dbCut );
+imageDMAS3CFLog = normLog( imageDMAS3CF, dbCut );
+imageDMAS4Log = normLog( imageDMAS4, dbCut );
+imageDMAS4CFLog = normLog( imageDMAS4CF, dbCut );
+imageDMAS5Log = normLog( imageDMAS5, dbCut );
+imageDMAS5CFLog = normLog( imageDMAS5CF, dbCut );
 
-    figure(); 
-    set(gcf, 'units','normalized','outerposition',[0 0 0.75 0.75]);
-        tiledlayout( 2,5,'TileSpacing','tight','TileIndexing','columnmajor' )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DAS' )
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDASCFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DAS-CF' )   
-            colorbar
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMASLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS1' )    
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMASCFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS1-CF' ) 
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3Log )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS3' )  
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3CFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS3-CF' )  
-            colorbar
-           caxis( [ dbCut 0 ] )            
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4Log )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS4' )   
-            colorbar
-            caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4CFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS4-CF' )  
-            colorbar
-            caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5Log )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS5' )   
-            colorbar
-            caxis( [ dbCut 0 ] )
-        nexttile()
-            imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5CFLog )
-            xlabel( 'Azimuth (°)' )
-            ylabel( 'Range (m)')
-            set( gca, 'ydir', 'normal' )
-            title( 'DMAS5-CF' )  
-            colorbar
-            caxis( [ dbCut 0 ] )
+figure(); 
+set(gcf, 'units','normalized','outerposition',[0 0 0.75 0.75]);
+    tiledlayout( 2,5,'TileSpacing','tight','TileIndexing','columnmajor' )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDASLog )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DAS' )
+        colorbar
+       caxis( [ dbCut 0 ] )            
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDASCFLog )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DAS-CF' )   
+        colorbar
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMASLog )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DMAS1' )    
+        colorbar
+       caxis( [ dbCut 0 ] )            
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMASCFLog )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DMAS1-CF' ) 
+        colorbar
+       caxis( [ dbCut 0 ] )            
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3Log )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DMAS3' )  
+        colorbar
+       caxis( [ dbCut 0 ] )            
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS3CFLog )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DMAS3-CF' )  
+        colorbar
+       caxis( [ dbCut 0 ] )            
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4Log )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DMAS4' )   
+        colorbar
+        caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS4CFLog )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DMAS4-CF' )  
+        colorbar
+        caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5Log )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DMAS5' )   
+        colorbar
+        caxis( [ dbCut 0 ] )
+    nexttile()
+        imagesc( structImage.directionsAzimuth, rangeVector, imageDMAS5CFLog )
+        xlabel( 'Azimuth (°)' )
+        ylabel( 'Range (m)')
+        set( gca, 'ydir', 'normal' )
+        title( 'DMAS5-CF' )  
+        colorbar
+        caxis( [ dbCut 0 ] )
             
 %% Helper functions
 

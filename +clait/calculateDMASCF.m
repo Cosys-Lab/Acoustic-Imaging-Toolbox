@@ -110,28 +110,28 @@ function acousticImage = calculateDMASCF(dataSignals, delayMatrix, methodImaging
 
         if(enableGPU)
             try
-                acousticImage = gather(calculateDMASCFMexGPU(single(dataSignals), int32(delayMatrix), int32(orderProcessing), int32(toggleCF)));
+                acousticImage = gather(clait.calculateDMASCFMexGPU(single(dataSignals), int32(delayMatrix), int32(orderProcessing), int32(toggleCF)));
             catch ME
                 warning("Could not run calculateDMASCF with MEX CUDA acceleration. Running with normal CPU MEX function. Did you run compileCLAIT(enableCPUCompile, enableGPUCompile) yet? Original error: ")
                 disp( getReport( ME, 'extended', 'hyperlinks', 'on' ) )
                 try
-                    acousticImage = calculateDMASCFMexCPU(dataSignals, delayMatrix, int32(orderProcessing), int32(toggleCF));
+                    acousticImage = clait.calculateDMASCFMexCPU(dataSignals, delayMatrix, int32(orderProcessing), int32(toggleCF));
                 catch ME
                      warning("Could not run calculateDMASCF with MEX acceleration. Running with native Matlab function. Did you run compileCLAIT(enableCPUCompile, enableGPUCompile) yet?  Original error: ")
                      disp( getReport( ME, 'extended', 'hyperlinks', 'on' ) )
-                     acousticImage = calculateDMASCFNative(dataSignals, delayMatrix, orderProcessing, coherenceType);
+                     acousticImage = clait.calculateDMASCFNative(dataSignals, delayMatrix, orderProcessing, coherenceType);
                 end
             end
         else
             try
-                acousticImage = calculateDMASCFMexCPU(dataSignals, delayMatrix, int32(orderProcessing), int32(toggleCF));
+                acousticImage = clait.calculateDMASCFMexCPU(dataSignals, delayMatrix, int32(orderProcessing), int32(toggleCF));
             catch ME
                  warning("Could not run calculateDMASCF with MEX acceleration. Running with native Matlab function. Did you run compileCLAIT(enableCPUCompile, enableGPUCompile) yet? Original error: ")
                  disp( getReport( ME, 'extended', 'hyperlinks', 'on' ) )
-                 acousticImage = calculateDMASCFNative(dataSignals, delayMatrix, orderProcessing, coherenceType);
+                 acousticImage = clait.calculateDMASCFNative(dataSignals, delayMatrix, orderProcessing, coherenceType);
             end
         end
     else
-        acousticImage = calculateDMASCFNative(dataSignals, delayMatrix, orderProcessing, coherenceType);
+        acousticImage = clait.calculateDMASCFNative(dataSignals, delayMatrix, orderProcessing, coherenceType);
     end
 end

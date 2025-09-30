@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,chrome=1"><meta name="generator" content="MATLAB 2024b"><title>Energyscape info</title><style type="text/css">.rtcContent { padding: 30px; } .S0 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 28.8px; min-height: 0px; white-space: pre-wrap; color: rgb(192, 76, 11); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 24px; font-weight: 400; text-align: left;  }
+.S1 { margin: 2px 10px 9px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S2 { margin: 15px 10px 5px 4px; padding: 0px; line-height: 18px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 17px; font-weight: 700; text-align: left;  }
+.S3 { margin: 3px; border: 0.8px solid rgb(191, 191, 191); border-collapse: collapse;  }
+.S4 { background-color: rgba(0, 0, 0, 0);  }
+.S5 { border: 0.8px solid rgb(191, 191, 191); vertical-align: top;  }
+.S6 { margin: 2px 10px 2px 4px; padding: 0px; line-height: 21px; min-height: 0px; white-space: break-spaces; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 14px; font-weight: 400; text-align: left;  }
+.S7 { margin: 10px 10px 5px 4px; padding: 0px; line-height: 18px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 15px; font-weight: 700; text-align: left;  }
+.S8 { margin: 3px 10px 5px 4px; padding: 0px; line-height: 25px; min-height: 0px; white-space: pre-wrap; color: rgb(33, 33, 33); font-family: Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif; font-style: normal; font-size: 20px; font-weight: 700; text-align: left;  }
+.CodeBlock { background-color: #F5F5F5; margin: 10px 15px 10px 0; display: inline-block }
+.S9 { border-left: 0.8px solid rgb(217, 217, 217); border-right: 0.8px solid rgb(217, 217, 217); border-top: 0.8px solid rgb(217, 217, 217); border-bottom: 0.8px solid rgb(217, 217, 217); border-radius: 4px; padding: 6px 45px 4px 13px; line-height: 18.004px; min-height: 0px; white-space: nowrap; color: rgb(33, 33, 33); font-family: Menlo, Monaco, Consolas, "Courier New", monospace, Menlo, Monaco, Consolas, "Courier New", monospace; font-size: 14px;  }</style></head><body><div class = rtcContent><h1  class = 'S0' id = 'T_3400' ><span>Energyscape info</span></h1><div  class = 'S1'><span>The primary function of the Acoustic Imaging Toolbox is </span><span style=' font-family: monospace;'>calculateAcousticImage</span><span>. It takes three inputs—raw data, sensor configuration, and energyscape parameters—and outputs a complete, processed energyscape image.</span></div><h3  class = 'S2' id = 'H_61b0' ><span style=' font-weight: bold;'>Namespace and calling functions</span></h3><div  class = 'S1' id = 'H_4320' ><span>All functions in this Toolbox exist within the </span><span style=' font-family: monospace;'>clait</span><span> namespace. For calling these functions you therefore have to add the namespace name to the beginning.</span></div><div  class = 'S1'><span style=' font-family: monospace;'>output = clait.generate2DEnergyscape(...)</span></div><h3  class = 'S2' id = 'H_8d31' ><span style=' font-weight: bold;'>Function Signature</span></h3><div  class = 'S1'><span style=' font-family: monospace;'>acousticImage = clait.generate2DEnergyscape(dataMicrophones, structSensor, structEnergyscapeGeneration)</span></div><h3  class = 'S2'><span style=' font-weight: bold;'>Input Arguments</span></h3><table  class = 'S3'><col/><col/><col/><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Argument</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Type</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Description</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>dataMicrophones</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Matrix</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Received Signal Data.</span><span> This is the raw time-series data captured by the microphone array.</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span></span></div></td><td  class = 'S5'><div  class = 'S6'><span></span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Dimensions:</span><span> </span><span style=' font-family: monospace;'>[samples x channels]</span><span> (where </span><span style=' font-family: monospace;'>channels</span><span> is </span><span style=' font-family: monospace;'>numMics</span><span>).</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>structSensor</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Struct</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Sensor Array &amp; Signal Properties.</span><span> Defines the physical setup of the microphone array and the characteristics of the emitted signal.</span></div></td></tr><tr  class = 'S4'><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold; font-family: monospace;'>structEnergyscapeGeneration</span></div></td><td  class = 'S5'><div  class = 'S6'><span>Struct</span></div></td><td  class = 'S5'><div  class = 'S6'><span style=' font-weight: bold;'>Imaging &amp; Processing Parameters.</span><span> Controls the beamforming algorithm, acceleration method, and all post-processing steps. Contains extensive default values if fields are omitted.</span></div></td></tr></table><div  class = 'S1'><span style=' font-weight: bold;'>Detailed Breakdown of Input Structures for generate2DEnergyscape</span></div><div  class = 'S1'><span style=' font-weight: bold;'>WIP</span></div><div  class = 'S1'><span style=' font-weight: bold;'>1. structSensor</span></div><div  class = 'S1'><span style=' font-weight: bold;'>WIP</span></div><h4  class = 'S7'><span style=' font-weight: bold;'>2. </span><span>structEnergyscapeGeneration</span></h4><div  class = 'S1'><span style=' font-weight: bold;'>WIP</span></div><h3  class = 'S2'><span style=' font-weight: bold;'>Output</span></h3><div  class = 'S1'><span style=' font-weight: bold;'>WIP</span></div><h2  class = 'S8'><span style=' font-weight: bold;'>Plotting an Energyscape</span></h2><div  class = 'S1'><span style=' font-weight: bold;'>WIP</span></div><h2  class = 'S8' id = 'H_4b1e' ><span>Example</span></h2><div  class = 'S1'><span>A full example is available, to quickly open it after installing the toolbox, run the following command:</span></div><div class="CodeBlock"><div class="inlineWrapper"><div  class = 'S9'><span style="white-space: pre"><span >clait.openClaitEnergyscapeExample</span></span></div></div></div>
+<br>
+<!-- 
+##### SOURCE BEGIN #####
+%% Energyscape info
+% The primary function of the Acoustic Imaging Toolbox is |calculateAcousticImage|. 
+% It takes three inputs—raw data, sensor configuration, and energyscape parameters—and 
+% outputs a complete, processed energyscape image.
+% *Namespace and calling functions*
+% All functions in this Toolbox exist within the |clait| namespace. For calling 
+% these functions you therefore have to add the namespace name to the beginning.
+% 
+% |output = clait.generate2DEnergyscape(...)|
+% *Function Signature*
+% |acousticImage = clait.generate2DEnergyscape(dataMicrophones, structSensor, 
+% structEnergyscapeGeneration)|
+% *Input Arguments*
+%% 
+% *Argument*
+%% 
+% *Type*
+%% 
+% *Description*
+%% 
+% |*dataMicrophones*|
+%% 
+% Matrix
+%% 
+% *Received Signal Data.* This is the raw time-series data captured by the microphone 
+% array.
+%% 
+% 
+%% 
+% 
+%% 
+% *Dimensions:* |[samples x channels]| (where |channels| is |numMics|).
+%% 
+% |*structSensor*|
+%% 
+% Struct
+%% 
+% *Sensor Array & Signal Properties.* Defines the physical setup of the microphone 
+% array and the characteristics of the emitted signal.
+%% 
+% |*structEnergyscapeGeneration*|
+%% 
+% Struct
+%% 
+% *Imaging & Processing Parameters.* Controls the beamforming algorithm, acceleration 
+% method, and all post-processing steps. Contains extensive default values if 
+% fields are omitted.
+%% 
+% *Detailed Breakdown of Input Structures for generate2DEnergyscape*
+% 
+% *WIP*
+% 
+% *1. structSensor*
+% 
+% *WIP*
+% *2.* structEnergyscapeGeneration
+% *WIP*
+% *Output*
+% *WIP*
+%% *Plotting an Energyscape*
+% *WIP*
+%% Example
+% A full example is available, to quickly open it after installing the toolbox, 
+% run the following command:
+
+clait.openClaitEnergyscapeExample
+##### SOURCE END #####
+-->
+</div></body></html>
