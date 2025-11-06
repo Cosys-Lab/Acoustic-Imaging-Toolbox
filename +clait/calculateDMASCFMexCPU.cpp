@@ -102,6 +102,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
                 // Temporary sums for DMAS and CF calculation for this (azel, spl) point
                 double S1_raw_sum = 0.0;     // Sum of x_m
                 double S_raw_sq_sum = 0.0;   // Sum of x_m^2
+                double S_abs_sum = 0.0;
                 double S2_sum_signed_root = 0.0;
                 double S3_sum_signed_root = 0.0;
                 double S4_sum_signed_root = 0.0;
@@ -130,6 +131,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
                     if (dmasOrder >= 2) {
                         double s2 = copysign(1.0, x) * pow(fabs(x), 1.0 / 2.0);
                         S2_sum_signed_root += s2;
+                        S_abs_sum += fabs(x);
                     }
 
                     if (dmasOrder >= 3) {
@@ -167,7 +169,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
                         break;
                         
                     case 2: // DMAS2
-                        dmasOut = 0.5 * (pow(S2_sum_signed_root, 2.0) - S_raw_sq_sum);
+                        dmasOut = 0.5 * (pow(S2_sum_signed_root, 2.0) - S_abs_sum);
                         break;
                     
                     case 3: // DMAS3

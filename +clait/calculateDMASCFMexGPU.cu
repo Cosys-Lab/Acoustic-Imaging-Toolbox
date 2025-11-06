@@ -57,6 +57,8 @@ void __global__ dmascf_kernel(int const *delayMatrix, float const *dataSignals, 
 
 	float S1_raw_sum = 0.0f;
 	float S_raw_sq_sum = 0.0f;
+    float S_abs_sum = 0.0f;
+    
 	
 	for (int microphone = 0; microphone < nMicrophones; ++microphone) {
 		int delay = delayMatrix[microphone * nDirections + direction];
@@ -69,6 +71,7 @@ void __global__ dmascf_kernel(int const *delayMatrix, float const *dataSignals, 
 		if (dmasOrder >= 2) {
 			float s2 = copysignf(1.0f, x) * powf(fabsf(x), 1.0f / 2.0f);
 			S2_sum_signed_root += s2;
+            S_abs_sum += fabsf(x);
 		}
 
 		if (dmasOrder >= 3) {
@@ -104,7 +107,7 @@ void __global__ dmascf_kernel(int const *delayMatrix, float const *dataSignals, 
 			break;
 			
 		case 2:
-			dmasOut = 0.5f * (powf(S2_sum_signed_root, 2.0f) - S_raw_sq_sum);
+			dmasOut = 0.5f * (powf(S2_sum_signed_root, 2.0f) - S_abs_sum);
 			break;
 		
 		case 3: 

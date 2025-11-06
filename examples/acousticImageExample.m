@@ -179,7 +179,7 @@ set(gcf, 'units','normalized','outerposition',[0 0 0.75 0.75]);
         xlabel( 'Azimuth (°)' )
         ylabel( 'Range (m)')
         set( gca, 'ydir', 'normal' )
-        title( 'DMAS1' )    
+        title( 'DMAS' )    
         colorbar
        caxis( [ dbCut 0 ] )            
     nexttile()
@@ -187,7 +187,7 @@ set(gcf, 'units','normalized','outerposition',[0 0 0.75 0.75]);
         xlabel( 'Azimuth (°)' )
         ylabel( 'Range (m)')
         set( gca, 'ydir', 'normal' )
-        title( 'DMAS1-CF' ) 
+        title( 'DMAS-CF' ) 
         colorbar
        caxis( [ dbCut 0 ] )            
     nexttile()
