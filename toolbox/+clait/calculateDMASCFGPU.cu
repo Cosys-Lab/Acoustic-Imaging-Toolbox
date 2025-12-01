@@ -218,7 +218,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     // printf("microphones:%i directions:%i samples:%i output size:%i sample size:%i dmas order:%i cf toggle:%i\n",nMicrophones, nDirections, nSamples, outputSize, sampleSize, dmasOrder, cfToggle);
 
     /* Create a GPUArray to hold the result and get its underlying pointer. */
-    mwSize dims[2] = {outputSize, nDirections};
+    mwSize dims[2] = { (mwSize)outputSize, (mwSize)nDirections };
     dataBeamForm = mxGPUCreateGPUArray(mxGPUGetNumberOfDimensions(dataSignals),
                             dims,
                             mxGPUGetClassID(dataSignals),

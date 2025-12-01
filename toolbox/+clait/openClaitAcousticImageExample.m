@@ -1,4 +1,3 @@
 foundPath = clait.findClaitToolboxFolder();
 cd(char(foundPath.toAbsolutePath.toString));
-cd examples
-open("energyscapeExample.m")
+open("Examples\AcousticImageExample.mlx")

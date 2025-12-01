@@ -110,23 +110,23 @@ function acousticImage = calculateDMASCF(dataSignals, delayMatrix, methodImaging
 
         if(enableGPU)
             try
-                acousticImage = gather(clait.calculateDMASCFMexGPU(single(dataSignals), int32(delayMatrix), int32(orderProcessing), int32(toggleCF)));
+                acousticImage = gather(clait.calculateDMASCFGPU(single(dataSignals), int32(delayMatrix), int32(orderProcessing), int32(toggleCF)));
             catch ME
-                warning("Could not run calculateDMASCF with MEX CUDA acceleration. Running with normal CPU MEX function. Did you run compileCLAIT(enableCPUCompile, enableGPUCompile) yet? Original error: ")
+                warning("Could not run calculateDMASCF with MEX CUDA acceleration. Running with normal CPU MEX function. Did you run compileClaitMexFunctions(enableGPUCompile) yet? Original error: ")
                 disp( getReport( ME, 'extended', 'hyperlinks', 'on' ) )
                 try
-                    acousticImage = clait.calculateDMASCFMexCPU(dataSignals, delayMatrix, int32(orderProcessing), int32(toggleCF));
+                    acousticImage = clait.calculateDMASCFMex(dataSignals, delayMatrix, int32(orderProcessing), int32(toggleCF));
                 catch ME
-                     warning("Could not run calculateDMASCF with MEX acceleration. Running with native Matlab function. Did you run compileCLAIT(enableCPUCompile, enableGPUCompile) yet?  Original error: ")
+                     warning("Could not run calculateDMASCF with MEX acceleration. Running with native Matlab function. Did you run compileClaitMexFunctions(enableGPUCompile) yet?  Original error: ")
                      disp( getReport( ME, 'extended', 'hyperlinks', 'on' ) )
                      acousticImage = clait.calculateDMASCFNative(dataSignals, delayMatrix, orderProcessing, coherenceType);
                 end
             end
         else
             try
-                acousticImage = clait.calculateDMASCFMexCPU(dataSignals, delayMatrix, int32(orderProcessing), int32(toggleCF));
+                acousticImage = clait.calculateDMASCFMex(dataSignals, delayMatrix, int32(orderProcessing), int32(toggleCF));
             catch ME
-                 warning("Could not run calculateDMASCF with MEX acceleration. Running with native Matlab function. Did you run compileCLAIT(enableCPUCompile, enableGPUCompile) yet? Original error: ")
+                 warning("Could not run calculateDMASCF with MEX acceleration. Running with native Matlab function. Did you run compileClaitMexFunctions(enableGPUCompile) yet? Original error: ")
                  disp( getReport( ME, 'extended', 'hyperlinks', 'on' ) )
                  acousticImage = clait.calculateDMASCFNative(dataSignals, delayMatrix, orderProcessing, coherenceType);
             end

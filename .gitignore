@@ -14,3 +14,7 @@ dist/
 *.mp4
 *.mexw64
 *.mexa64
+resources/*
+release/*
+.buildtool/*
+toolbox/doc/html/*

@@ -9,9 +9,9 @@
     <!-- Supply the following six elements in the order specified -->
     <!-- (Required) Release of MATLAB. Not currently used but required -->
     <!-- to parse the file -->
-    <matlabrelease>2024q</matlabrelease>
+    <matlabrelease>2025a</matlabrelease>
     <!-- (Required) Title of toolbox. Appears in the Contents pane -->
-    <name>Cosys-Lab Acoustic Imaging Toolbox</name>
+    <name>Cosys-Lab Acoustic Imaging Toolbox for MATLAB</name>
     <!-- (Required) Label for the toolbox. pick one: -->
     <!-- matlab, toolbox, simulink, blockset, links_targets  -->
     <type>toolbox</type>
@@ -19,7 +19,7 @@
     <!-- but required to parse the file -->
     <icon/>
     <!-- (Required if you supply help) Relative path to help (HTML) folder -->
-    <help_location>help</help_location>
+    <help_location>doc/html</help_location>
     <!-- (Required if you supply help) Icon used in the Help browser TOC -->
     <!-- Ignored in R2015a and later -->
     <help_contents_icon/>
