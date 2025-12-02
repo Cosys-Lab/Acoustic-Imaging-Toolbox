@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Released]
 
+## [1.1.0] - 2025-12-X
+- Refactored for Matlab new toolbox creation procedure. 
+- Fixed DMAS order 2 having mistake in code for Mex and GPU versions. 
+
 ## [1.0.1] - 2025-09-29
 - General documentation fixes.
 

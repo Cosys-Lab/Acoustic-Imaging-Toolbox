@@ -52,7 +52,9 @@ function generatedocsTask(~)
     % Generate markdown readme
     
     mdfile = export("toolbox/GettingStarted.mlx","README.md", Format="markdown");
-    % remove TOC and the links to the other mlx files from the readme!
+    
+    % Clean up the README.md file
+    cleanupReadme("README.md");
     
     % Generate HTML pages
     htmldir = "toolbox\doc\html";
@@ -64,6 +66,55 @@ function generatedocsTask(~)
     mdfile = export("toolbox/doc/AcousticImageInfo.mlx","toolbox/doc/html/AcousticImageInfo.html", Format="html");
     mdfile = export("toolbox/examples/AcousticImageExample.mlx","toolbox/doc/html/AcousticImageExample.html", Format="html");
     mdfile = export("toolbox/examples/EnergyscapeExample.mlx","toolbox/doc/html/EnergyscapeExample.html", Format="html");
+end
+
+function cleanupReadme(filename)
+    % Read the file
+    fileContent = fileread(filename);
+    lines = splitlines(fileContent);
+    
+    % Find and remove TOC section (between <!-- Begin Toc --> and <!-- End Toc -->)
+    inToc = false;
+    linesToKeep = true(size(lines));
+    
+    for i = 1:length(lines)
+        if contains(lines{i}, '<!-- Begin Toc -->')
+            inToc = true;
+            linesToKeep(i) = false;
+        elseif contains(lines{i}, '<!-- End Toc -->')
+            inToc = false;
+            linesToKeep(i) = false;
+        elseif inToc
+            linesToKeep(i) = false;
+        end
+    end
+    
+    lines = lines(linesToKeep);
+    
+    % Remove lines containing problematic links
+    % 1. Lines with MATLAB-specific anchor links like [text](#H_xxxx)
+    % 2. Lines with links to .mlx files
+    linesToKeep = true(size(lines));
+    
+    for i = 1:length(lines)
+        line = lines{i};
+        % Check for MATLAB anchor links pattern: [text](#H_xxxx) or [text](#TMP_xxxx)
+        if ~isempty(regexp(line, '\[.*?\]\(#[HT]_[a-zA-Z0-9]+\)', 'once'))
+            linesToKeep(i) = false;
+        end
+        % Check for links to .mlx files
+        if contains(line, '.mlx)')
+            linesToKeep(i) = false;
+        end
+    end
+    
+    lines = lines(linesToKeep);
+    
+    % Write the cleaned content back to file
+    fileContent = strjoin(lines, newline);
+    fid = fopen(filename, 'w', 'n', 'UTF-8');
+    fwrite(fid, fileContent, 'char');
+    fclose(fid);
 end
 
 function gpuTask(~)

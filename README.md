@@ -5,26 +5,6 @@
 
 A MATLAB toolbox from Cosys\-Lab for high\-performance acoustic imaging, featuring GPU & MEX\-accelerated DMAS\-CF beamforming and signal processing.
 
-<!-- Begin Toc -->
-
-## Table of Contents
-&emsp;[Installation](#H_4dd9)
- 
-&emsp;[Dependencies](#TMP_77fd)
- 
-&emsp;[General Usage](#H_33ac)
- 
-&emsp;[Examples](#H_4b1e)
- 
-&emsp;[Compiling MEX Files](#H_4b25)
- 
-&emsp;&emsp;[Dependencies](#H_5795)
- 
-&emsp;&emsp;[Automatically Compiling MEX files when Toolbox is installed](#H_464d)
- 
-&emsp;&emsp;[Manually Compiling MEX files](#H_0889)
- 
-<!-- End Toc -->
 <a id="H_4dd9"></a>
 
 # Installation
@@ -32,7 +12,6 @@ A MATLAB toolbox from Cosys\-Lab for high\-performance acoustic imaging, featuri
 Find the latest release [here](https://cosysgit.uantwerpen.be/wjansen/cosys-lab-acoustic-imaging-toolbox/-/releases) and use the download link for the toolbox. You can also clone or download this repository and use it from source.
 
 
-Note that if you want to use any of the accelerated GPU and CPU\-based MEX implementations for beamforming you will first need to compile these MEX files. See the [this section](#H_4b25) for how to do that!
 
 <a id="TMP_77fd"></a>
 
@@ -48,11 +27,9 @@ This toolbox requires the following other toolboxes installed:
 
 The toolbox has 6 major functions: 2 main ones and 3 helper ones. The following table lists all the available functions:
 
-1.   `calculateAcousticImage:` Primary High\-Level Function. Executes the full imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post\-processing. Seperate help page available [here](./doc/AcousticImageInfo.mlx).
 2. `calculateDMASCF:` Core beamforming function. Computes the image using D(M)AS(\-CF).
 3. `calculateDelayMatrix:` Calculates the necessary sample delays array steering to specified directions.
 4. `generalizedMatchedFilter:` Applies various matched filter and generalized correlation transforms (Normal, PHAT, ROTH, SCOT).
-5. `generate2DEnergyscape:` Primary High\-Level Function. Generates a specific acoustic image called an Energyscape containing 2D azimuth/range/intensity data. Seperate help page available [here](./doc/energyscapeInfo.mlx).
 6. `plot2DEnergyscape:H`elper function to plot the generated Energyscape.
 <a id="H_4320"></a>
 
@@ -91,7 +68,7 @@ Make sure to correctly configure Matlab first for MEX compiling. Run the followi
 ```matlab
 mex -setup c++
 ```
-<a id="H_9f98"></a>
+<a id="TMP_838c"></a>
 <a id="H_464d"></a>
 
 ## Automatically Compiling MEX files when Toolbox is installed
@@ -102,7 +79,7 @@ Once you have installed the dependencies you can run the following command to au
 enableGPUCompile = true;
 clait.compileClaitMexFunctions(enableGPUCompile)
 ```
-<a id="H_5bc0"></a>
+<a id="TMP_52ff"></a>
 <a id="H_0889"></a>
 
 ## Manually Compiling MEX files
