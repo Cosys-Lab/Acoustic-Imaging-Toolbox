@@ -21,11 +21,10 @@ function plan = buildfile
     plan("check") = matlab.buildtool.tasks.CodeIssuesTask(sourceFolder,...
         IncludeSubfolders = true);
     
-    % Make the "test" task the default task in the plan
-    plan.DefaultTasks = ["mex" "generatedocs"];
+    plan.DefaultTasks = ["clean" "check" "mex" "gpu" "generatedocs" "release"];
 
-    % Make the "release" task dependent on the "check" and "test" tasks
-    plan("release").Dependencies = ["mex" "check"];
+    % Make the "release" task dependent on the others
+    plan("release").Dependencies = ["check" "generatedocs"];
     plan("release").Outputs = "release\clait.mltbx";
 end
 
@@ -36,7 +35,7 @@ function releaseTask(~)
     opts = matlab.addons.toolbox.ToolboxOptions("cosys-lab-acoustic-imaging-toolbox.prj");
     
     % By default, the packaging GUI restricts the name of the getting started guide, so we fix that here.
-    opts.ToolboxGettingStartedGuide = fullfile("toolbox", "gettingStarted.mlx");
+    opts.ToolboxGettingStartedGuide = fullfile("toolbox", "doc", "gettingStarted.mlx");
     
     % GitHub releases don't allow spaces, so replace spaces with underscores
     opts.OutputFile = fullfile(releaseFolderName, "clait.mltbx");
@@ -51,7 +50,7 @@ end
 function generatedocsTask(~)
     % Generate markdown readme
     
-    mdfile = export("toolbox/GettingStarted.mlx","README.md", Format="markdown");
+    mdfile = export("toolbox/doc/GettingStarted.mlx", "README.md", Format="markdown");
     
     % Clean up the README.md file
     cleanupReadme("README.md");
@@ -61,11 +60,11 @@ function generatedocsTask(~)
     if ~exist(htmldir, 'dir')
         mkdir(htmldir)
     end
-    mdfile = export("toolbox/GettingStarted.mlx","toolbox/doc/html/GettingStarted.html", Format="html");
-    mdfile = export("toolbox/doc/EnergyscapeInfo.mlx","toolbox/doc/html/EnergyscapeInfo.html", Format="html");
-    mdfile = export("toolbox/doc/AcousticImageInfo.mlx","toolbox/doc/html/AcousticImageInfo.html", Format="html");
-    mdfile = export("toolbox/examples/AcousticImageExample.mlx","toolbox/doc/html/AcousticImageExample.html", Format="html");
-    mdfile = export("toolbox/examples/EnergyscapeExample.mlx","toolbox/doc/html/EnergyscapeExample.html", Format="html");
+    mdfile = export("toolbox/doc/GettingStarted.mlx", "toolbox/doc/html/GettingStarted.html", Format="html");
+    mdfile = export("toolbox/doc/EnergyscapeInfo.mlx", "toolbox/doc/html/EnergyscapeInfo.html", Format="html");
+    mdfile = export("toolbox/doc/AcousticImageInfo.mlx", "toolbox/doc/html/AcousticImageInfo.html", Format="html");
+    mdfile = export("toolbox/examples/AcousticImageExample.mlx", "toolbox/doc/html/AcousticImageExample.html", Format="html");
+    mdfile = export("toolbox/examples/EnergyscapeExample.mlx", "toolbox/doc/html/EnergyscapeExample.html", Format="html");
 end
 
 function cleanupReadme(filename)
@@ -119,8 +118,15 @@ end
 
 function gpuTask(~)
     try
-        setenv("NVCC_APPEND_FLAGS", '-allow-unsupported-compiler')
-        mexcuda -v toolbox\+clait\calculateDMASCFGPU.cu"    
+        if ismac
+            mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH "toolbox\+clait\calculateDMASCFGPU.cu" -output "toolbox\+clait\calculateDMASCFGPU.mexmaci64" 
+        elseif isunix
+            mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH "toolbox\+clait\calculateDMASCFGPU.cu" -output "toolbox\+clait\calculateDMASCFGPU.mexa64" 
+        elseif ispc
+            mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH "toolbox\+clait\calculateDMASCFGPU.cu" -output "toolbox\+clait\calculateDMASCFGPU.mexmw64" 
+        else
+            disp('Platform not supported')
+        end        
     catch exception
         rethrow(exception)
     end

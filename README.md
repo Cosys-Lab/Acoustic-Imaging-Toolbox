@@ -90,7 +90,7 @@ Go in your Matlab to the folder containing `calculateDMASCFMex.cpp (`found in th
 Use the command below to compile the function:
 
 ```matlab
-mex calculateDMASCFMexCPU.cpp -outdir toolbox\+clait
+mex calculateDMASCFMexCPU.cpp
 ```
 
 Go in your Matlab to the folder containing `calculateDMASCFGPU.cu (`found in the `toolbox\\+clait` folder`)`. 
@@ -99,8 +99,12 @@ Go in your Matlab to the folder containing `calculateDMASCFGPU.cu (`found in the
 Use the command below to compile the function:
 
 ```matlab
-mexcuda -v calculateDMASCFMexGPU.cu -outdir toolbox\+clait
+mexcuda calculateDMASCFMexGPU.cu
 ```
 
-You can use the `-v` argument to see the compilation process.
+You can use the `-v` argument to see the compilation process. If you run into compatibility errors you can also try the following command to get passed them.
 
+```matlab
+mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH -v calculateDMASCFGPU.cu
+
+```
