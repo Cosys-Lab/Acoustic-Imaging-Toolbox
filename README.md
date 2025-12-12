@@ -12,15 +12,35 @@ A MATLAB toolbox from Cosys\-Lab for high\-performance acoustic imaging, featuri
 Find the latest release [here](https://cosysgit.uantwerpen.be/wjansen/cosys-lab-acoustic-imaging-toolbox/-/releases) and use the download link for the toolbox. You can also clone or download this repository and use it from source.
 
 
+Note that if you want to use any of the accelerated GPU and CPU\-based MEX implementations for beamforming you will first need to compile these MEX files. 
+
+
+Once you have installed the toolbox you run the following command to automatically compile the source MEX files. Note that the GPU implementation requires an NVIDIA GPU!
+
+```matlab
+enableGPUCompile = true;
+clait.compileClaitMexFunctions(enableGPUCompile)
+```
+
 
 <a id="TMP_77fd"></a>
 
 # Dependencies
 
-This toolbox requires the following other toolboxes installed:
+This toolbox requires the following other toolboxes installed as well:
 
 -  Signal Processing Toolbox 
 -  Image Processing Toolbox 
+<a id="TMP_2c8c"></a>
+
+# Examples
+
+A few examples are available, to quickly open them after installing the toolbox, run the following commands or find them manually in the `examples` folder.
+
+```matlab
+clait.openClaitAcousticImageExample
+clait.openClaitEnergyscapeExample
+```
 <a id="H_33ac"></a>
 
 # General Usage
@@ -38,16 +58,6 @@ All functions in this Toolbox exist within the `clait` namespace. For calling th
 
 `output = clait.functionName(...)`
 
-<a id="H_4b1e"></a>
-
-# Examples
-
-A few examples are available, to quickly open them after installing the toolbox, run the following commands or find them manually in the `examples` folder.
-
-```matlab
-clait.openClaitAcousticImageExample
-clait.openClaitEnergyscapeExample
-```
 <a id="H_4b25"></a>
 
 # Compiling MEX Files
@@ -68,7 +78,6 @@ Make sure to correctly configure Matlab first for MEX compiling. Run the followi
 ```matlab
 mex -setup c++
 ```
-<a id="TMP_838c"></a>
 <a id="H_464d"></a>
 
 ## Automatically Compiling MEX files when Toolbox is installed
@@ -79,12 +88,11 @@ Once you have installed the dependencies you can run the following command to au
 enableGPUCompile = true;
 clait.compileClaitMexFunctions(enableGPUCompile)
 ```
-<a id="TMP_52ff"></a>
 <a id="H_0889"></a>
 
 ## Manually Compiling MEX files
 
-Go in your Matlab to the folder containing `calculateDMASCFMex.cpp (`found in the `toolbox\\+clait` folder`)`. 
+Go in your Matlab to the folder containing  `calculateDMASCFMex.cpp` (found in the toolbox\\+clait folder). 
 
 
 Use the command below to compile the function:
@@ -93,7 +101,7 @@ Use the command below to compile the function:
 mex calculateDMASCFMexCPU.cpp
 ```
 
-Go in your Matlab to the folder containing `calculateDMASCFGPU.cu (`found in the `toolbox\\+clait` folder`)`. 
+Go in your Matlab to the folder containing `calculateDMASCFGPU.cu` (found in the toolbox\\+clait folder). 
 
 
 Use the command below to compile the function:

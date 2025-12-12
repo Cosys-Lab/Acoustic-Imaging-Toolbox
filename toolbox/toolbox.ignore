@@ -37,3 +37,6 @@
 % Local MATLAB/Simulink tool caches
 **/slprj
 **/.buildtool/
+
+**/*.mexw64
+**/*.mexa64
