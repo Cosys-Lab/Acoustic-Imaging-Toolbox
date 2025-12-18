@@ -105,9 +105,30 @@ function cleanupReadme(filename)
         if contains(line, '.mlx)')
             linesToKeep(i) = false;
         end
+        % Check for links to .m files
+        if contains(line, '.m)')
+            linesToKeep(i) = false;
+        end
     end
     
     lines = lines(linesToKeep);
+    
+    % Downgrade heading levels (except the first main title)
+    % MATLAB exports title as #, but we want to keep first heading as # and downgrade all others
+    firstHeadingFound = false;
+    for i = 1:length(lines)
+        line = lines{i};
+        % Check if line is a markdown heading (starts with #)
+        if ~isempty(line) && line(1) == '#'
+            if ~firstHeadingFound
+                % Keep the first heading as-is (the main title)
+                firstHeadingFound = true;
+            else
+                % Downgrade all subsequent headings by one level (add one more #)
+                lines{i} = ['#' line];
+            end
+        end
+    end
     
     % Write the cleaned content back to file
     fileContent = strjoin(lines, newline);

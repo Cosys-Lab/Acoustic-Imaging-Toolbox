@@ -7,7 +7,7 @@ A MATLAB toolbox from Cosys\-Lab for high\-performance acoustic imaging, featuri
 
 <a id="H_4dd9"></a>
 
-# Installation
+## Installation
 
 Find the latest release [here](https://cosysgit.uantwerpen.be/wjansen/cosys-lab-acoustic-imaging-toolbox/-/releases) and use the download link for the toolbox. You can also clone or download this repository and use it from source.
 
@@ -25,7 +25,7 @@ clait.compileClaitMexFunctions(enableGPUCompile)
 
 <a id="TMP_77fd"></a>
 
-# Dependencies
+## Dependencies
 
 This toolbox requires the following other toolboxes installed as well:
 
@@ -33,7 +33,7 @@ This toolbox requires the following other toolboxes installed as well:
 -  Image Processing Toolbox 
 <a id="TMP_2c8c"></a>
 
-# Examples
+## Examples
 
 A few examples are available, to quickly open them after installing the toolbox, run the following commands or find them manually in the `examples` folder.
 
@@ -43,7 +43,7 @@ clait.openClaitEnergyscapeExample
 ```
 <a id="H_33ac"></a>
 
-# General Usage
+## General Usage
 
 The toolbox has 6 major functions: 2 main ones and 3 helper ones. The following table lists all the available functions:
 
@@ -60,13 +60,13 @@ All functions in this Toolbox exist within the `clait` namespace. For calling th
 
 <a id="H_4b25"></a>
 
-# Compiling MEX Files
+## Compiling MEX Files
 
 You will have to compile the MEX files after installing the Toolbox or when using this repository from source. 
 
 <a id="H_5795"></a>
-#
-# Dependencies
+##
+## Dependencies
 -  Parallel Computing Toolbox 
 -  Compatible C MEX compiler 
 
@@ -80,7 +80,7 @@ mex -setup c++
 ```
 <a id="H_464d"></a>
 
-## Automatically Compiling MEX files when Toolbox is installed
+### Automatically Compiling MEX files when Toolbox is installed
 
 Once you have installed the dependencies you can run the following command to automatically compile the source MEX files.
 
@@ -90,7 +90,7 @@ clait.compileClaitMexFunctions(enableGPUCompile)
 ```
 <a id="H_0889"></a>
 
-## Manually Compiling MEX files
+### Manually Compiling MEX files
 
 Go in your Matlab to the folder containing  `calculateDMASCFMex.cpp` (found in the toolbox\\+clait folder). 
 
