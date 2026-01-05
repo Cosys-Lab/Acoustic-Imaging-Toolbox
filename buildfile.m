@@ -61,10 +61,8 @@ function generatedocsTask(~)
         mkdir(htmldir)
     end
     mdfile = export("toolbox/doc/GettingStarted.mlx", "toolbox/doc/html/GettingStarted.html", Format="html");
-    mdfile = export("toolbox/doc/EnergyscapeInfo.mlx", "toolbox/doc/html/EnergyscapeInfo.html", Format="html");
     mdfile = export("toolbox/doc/AcousticImageInfo.mlx", "toolbox/doc/html/AcousticImageInfo.html", Format="html");
     mdfile = export("toolbox/examples/AcousticImageExample.mlx", "toolbox/doc/html/AcousticImageExample.html", Format="html");
-    mdfile = export("toolbox/examples/EnergyscapeExample.mlx", "toolbox/doc/html/EnergyscapeExample.html", Format="html");
 end
 
 function cleanupReadme(filename)
@@ -92,7 +90,7 @@ function cleanupReadme(filename)
     
     % Remove lines containing problematic links
     % 1. Lines with MATLAB-specific anchor links like [text](#H_xxxx)
-    % 2. Lines with links to .mlx files
+    % 2. For lines with links to .mlx/.m files, remove only sentences with those links
     linesToKeep = true(size(lines));
     
     for i = 1:length(lines)
@@ -100,14 +98,37 @@ function cleanupReadme(filename)
         % Check for MATLAB anchor links pattern: [text](#H_xxxx) or [text](#TMP_xxxx)
         if ~isempty(regexp(line, '\[.*?\]\(#[HT]_[a-zA-Z0-9]+\)', 'once'))
             linesToKeep(i) = false;
+            continue;
         end
-        % Check for links to .mlx files
-        if contains(line, '.mlx)')
-            linesToKeep(i) = false;
-        end
-        % Check for links to .m files
-        if contains(line, '.m)')
-            linesToKeep(i) = false;
+        
+        % Check for links to .mlx or .m files
+        if contains(line, '.mlx)') || contains(line, '.m)')
+            % Split line into sentences (split by period followed by space or end of string)
+            sentences = regexp(line, '[^.]*\.(?:\s|$)', 'match');
+            
+            % If no sentences found (no periods), check the whole line
+            if isempty(sentences)
+                sentences = {line};
+            end
+            
+            cleanSentences = {};
+            for j = 1:length(sentences)
+                sentence = sentences{j};
+                % Keep sentence only if it doesn't contain .mlx or .m links
+                if ~contains(sentence, '.mlx)') && ~contains(sentence, '.m)')
+                    cleanSentences{end+1} = sentence;
+                end
+            end
+            
+            % Reconstruct the line if there are any clean sentences
+            if ~isempty(cleanSentences)
+                lines{i} = strjoin(cleanSentences, '');
+                % Trim any extra whitespace
+                lines{i} = strtrim(lines{i});
+            else
+                % If all sentences had problematic links, mark line for removal
+                linesToKeep(i) = false;
+            end
         end
     end
     

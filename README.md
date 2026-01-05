@@ -9,7 +9,7 @@ A MATLAB toolbox from Cosys\-Lab for high\-performance acoustic imaging, featuri
 
 ## Installation
 
-Find the latest release [here](https://cosysgit.uantwerpen.be/wjansen/cosys-lab-acoustic-imaging-toolbox/-/releases) and use the download link for the toolbox. You can also clone or download this repository and use it from source.
+Find the latest release [on Github](https://github.com/Cosys-Lab/Cosys-AirSim/releases) or the MathWorks File Exchange for the toolbox. You can also clone or download this repository and use it from source.
 
 
 Note that if you want to use any of the accelerated GPU and CPU\-based MEX implementations for beamforming you will first need to compile these MEX files. 
@@ -35,22 +35,21 @@ This toolbox requires the following other toolboxes installed as well:
 
 ## Examples
 
-A few examples are available, to quickly open them after installing the toolbox, run the following commands or find them manually in the `examples` folder.
+One example is available, to quickly open this file after installing the toolbox, run the following command or find it manually in the `examples` folder.
 
 ```matlab
 clait.openClaitAcousticImageExample
-clait.openClaitEnergyscapeExample
 ```
 <a id="H_33ac"></a>
 
 ## General Usage
 
-The toolbox has 6 major functions: 2 main ones and 3 helper ones. The following table lists all the available functions:
+The toolbox has 4 major functions: 1 main one and 3 helper ones. The following table lists all the available functions:
 
+1.   `calculateAcousticImage:` Primary High\-Level Function. Executes the full imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post\-processing. mlx).
 2. `calculateDMASCF:` Core beamforming function. Computes the image using D(M)AS(\-CF).
 3. `calculateDelayMatrix:` Calculates the necessary sample delays array steering to specified directions.
 4. `generalizedMatchedFilter:` Applies various matched filter and generalized correlation transforms (Normal, PHAT, ROTH, SCOT).
-6. `plot2DEnergyscape:H`elper function to plot the generated Energyscape.
 <a id="H_4320"></a>
 
 All functions in this Toolbox exist within the `clait` namespace. For calling these functions you therefore have to add the namespace name to the beginning.

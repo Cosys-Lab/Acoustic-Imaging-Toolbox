@@ -12,12 +12,6 @@
          <type>other</type>
          <source>AcousticImageExample</source>
          <file>doc/html/AcousticImageExample.html</file>
-      </demoitem>
-      <demoitem>
-         <label>EnergyscapeExample</label>
-         <type>other</type>
-         <source>EnergyscapeExample</source>
-         <file>doc/html/EnergyscapeExample.html</file>
-      </demoitem>
+       </demoitem>
    </demosection>
 </demos>
