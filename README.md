@@ -113,5 +113,10 @@ You can use the `-v` argument to see the compilation process. If you run into co
 
 ```matlab
 mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH -v calculateDMASCFGPU.cu
-
 ```
+<a id="TMP_7eaa"></a>
+
+## License
+
+This project is released under the CC\-BY\-NC\-SA\-4.0 license.
+
