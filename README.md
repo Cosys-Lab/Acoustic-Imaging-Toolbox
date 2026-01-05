@@ -9,7 +9,7 @@ A MATLAB toolbox from Cosys\-Lab for high\-performance acoustic imaging, featuri
 
 ## Installation
 
-Find the latest release [on Github](https://github.com/Cosys-Lab/Acoustic-Imaging-Toolbox/releases) or the MathWorks File Exchange for the toolbox. You can also clone or download this repository and use it from source.
+Find the latest release [on Github](https://github.com/Cosys-Lab/Acoustic-Imaging-Toolbox/releases) or [the MathWorks File Exchange](https://nl.mathworks.com/matlabcentral/fileexchange/182979-cosys-lab-acoustic-imaging-toolbox) for the toolbox. You can also clone or download this repository and use it from source.
 
 
 Note that if you want to use any of the accelerated GPU and CPU\-based MEX implementations for beamforming you will first need to compile these MEX files. 
