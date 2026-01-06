@@ -63,6 +63,8 @@ function generatedocsTask(~)
     mdfile = export("toolbox/doc/GettingStarted.mlx", "toolbox/doc/html/GettingStarted.html", Format="html");
     mdfile = export("toolbox/doc/AcousticImageInfo.mlx", "toolbox/doc/html/AcousticImageInfo.html", Format="html");
     mdfile = export("toolbox/examples/AcousticImageExample.mlx", "toolbox/doc/html/AcousticImageExample.html", Format="html");
+    mdfile = export("toolbox/doc/PlottingPolarEnergyscapeInfo.mlx", "toolbox/doc/html/PlottingPolarEnergyscapeInfo.html", Format="html");
+    mdfile = export("toolbox/examples/PlottingPolarEnergyscapeExample.mlx", "toolbox/doc/html/PlottingPolarEnergyscapeExample.html", Format="html");
 end
 
 function cleanupReadme(filename)

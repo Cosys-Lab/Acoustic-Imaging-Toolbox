@@ -13,5 +13,11 @@
          <source>AcousticImageExample</source>
          <file>doc/html/AcousticImageExample.html</file>
        </demoitem>
+       <demoitem>
+         <label>PlottingPolarEnergyscapeExample</label>
+         <type>other</type>
+         <source>PlottingPolarEnergyscapeExample</source>
+         <file>doc/html/PlottingPolarEnergyscapeExample.html</file>
+       </demoitem>
    </demosection>
 </demos>

@@ -31,25 +31,28 @@ This toolbox requires the following other toolboxes installed as well:
 
 -  Signal Processing Toolbox 
 -  Image Processing Toolbox 
+-  Parallel Computing Toolbox 
 <a id="TMP_2c8c"></a>
 
 ## Examples
 
-One example is available, to quickly open this file after installing the toolbox, run the following command or find it manually in the `examples` folder.
+Two example are available, to quickly open these files after installing the toolbox, run the following commands or find them manually in the `examples` folder.
 
 ```matlab
 clait.openClaitAcousticImageExample
+clait.openClaitPlottingPolarEnergyscapeExample
 ```
 <a id="H_33ac"></a>
 
 ## General Usage
 
-The toolbox has 4 major functions: 1 main one and 3 helper ones. The following table lists all the available functions:
+The toolbox has 5 functions: 2 main ones and 3 helper ones. The following table lists all the available functions:
 
-1.   `calculateAcousticImage:` Primary High\-Level Function. Executes the full imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post\-processing. mlx).
+1.   `calculateAcousticImage:` Primary high\-level function. Executes the full imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post\-processing. mlx).
 2. `calculateDMASCF:` Core beamforming function. Computes the image using D(M)AS(\-CF).
 3. `calculateDelayMatrix:` Calculates the necessary sample delays array steering to specified directions.
 4. `generalizedMatchedFilter:` Applies various matched filter and generalized correlation transforms (Normal, PHAT, ROTH, SCOT).
+5. `plotPolarEnergyscape:`  Primary high\-level function. It plots advanced 2D polar coordinate visualizations of acoustic imaging data from CLAIT acoustic image generation function algorithms. mlx).
 <a id="H_4320"></a>
 
 All functions in this Toolbox exist within the `clait` namespace. For calling these functions you therefore have to add the namespace name to the beginning.
@@ -63,11 +66,6 @@ All functions in this Toolbox exist within the `clait` namespace. For calling th
 
 You will have to compile the MEX files after installing the Toolbox or when using this repository from source. 
 
-<a id="H_5795"></a>
-##
-## Dependencies
--  Parallel Computing Toolbox 
--  Compatible C MEX compiler 
 
 For compatibility C MEX compiler dependent on your operating system, see this resource: [https://www.mathworks.com/support/requirements/supported\-compilers.html](https://www.mathworks.com/support/requirements/supported-compilers.html)
 
