@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Released]
 
+## [1.2.1] - 2026-01-07
+- Switched compatibility to all Matlab versions. 
+- Added missing project files to git.
+
 ## [1.2.0] - 2026-01-06
 - Added plotPolarEnergyscape() function.
 - Documentation and example improvements.
