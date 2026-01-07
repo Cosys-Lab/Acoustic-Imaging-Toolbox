@@ -23,7 +23,7 @@ clait.compileClaitMexFunctions(enableGPUCompile)
 ```
 
 
-<a id="TMP_77fd"></a>
+<a id="TMP_69cb"></a>
 
 ## Dependencies
 
@@ -46,13 +46,16 @@ clait.openClaitPlottingPolarEnergyscapeExample
 
 ## General Usage
 
-The toolbox has 5 functions: 2 main ones and 3 helper ones. The following table lists all the available functions:
+The toolbox has 8 functions: 2 main ones and 6 helper ones. The following lists all the available functions:
 
 1.   `calculateAcousticImage:` Primary high\-level function. Executes the full imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post\-processing. mlx).
-2. `calculateDMASCF:` Core beamforming function. Computes the image using D(M)AS(\-CF).
-3. `calculateDelayMatrix:` Calculates the necessary sample delays array steering to specified directions.
-4. `generalizedMatchedFilter:` Applies various matched filter and generalized correlation transforms (Normal, PHAT, ROTH, SCOT).
-5. `plotPolarEnergyscape:`  Primary high\-level function. It plots advanced 2D polar coordinate visualizations of acoustic imaging data from CLAIT acoustic image generation function algorithms. mlx).
+2. `plotPolarEnergyscape:`  Primary high\-level function. It plots advanced 2D polar coordinate visualizations of acoustic imaging data from CLAIT acoustic image generation function algorithms. mlx).
+3. `calculateDMASCF:` Core beamforming function. Computes the image using D(M)AS(\-CF).
+4. `calculateDelayMatrix:` Calculates the necessary sample delays array steering to specified directions.
+5. `generalizedMatchedFilter:` Applies various matched filter and generalized correlation transforms (Normal, PHAT, ROTH, SCOT).
+6. `fm_sweep:` Helper function that enerates a hyperbolic FM sweep signal with Hanning windowing.
+7. `normLog:` Helper function that normalizes a matrix and converts it to a logarithmic (dB) scale.
+8. `simulateMicrophoneData:` Helper function that generates simulated microphone data from point targets in a scene.
 <a id="H_4320"></a>
 
 All functions in this Toolbox exist within the `clait` namespace. For calling these functions you therefore have to add the namespace name to the beginning.
