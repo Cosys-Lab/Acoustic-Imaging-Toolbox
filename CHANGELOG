@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Released]
 
+## [1.2.2] - 2026-01-07
+- Fixed File exchange releases.
+
 ## [1.2.1] - 2026-01-07
 - Switched compatibility to all Matlab versions. 
 - Added missing project files to git.
