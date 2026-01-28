@@ -32,6 +32,23 @@ This toolbox requires the following other toolboxes installed as well:
 -  Signal Processing Toolbox 
 -  Image Processing Toolbox 
 -  Parallel Computing Toolbox 
+<a id="TMP_1444"></a>
+
+## Publication
+
+For more information on the implemented delay\-multiply\-and\-sum (DMAS) beamforming technique, see our open\-access publication [here](https://doi.org/10.1109/ACCESS.2026.3657901). 
+
+
+If you do use this toolbox to generate acoustic images, please concider citing our work as:
+
+```
+@ARTICLE{11363474,
+author={Jansen, Wouter and Daems, Walter and Steckel, Jan},
+journal={IEEE Access}, 
+title={Delay-Multiply-And-Sum Beamforming for Real-Time In-Air Acoustic Imaging}, 
+    year={2026},
+    doi={10.1109/ACCESS.2026.3657901}}
+```
 <a id="TMP_2c8c"></a>
 
 ## Examples
