@@ -1,3 +1,1 @@
-foundPath = clait.findClaitToolboxFolder();
-cd(char(foundPath.toAbsolutePath.toString));
-open("Examples\AcousticImageExample.mlx")
+open(fullfile(fileparts(fileparts(mfilename("fullpath"))), "examples", "AcousticImageExample.m"))

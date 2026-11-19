@@ -28,14 +28,20 @@ function acousticImage = calculateDMASCFNative(dataSignals, delayMatrix, orderPr
 %   acousticImage       : The computed beamformed sonar image vector.
 %                      Dimensions: (samples * directions).
 
-numSamplesSensor = size(dataSignals, 1);
+    numSamplesSensor = size(dataSignals, 1);
     numDirections = size(delayMatrix, 1);
     acousticImage = zeros(numSamplesSensor, numDirections);
+
+    % Signed roots of the signals, computed once instead of once per direction.
+    rootSignals = [];
+    if orderProcessing >= 2
+        rootSignals = sign(dataSignals) .* abs(dataSignals).^(1/orderProcessing);
+    end
 
     for cntDirection = 1 : numDirections
         delayVector = delayMatrix(cntDirection, :);
         gainSet = ones(size( delayVector));
-        beamformerOutput = clait.calculateDMASCFNativeSingleDirection(dataSignals, delayVector, gainSet, orderProcessing, cfType);
+        beamformerOutput = clait.calculateDMASCFNativeSingleDirection(dataSignals, delayVector, gainSet, orderProcessing, cfType, rootSignals);
         dataPadded = zeros(numSamplesSensor, 1);
         dataPadded(1 : length( beamformerOutput))= beamformerOutput;
         acousticImage(:, cntDirection) = dataPadded;

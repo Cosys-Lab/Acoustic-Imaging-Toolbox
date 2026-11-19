@@ -1,48 +1,100 @@
-// DMAS-CF CPU implementation. 
+// DMAS-CF CPU implementation.
 //
 // Arguments: Signals [(samples * channels), type double]
-//            Delay matrix [(directions * channels), type double]           
+//            Delay matrix [(directions * channels), type double]
 //            DMAS order [type int32, 0/1=DAS | 2=DMAS | 3=DMAS3 | 4=DMAS4 | 5=DMAS5]
 //            Toggle CF [type int32, 0=disabled | 1=enabled]
 //
-// Compile with 'mex calculateDMASCFMexCPU.cpp'
-// Requires a C compiler. See README.md for more details.
-// Make sure to correctly set c++ compiler with 'mex -setup c++' and clicking on the link of the version you want if asked.
-// 
+// Compile with clait.compileClaitMexFunctions() or 'mex calculateDMASCFMex.cpp' in this folder.
+// Works with any compiler supported by MEX (e.g. the free MinGW-w64 add-on on Windows).
+// Select one with 'mex -setup c++' and click the link of the version you want if asked.
+// The DMAS formulas are shared with the CUDA kernel in calculateDMASCFCore.h.
+//
 // By Cosys-Lab, University of Antwerp
 // Contributors: Wouter Jansen, Jan Steckel, Edwin Walsh
-#include "math.h"
 #include "mex.h"
+#include "calculateDMASCFCore.h"
 #include <cmath>
-#include <numeric>
-#include <algorithm>
+#include <vector>
 
-#define DATASIG_2D( a, b ) data_SIG[ ( a ) + ( b ) * n_sps ]
-#define DATABF_2D( c, d ) data_BF[ ( c ) + ( d ) * n_sps_BF ]
-#define DELAYS_2D( e, f ) delay_Int_mat[ ( e ) + ( f ) * n_azel ]
+// Signed n-th root sgn(x)*|x|^(1/n) (paper Eq. 4).
+static double signedRoot(double x, int order)
+{
+    double a = std::fabs(x);
+    double root;
+    switch (order) {
+        case 2:  root = std::sqrt(a); break;
+        case 3:  root = std::cbrt(a); break;
+        case 4:  root = std::sqrt(std::sqrt(a)); break;
+        default: root = std::pow(a, 1.0 / order); break;
+    }
+    return std::copysign(root, x);
+}
+
+// Beamform all directions with a loop specialized for one DMAS order and CF setting.
+template <int ORDER, bool CF>
+static void beamform(const double *dataSignals, const double *rootSignals, const double *delayMatrix,
+                     int nSamples, int nChannels, int nDirections, int sampleSize, int outputSize,
+                     double *dataBeamform)
+{
+    std::vector<const double *> xColumns(nChannels);
+    std::vector<const double *> sColumns(nChannels);
+
+    for (int direction = 0; direction < nDirections; direction++) {
+        // Look up the delays of this direction once, as pointers to the delayed channel starts.
+        for (int channel = 0; channel < nChannels; channel++) {
+            int offset = channel * nSamples + (int) delayMatrix[direction + channel * nDirections];
+            xColumns[channel] = dataSignals + offset;
+            sColumns[channel] = rootSignals + offset;
+        }
+
+        double *output = dataBeamform + (size_t) direction * outputSize;
+        for (int sample = 0; sample < sampleSize; sample++) {
+            DmasSums<double> sums;
+            dmasResetSums(sums);
+            for (int channel = 0; channel < nChannels; channel++) {
+                double x = xColumns[channel][sample];
+                double s = (ORDER >= 2) ? sColumns[channel][sample] : x;
+                dmasAccumulate<ORDER, CF>(sums, x, s);
+            }
+            output[sample] = dmasOutput<ORDER, CF>(sums, nChannels);
+        }
+    }
+}
+
+template <bool CF>
+static void beamformOrder(int order, const double *dataSignals, const double *rootSignals, const double *delayMatrix,
+                          int nSamples, int nChannels, int nDirections, int sampleSize, int outputSize,
+                          double *dataBeamform)
+{
+    switch (order) {
+        case 2:  beamform<2, CF>(dataSignals, rootSignals, delayMatrix, nSamples, nChannels, nDirections, sampleSize, outputSize, dataBeamform); break;
+        case 3:  beamform<3, CF>(dataSignals, rootSignals, delayMatrix, nSamples, nChannels, nDirections, sampleSize, outputSize, dataBeamform); break;
+        case 4:  beamform<4, CF>(dataSignals, rootSignals, delayMatrix, nSamples, nChannels, nDirections, sampleSize, outputSize, dataBeamform); break;
+        case 5:  beamform<5, CF>(dataSignals, rootSignals, delayMatrix, nSamples, nChannels, nDirections, sampleSize, outputSize, dataBeamform); break;
+        default: beamform<1, CF>(dataSignals, rootSignals, delayMatrix, nSamples, nChannels, nDirections, sampleSize, outputSize, dataBeamform); break;
+    }
+}
 
 void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 {
-    // Declarations
-    double *data_SIG, *data_BF;    
-    double * delay_Int_mat;       
-    int n_sps, n_chans, n_azel, n_sps_BF;
-    int azel_cnt, chan_cnt, spl_cnt;    
-    int max_delay = 0;
-    int cur_delay;
-    int chan_offset = 0;
-    int BF_offset = 0;  
+    if (nrhs != 4) {
+        mexErrMsgIdAndTxt("DMAS_CF_CPU:InvalidInput", "Expected 4 inputs: signals, delay matrix, DMAS order, CF toggle.");
+    }
+    if (!mxIsDouble(prhs[0]) || mxIsComplex(prhs[0]) || !mxIsDouble(prhs[1]) || mxIsComplex(prhs[1])) {
+        mexErrMsgIdAndTxt("DMAS_CF_CPU:InvalidInput", "Signals and delay matrix must be real double matrices.");
+    }
 
     // Get matrix with signal data:
-    data_SIG = mxGetPr( prhs[0] );
-    n_chans = mxGetN( prhs[0] ); 
-    n_sps = mxGetM( prhs[0] );   
-    
-    // Get the matrix with the sample delays
-    delay_Int_mat = mxGetPr( prhs[1] );
-    n_azel = mxGetM( prhs[1] ); 
+    const double *dataSignals = mxGetPr( prhs[0] );
+    int nChannels = (int) mxGetN( prhs[0] );
+    int nSamples = (int) mxGetM( prhs[0] );
 
-    // Get DMAS order 
+    // Get the matrix with the sample delays
+    const double *delayMatrix = mxGetPr( prhs[1] );
+    int nDirections = (int) mxGetM( prhs[1] );
+
+    // Get DMAS order
     if (mxGetClassID(prhs[2]) != mxINT32_CLASS || mxGetNumberOfElements(prhs[2]) != 1) {
         mexErrMsgIdAndTxt("DMAS_CF_CPU:InvalidInput", "DMAS order must be a scalar int32.");
     }
@@ -52,171 +104,39 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     if (mxGetClassID(prhs[3]) != mxINT32_CLASS || mxGetNumberOfElements(prhs[3]) != 1) {
         mexErrMsgIdAndTxt("DMAS_CF_CPU:InvalidInput", "CF toggle must be a scalar int32.");
     }
-    int cfToggle = *((int32_T *)mxGetData(prhs[3]));
-    bool cfToggleBool = (cfToggle == 1);
+    bool cfToggle = (*((int32_T *)mxGetData(prhs[3])) == 1);
 
     // Find the maximum of the delay matrix
-    for( int cnt = 0; cnt < n_chans * n_azel; cnt ++ ){
-        if( delay_Int_mat[ cnt ] > max_delay ){
-            max_delay = (int) delay_Int_mat[ cnt ];
+    int maxDelay = 0;
+    for( size_t cnt = 0; cnt < (size_t) nChannels * nDirections; cnt ++ ){
+        if( delayMatrix[ cnt ] > maxDelay ){
+            maxDelay = (int) delayMatrix[ cnt ];
         }
-    }    
-    n_sps_BF = n_sps + max_delay * 4;
-	int sampleSize = n_sps - 2 * max_delay;
+    }
+    int outputSize = nSamples + maxDelay * 4;
+    int sampleSize = nSamples - 2 * maxDelay;
 
-    // mexPrintf("microphones:%i directions:%i samples:%i output size:%i sample size:%i dmas order:%i cf toggle:%i\n", 
-    //            n_chans, n_azel, n_sps, n_sps_BF, sampleSize, dmasOrder, cfToggle);
+    // Allocate the output (zero-initialized by MATLAB). Only rows 0..sampleSize-1 are filled.
+    plhs[0] = mxCreateDoubleMatrix( outputSize , nDirections, mxREAL );
+    double *dataBeamform = mxGetPr( plhs[0] );
+    if (sampleSize <= 0) {
+        return;
+    }
 
-    // Allocate memory and assign output pointer
-    plhs[0] = mxCreateDoubleMatrix( n_sps_BF , n_azel, mxREAL );
-    
-    //Get a pointer to the data space in our newly allocated memory
-    data_BF = mxGetPr( plhs[0] );  
-
-    // Beamforming
-    for( azel_cnt = 0; azel_cnt < n_azel; azel_cnt++ ){
-        
-        // Zero-initialize the full output
-        for( spl_cnt = 0; spl_cnt < n_sps_BF ; spl_cnt++ ){
-            DATABF_2D( spl_cnt, azel_cnt ) = 0.0;
+    // Signed roots sgn(x)*|x|^(1/n), computed once per sample instead of once per direction.
+    std::vector<double> roots;
+    const double *rootSignals = dataSignals;
+    if (dmasOrder >= 2 && dmasOrder <= 5) {
+        roots.resize((size_t) nSamples * nChannels);
+        for (size_t i = 0; i < roots.size(); i++) {
+            roots[i] = signedRoot(dataSignals[i], dmasOrder);
         }
-        if(dmasOrder == 0 && cfToggle == 0){
-            BF_offset = azel_cnt * n_sps_BF; 
-            for( chan_cnt = 0; chan_cnt < n_chans; chan_cnt++ ){
-                cur_delay = (int) DELAYS_2D( azel_cnt, chan_cnt );
-                chan_offset = chan_cnt * n_sps;
-                
-                // Now, add all the other channels
-                for( spl_cnt = 0; spl_cnt < ( n_sps - 2 * max_delay ) ; spl_cnt++ ){
-                    data_BF[ spl_cnt +  BF_offset ] += data_SIG[ spl_cnt + cur_delay + chan_offset ];
-                }
-            }
-        }
-        else {
-            // New DMAS-CF implementation (or DAS with CF).
-            if(dmasOrder == 0 && cfToggle == 1) mexPrintf("Old DAS beamformer does not support CF, using new beamformer!\n");
-            
-            // --- Per-Sample DMAS/CF Calculation Loop ---
-            for( spl_cnt = 0; spl_cnt < sampleSize ; spl_cnt++ ){
-                
-                // Temporary sums for DMAS and CF calculation for this (azel, spl) point
-                double S1_raw_sum = 0.0;     // Sum of x_m
-                double S_raw_sq_sum = 0.0;   // Sum of x_m^2
-                double S_abs_sum = 0.0;
-                double S2_sum_signed_root = 0.0;
-                double S3_sum_signed_root = 0.0;
-                double S4_sum_signed_root = 0.0;
-                double S5_sum_signed_root = 0.0;
+        rootSignals = roots.data();
+    }
 
-                double S3_cubed_sum = 0.0;
-                double S3_squared_sum = 0.0;
-                double S4_quad_sum = 0.0;
-                double S4_cubed_sum = 0.0;
-                double S4_squared_sum = 0.0;
-                double S5_quint_sum = 0.0;
-                double S5_quad_sum = 0.0;
-                double S5_cubed_sum = 0.0;
-                double S5_squared_sum = 0.0;
-
-                // Gather samples for all channels at the current (spl_cnt, azel_cnt)
-                for( chan_cnt = 0; chan_cnt < n_chans; chan_cnt++ ){
-                    cur_delay = (int) DELAYS_2D( azel_cnt, chan_cnt );
-                    
-                    // Get the delayed sample x
-                    double x = DATASIG_2D( spl_cnt + cur_delay, chan_cnt );
-                    
-                    S1_raw_sum += x;
-                    S_raw_sq_sum += x * x;
-
-                    if (dmasOrder >= 2) {
-                        double s2 = copysign(1.0, x) * pow(fabs(x), 1.0 / 2.0);
-                        S2_sum_signed_root += s2;
-                        S_abs_sum += fabs(x);
-                    }
-
-                    if (dmasOrder >= 3) {
-                        double s3 = copysign(1.0, x) * pow(fabs(x), 1.0 / 3.0);
-                        S3_sum_signed_root += s3;
-                        S3_cubed_sum += pow(s3, 3.0);
-                        S3_squared_sum += pow(s3, 2.0);
-                    }
-                    
-                    if (dmasOrder >= 4) {
-                        double s4 = copysign(1.0, x) * pow(fabs(x), 1.0 / 4.0);
-                        S4_sum_signed_root += s4;
-                        S4_quad_sum += pow(s4, 4.0);
-                        S4_cubed_sum += pow(s4, 3.0);
-                        S4_squared_sum += pow(s4, 2.0);
-                    }
-
-                    if (dmasOrder >= 5) {
-                        double s5 = copysign(1.0, x) * pow(fabs(x), 1.0 / 5.0);
-                        S5_sum_signed_root += s5;
-                        S5_quint_sum += pow(s5, 5.0);
-                        S5_quad_sum += pow(s5, 4.0);
-                        S5_cubed_sum += pow(s5, 3.0);
-                        S5_squared_sum += pow(s5, 2.0);
-                    }
-                } // end chan_cnt loop
-                
-                // --- DMAS Output Calculation ---
-                double dmasOut = 0.0;
-                
-                switch (dmasOrder) {
-                    case 0: // Fallback for order 0 when CF is ON
-                    case 1: 
-                        dmasOut = S1_raw_sum; // DAS (Delay-and-Sum)
-                        break;
-                        
-                    case 2: // DMAS2
-                        dmasOut = 0.5 * (pow(S2_sum_signed_root, 2.0) - S_abs_sum);
-                        break;
-                    
-                    case 3: // DMAS3
-                        dmasOut = 1.0 / 6.0 * (pow(S3_sum_signed_root, 3.0) + 2.0 * S3_cubed_sum - 3.0 * S3_sum_signed_root * S3_squared_sum);
-                        break;
-                        
-                    case 4: // DMAS4
-                        dmasOut = 1.0 / 24.0 * (
-                            pow(S4_sum_signed_root, 4.0)
-                            - 6.0 * S4_quad_sum
-                            + 3.0 * pow(S4_squared_sum, 2.0)
-                            - 6.0 * S4_squared_sum * pow(S4_sum_signed_root, 2.0)
-                            + 8.0 * S4_cubed_sum * S4_sum_signed_root
-                        );
-                        break;
-                        
-                    case 5: // DMAS5
-                        dmasOut = 1.0 / 120.0 * (
-                            pow(S5_sum_signed_root, 5.0)
-                            + 24.0 * S5_quint_sum
-                            - 30.0 * S5_sum_signed_root * S5_quad_sum
-                            + 20.0 * S5_cubed_sum * pow(S5_sum_signed_root, 2.0)
-                            - 20.0 * S5_cubed_sum * S5_squared_sum
-                            + 15.0 * pow(S5_squared_sum, 2.0) * S5_sum_signed_root
-                            - 10.0 * S5_squared_sum * pow(S5_sum_signed_root, 3.0)
-                        );
-                        break;
-
-                    default:
-                        // If dmasOrder is something unexpected, default to DAS (Order 1)
-                        dmasOut = S1_raw_sum;
-                        break;
-                }
-
-                // --- Coherence Factor (CF) Weighting ---
-                if (cfToggleBool) {
-                    double numerator = pow(S1_raw_sum, 2.0);
-                    double denominator = (double)n_chans * S_raw_sq_sum;
-                    const double eps = 1e-6; // Epsilon for stability
-                    double cf = numerator / (denominator + eps);
-                    dmasOut *= cf;
-                }
-
-                // The final output is the absolute value of the DMAS result
-                DATABF_2D( spl_cnt, azel_cnt ) = fabs(dmasOut);
-                
-            } // end spl_cnt loop
-        } // end if/else for DMAS/DAS choice
-    } // end azel_cnt loop
+    if (cfToggle) {
+        beamformOrder<true>(dmasOrder, dataSignals, rootSignals, delayMatrix, nSamples, nChannels, nDirections, sampleSize, outputSize, dataBeamform);
+    } else {
+        beamformOrder<false>(dmasOrder, dataSignals, rootSignals, delayMatrix, nSamples, nChannels, nDirections, sampleSize, outputSize, dataBeamform);
+    }
 }

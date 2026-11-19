@@ -40,3 +40,5 @@
 
 **/*.mexw64
 **/*.mexa64
+**/*.mexmaci64
+**/*.mexmaca64

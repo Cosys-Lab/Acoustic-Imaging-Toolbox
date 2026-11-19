@@ -1,28 +1,18 @@
-function success = compileClaitMexFunctions(enableGPU)
+function success = compileClaitMexFunctions(~)
+%COMPILECLAITMEXFUNCTIONS Compile the CPU MEX file of the toolbox.
+%
+%   success = COMPILECLAITMEXFUNCTIONS() compiles calculateDMASCFMex.cpp.
+%   Any compiler supported by MEX works, for example the free MinGW-w64
+%   add-on on Windows. Select it with 'mex -setup c++'.
+%
+%   GPU acceleration ('mexcuda') needs no compiling: it uses the precompiled
+%   CUDA kernel calculateDMASCFKernel.ptx. The old enableGPU input is still
+%   accepted for backward compatibility, but ignored.
+%
+%   By Cosys-Lab, University of Antwerp
+%   Contributors: Wouter Jansen, Jan Steckel
 
-    success = false;
-
-    warning("if you run into errors make sure to run 'mex -setup c++' first to select a compiler!")
-    foundPath = clait.findClaitToolboxFolder();
-    cd(char(foundPath.toAbsolutePath.toString)); 
-
-    mex "+clait\calculateDMASCFMex.cpp" -outdir "+clait"
-    
-    if enableGPU
-        try
-            if ismac
-                mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH "+clait\calculateDMASCFGPU.cu" -output "+clait\calculateDMASCFGPU.mexmaci64" 
-            elseif isunix
-                mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH "+clait\calculateDMASCFGPU.cu" -output "+clait\calculateDMASCFGPU.mexa64" 
-            elseif ispc
-                mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH "+clait\calculateDMASCFGPU.cu" -output "+clait\calculateDMASCFGPU.mexmw64" 
-            else
-                disp('Platform not supported')
-            end        
-        catch exception
-            rethrow(exception)
-        end
-    end
-
+    folder = fileparts(mfilename("fullpath"));
+    mex(fullfile(folder, "calculateDMASCFMex.cpp"), "-outdir", folder);
     success = true;
 end

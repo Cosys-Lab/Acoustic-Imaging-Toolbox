@@ -12,20 +12,20 @@ function plan = buildfile
     % Output folder for MEX functions
     mexOutputFolder = fullfile("toolbox", "+clait");
 
-     % Compile Cpp source code within cpp/*Mex into MEX functions
-    plan("mex") = MexTask.forEachFile(["toolbox\+clait\calculateDMASCFMex.cpp"], mexOutputFolder);
+    % Compile the CPU MEX function
+    plan("mex") = MexTask.forEachFile(fullfile(mexOutputFolder, "calculateDMASCFMex.cpp"), mexOutputFolder);
     plan("mex").Description = "Build MEX functions";
-   
+
     % Define the "check" task
     sourceFolder = files(plan, "toolbox");
     plan("check") = matlab.buildtool.tasks.CodeIssuesTask(sourceFolder,...
         IncludeSubfolders = true);
-    
-    plan.DefaultTasks = ["clean" "check" "mex" "gpu" "generatedocs" "release"];
+
+    plan.DefaultTasks = ["clean" "check" "mex" "ptx" "generatedocs" "release"];
 
     % Make the "release" task dependent on the others
     plan("release").Dependencies = ["check" "generatedocs"];
-    plan("release").Outputs = "release\clait.mltbx";
+    plan("release").Outputs = fullfile("release", "clait.mltbx");
 end
 
 function releaseTask(~)
@@ -35,7 +35,8 @@ function releaseTask(~)
     opts = matlab.addons.toolbox.ToolboxOptions("cosys-lab-acoustic-imaging-toolbox.prj");
     
     % By default, the packaging GUI restricts the name of the getting started guide, so we fix that here.
-    opts.ToolboxGettingStartedGuide = fullfile("toolbox", "doc", "gettingStarted.mlx");
+    % Toolbox packaging needs an .mlx guide; generatedocs creates it from GettingStarted.m.
+    opts.ToolboxGettingStartedGuide = fullfile("toolbox", "doc", "GettingStarted.mlx");
     
     % GitHub releases don't allow spaces, so replace spaces with underscores
     opts.OutputFile = fullfile(releaseFolderName, "clait.mltbx");
@@ -47,24 +48,29 @@ function releaseTask(~)
     matlab.addons.toolbox.packageToolbox(opts);
 end
 
-function generatedocsTask(~)
+function generatedocsTask(context)
+    % Generate the .mlx getting started guide needed for toolbox packaging.
+    % GettingStarted.m is the only file to edit, the .mlx is overwritten here.
+    docFolder = fullfile(context.Plan.RootFolder, "toolbox", "doc");
+    convertLiveScriptToMlx(fullfile(docFolder, "GettingStarted.m"), fullfile(docFolder, "GettingStarted.mlx"));
+
     % Generate markdown readme
-    
-    mdfile = export("toolbox/doc/GettingStarted.mlx", "README.md", Format="markdown");
-    
+
+    mdfile = export("toolbox/doc/GettingStarted.m", "README.md", Format="markdown");
+
     % Clean up the README.md file
     cleanupReadme("README.md");
-    
+
     % Generate HTML pages
-    htmldir = "toolbox\doc\html";
+    htmldir = fullfile("toolbox", "doc", "html");
     if ~exist(htmldir, 'dir')
         mkdir(htmldir)
     end
-    mdfile = export("toolbox/doc/GettingStarted.mlx", "toolbox/doc/html/GettingStarted.html", Format="html");
-    mdfile = export("toolbox/doc/AcousticImageInfo.mlx", "toolbox/doc/html/AcousticImageInfo.html", Format="html");
-    mdfile = export("toolbox/examples/AcousticImageExample.mlx", "toolbox/doc/html/AcousticImageExample.html", Format="html");
-    mdfile = export("toolbox/doc/PlottingPolarEnergyscapeInfo.mlx", "toolbox/doc/html/PlottingPolarEnergyscapeInfo.html", Format="html");
-    mdfile = export("toolbox/examples/PlottingPolarEnergyscapeExample.mlx", "toolbox/doc/html/PlottingPolarEnergyscapeExample.html", Format="html");
+    mdfile = export("toolbox/doc/GettingStarted.m", "toolbox/doc/html/GettingStarted.html", Format="html");
+    mdfile = export("toolbox/doc/AcousticImageInfo.m", "toolbox/doc/html/AcousticImageInfo.html", Format="html");
+    mdfile = export("toolbox/examples/AcousticImageExample.m", "toolbox/doc/html/AcousticImageExample.html", Format="html");
+    mdfile = export("toolbox/doc/PlottingPolarEnergyscapeInfo.m", "toolbox/doc/html/PlottingPolarEnergyscapeInfo.html", Format="html");
+    mdfile = export("toolbox/examples/PlottingPolarEnergyscapeExample.m", "toolbox/doc/html/PlottingPolarEnergyscapeExample.html", Format="html");
 end
 
 function cleanupReadme(filename)
@@ -160,19 +166,62 @@ function cleanupReadme(filename)
     fclose(fid);
 end
 
-function gpuTask(~)
-    try
-        if ismac
-            mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH "toolbox\+clait\calculateDMASCFGPU.cu" -output "toolbox\+clait\calculateDMASCFGPU.mexmaci64" 
-        elseif isunix
-            mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH "toolbox\+clait\calculateDMASCFGPU.cu" -output "toolbox\+clait\calculateDMASCFGPU.mexa64" 
-        elseif ispc
-            mexcuda NVCCFLAGS="--allow-unsupported-compiler" -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH "toolbox\+clait\calculateDMASCFGPU.cu" -output "toolbox\+clait\calculateDMASCFGPU.mexmw64" 
-        else
-            disp('Platform not supported')
-        end        
-    catch exception
-        rethrow(exception)
+function convertLiveScriptToMlx(source, destination)
+    % Save a plain-text live script (.m) as a binary live script (.mlx).
+    % Work on a temporary copy so a copy of the source open in the Editor is never touched.
+    tempFolder = tempname;
+    mkdir(tempFolder);
+    removeTemp = onCleanup(@() rmdir(tempFolder, "s"));
+    [~, name, ext] = fileparts(source);
+    tempSource = fullfile(tempFolder, name + ext);
+    copyfile(source, tempSource);
+
+    document = matlab.desktop.editor.openDocument(char(tempSource), "Visible", 0);
+    closeDocument = onCleanup(@() document.closeNoPrompt);
+    document.saveAs(char(destination));
+end
+
+function ptxTask(~)
+    % Regenerate the precompiled CUDA kernel (PTX) that ships with the toolbox.
+    % Only needed after changing calculateDMASCFKernel.cu. Needs the CUDA toolkit
+    % (nvcc on the PATH or in MW_NVCC_PATH) and on Windows Visual Studio.
+    % An older CUDA toolkit (e.g. 11.8) gives a PTX that also loads on older drivers.
+    folder = fullfile("toolbox", "+clait");
+    nvcc = "nvcc";
+    if getenv("MW_NVCC_PATH") ~= ""
+        nvcc = fullfile(getenv("MW_NVCC_PATH"), "nvcc");
     end
 
+    % The host compiler only preprocesses here, so the version-mismatch workarounds are harmless.
+    args = "-ptx -arch=compute_50 -allow-unsupported-compiler -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH";
+    if ispc
+        args = args + " -ccbin """ + findVisualStudioCompiler() + """";
+    end
+
+    command = sprintf('"%s" %s "%s" -o "%s"', nvcc, args, ...
+        fullfile(folder, "calculateDMASCFKernel.cu"), fullfile(folder, "calculateDMASCFKernel.ptx"));
+    [status, output] = system(command);
+    assert(status == 0, "nvcc failed:\n%s", output);
+end
+
+function clFolder = findVisualStudioCompiler()
+    % nvcc needs cl.exe, which is usually not on the PATH inside MATLAB.
+    vsRoots = string.empty;
+    compiler = mex.getCompilerConfigurations("C++", "Selected");
+    if ~isempty(compiler) && contains(compiler.Name, "Visual")
+        vsRoots = string(compiler.Location);
+    end
+    vswhere = fullfile(getenv("ProgramFiles(x86)"), "Microsoft Visual Studio", "Installer", "vswhere.exe");
+    if isfile(vswhere)
+        [~, found] = system(sprintf('"%s" -latest -products * -property installationPath', vswhere));
+        vsRoots = [vsRoots, strtrim(string(splitlines(strtrim(found))))'];
+    end
+    for root = vsRoots
+        cl = dir(fullfile(root, "VC", "Tools", "MSVC", "*", "bin", "Hostx64", "x64", "cl.exe"));
+        if ~isempty(cl)
+            clFolder = string(cl(end).folder);
+            return
+        end
+    end
+    error("Could not find Visual Studio (cl.exe), which nvcc needs on Windows.");
 end
