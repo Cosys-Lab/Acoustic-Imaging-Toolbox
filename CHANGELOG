@@ -13,8 +13,6 @@ All notable changes to this project will be documented in this file.
 - Improved DMAS speed in GPU, CPU MEX and native versions (up to 190x for CPU DMAS5).
 - Fixed errors and broken links in documentation and examples.
 - Fixed GPU kernel out-of-bounds reads/writes.
-- Fixed range axis of plots and examples (about 2.5% too short).
-- Fixed simulateMicrophoneData echoes half an emission too early (about 0.17 m).
 
 ## [1.4.0] - 2026-01-28
 - Added publication link.
