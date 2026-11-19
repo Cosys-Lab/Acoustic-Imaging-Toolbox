@@ -22,7 +22,7 @@ clait.compileClaitMexFunctions()
 ```
 
 
-<a id="TMP_9c1b"></a>
+<a id="TMP_67db"></a>
 
 ## Dependencies
 
@@ -31,7 +31,7 @@ This toolbox requires the following other toolboxes installed as well:
 -  Signal Processing Toolbox 
 -  Image Processing Toolbox 
 -  Parallel Computing Toolbox 
-<a id="TMP_21ba"></a>
+<a id="TMP_6fde"></a>
 
 ## Publication
 
@@ -48,7 +48,7 @@ title={Delay-Multiply-And-Sum Beamforming for Real-Time In-Air Acoustic Imaging}
     year={2026},
     doi={10.1109/ACCESS.2026.3657901}}
 ```
-<a id="TMP_8dd7"></a>
+<a id="TMP_188c"></a>
 
 ## Examples
 
@@ -124,7 +124,7 @@ Use the command below to compile the function:
 ```matlab
 mex calculateDMASCFMex.cpp
 ```
-<a id="TMP_5f3f"></a>
+<a id="TMP_1b17"></a>
 
 ## License
 
