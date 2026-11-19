@@ -59,7 +59,10 @@ function dataMicrophonesOut = simulateMicrophoneData( structScene, structSensor 
     end
     dataMicrophonesOut = zeros( size( dataMicrophones ) );
     for cntChannel = 1 : numChannels
-        dataMicrophonesOut( :, cntChannel ) = dataMicrophones( :, cntChannel ) + conv( dataMicrophones( :, cntChannel ), structSensor.emissionSignal, 'same' );
+        % Causal convolution: each echo starts at its arrival time (a centred 'same'
+        % convolution would move every echo half an emission length too early).
+        echoes = conv( dataMicrophones( :, cntChannel ), structSensor.emissionSignal(:) );
+        dataMicrophonesOut( :, cntChannel ) = dataMicrophones( :, cntChannel ) + echoes( 1 : structSensor.numSamplesSensor );
     end
 
 end

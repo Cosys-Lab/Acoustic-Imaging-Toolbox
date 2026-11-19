@@ -19,5 +19,23 @@
          <source>PlottingPolarEnergyscapeExample</source>
          <file>doc/html/PlottingPolarEnergyscapeExample.html</file>
        </demoitem>
+       <demoitem>
+         <label>PlottingSphericalEnergyscapeExample</label>
+         <type>other</type>
+         <source>PlottingSphericalEnergyscapeExample</source>
+         <file>doc/html/PlottingSphericalEnergyscapeExample.html</file>
+       </demoitem>
+       <demoitem>
+         <label>Plotting3DEnergyscapeExample</label>
+         <type>other</type>
+         <source>Plotting3DEnergyscapeExample</source>
+         <file>doc/html/Plotting3DEnergyscapeExample.html</file>
+       </demoitem>
+       <demoitem>
+         <label>AcousticImage3DExample</label>
+         <type>other</type>
+         <source>AcousticImage3DExample</source>
+         <file>doc/html/AcousticImage3DExample.html</file>
+       </demoitem>
    </demosection>
 </demos>

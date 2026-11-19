@@ -44,7 +44,7 @@ opts = clait.plotPolarEnergyscape('options')
 %[text] | **Field** | **Type** | **Description** | **Units** |
 %[text] | --- | --- | --- | --- |
 %[text] | `directionsAzimuth` | vector | Azimuth angles for image columns \[numDirections × 1\] | degrees |
-%[text] | `decimationFactor` | scalar | Decimation factor applied to acoustic image (default: 1) | dimensionless |
+%[text] | `decimationFactor` | scalar | Decimation factor applied to acoustic image (default: 10, as `calculateAcousticImage`) | dimensionless |
 %[text:table]
 %[text] #### 
 %[text] #### 4. options (Optional)

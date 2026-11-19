@@ -71,6 +71,11 @@ function generatedocsTask(context)
     mdfile = export("toolbox/examples/AcousticImageExample.m", "toolbox/doc/html/AcousticImageExample.html", Format="html");
     mdfile = export("toolbox/doc/PlottingPolarEnergyscapeInfo.m", "toolbox/doc/html/PlottingPolarEnergyscapeInfo.html", Format="html");
     mdfile = export("toolbox/examples/PlottingPolarEnergyscapeExample.m", "toolbox/doc/html/PlottingPolarEnergyscapeExample.html", Format="html");
+    mdfile = export("toolbox/doc/PlottingSphericalEnergyscapeInfo.m", "toolbox/doc/html/PlottingSphericalEnergyscapeInfo.html", Format="html");
+    mdfile = export("toolbox/examples/PlottingSphericalEnergyscapeExample.m", "toolbox/doc/html/PlottingSphericalEnergyscapeExample.html", Format="html");
+    mdfile = export("toolbox/doc/Plotting3DEnergyscapeInfo.m", "toolbox/doc/html/Plotting3DEnergyscapeInfo.html", Format="html");
+    mdfile = export("toolbox/examples/Plotting3DEnergyscapeExample.m", "toolbox/doc/html/Plotting3DEnergyscapeExample.html", Format="html");
+    mdfile = export("toolbox/examples/AcousticImage3DExample.m", "toolbox/doc/html/AcousticImage3DExample.html", Format="html");
 end
 
 function cleanupReadme(filename)

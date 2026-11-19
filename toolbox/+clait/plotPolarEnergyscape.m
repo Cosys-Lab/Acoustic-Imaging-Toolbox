@@ -24,7 +24,7 @@ function varargout = plotPolarEnergyscape(varargin)
 %
 %   structImage      : Structure containing image formation parameters. (Mandatory for plotting)
 %       .directionsAzimuth  : Vector of azimuth angles for the image. [numDirections x 1] (deg)
-%       .decimationFactor   : Decimation factor applied to the acoustic image. Default: 1 (no decimation).
+%       .decimationFactor   : Decimation factor applied to the acoustic image. Default: 10 (as calculateAcousticImage).
 %
 %   options          : Structure containing visualization parameters. (Optional - Defaulted if empty)
 %                      Use plotPolarEnergyscape('options') to retrieve all available options.
@@ -93,16 +93,15 @@ function varargout = plotPolarEnergyscape(varargin)
         c = 343;  % Default speed of sound in air
     end
     
-    % Account for decimation if present
-    decimationFactor = 1;
+    % Account for decimation (calculateAcousticImage uses 10 when it is not set)
+    decimationFactor = 10;
     if isfield(structImage, 'decimationFactor')
         decimationFactor = structImage.decimationFactor;
     end
-    
-    effectiveSampleRate = structSensor.sampleRate / decimationFactor;
-    maxRange = structSensor.numSamplesSensor / structSensor.sampleRate * c / 2;
+
+    % Every image row is one (decimated) sample of the round-trip time
     numRangeBins = size(imageData, 1);
-    rangeVec = linspace(0, maxRange, numRangeBins);
+    rangeVec = (0:numRangeBins-1) * decimationFactor / structSensor.sampleRate * c / 2;
     
     % Apply range subsampling if requested (for performance)
     if opts.rangeSubsample > 1
