@@ -72,7 +72,8 @@ opts = clait.plotSphericalEnergyscape('options')
 %[text:table]
 %[text] | **Field** | **Type** | **Default** | **Description** |
 %[text] | --- | --- | --- | --- |
-%[text] | `useDbScale` | logical | `true` | `true` = dB scale, `false` = linear scale. `'max'` uses 20·log10 (amplitude), `'energy'` uses 10·log10 (power) |
+%[text] | `useDbScale` | logical | `true` | `true` = dB scale, `false` = linear scale |
+%[text] | `valueType` | string | `'auto'` | `'amplitude'` = 20·log10, `'power'` = 10·log10, for example for the power maps of `calculatePassiveAcousticImage`. `'auto'` = `'power'` for `rangeReduction = 'energy'`, else `'amplitude'` |
 %[text] | `dbCut` | scalar | `-60` | Lower dB limit relative to peak (dB) |
 %[text] | `dbMax` | scalar | `0` | Upper dB limit relative to peak (dB) |
 %[text] | `linearMin` | scalar | `0` | Minimum value for linear scale normalization |

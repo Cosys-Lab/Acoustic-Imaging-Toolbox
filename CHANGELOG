@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 - Added generateDirections() helper (2D, grid, equal-area, Fibonacci, hexagonal).
 - Added plot3DEnergyscape() function (point cloud and isosurfaces), with help page and example.
 - Added general 3D acoustic imaging example.
+- Added calculatePassiveAcousticImage() for passive imaging: MVDR, robust Capon (RCB) and DAS on GPU, CPU and native, with help page and example.
+- Added simulatePassiveMicrophoneData() helper for broadband sound sources.
 - Improved DMAS speed in GPU, CPU MEX and native versions (up to 190x for CPU DMAS5).
 - Fixed errors and broken links in documentation and examples.
 - Fixed GPU kernel out-of-bounds reads/writes.

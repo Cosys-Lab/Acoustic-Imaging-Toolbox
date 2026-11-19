@@ -37,5 +37,11 @@
          <source>AcousticImage3DExample</source>
          <file>doc/html/AcousticImage3DExample.html</file>
        </demoitem>
+       <demoitem>
+         <label>PassiveAcousticImageExample</label>
+         <type>other</type>
+         <source>PassiveAcousticImageExample</source>
+         <file>doc/html/PassiveAcousticImageExample.html</file>
+       </demoitem>
    </demosection>
 </demos>

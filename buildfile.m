@@ -76,6 +76,8 @@ function generatedocsTask(context)
     mdfile = export("toolbox/doc/Plotting3DEnergyscapeInfo.m", "toolbox/doc/html/Plotting3DEnergyscapeInfo.html", Format="html");
     mdfile = export("toolbox/examples/Plotting3DEnergyscapeExample.m", "toolbox/doc/html/Plotting3DEnergyscapeExample.html", Format="html");
     mdfile = export("toolbox/examples/AcousticImage3DExample.m", "toolbox/doc/html/AcousticImage3DExample.html", Format="html");
+    mdfile = export("toolbox/doc/PassiveAcousticImageInfo.m", "toolbox/doc/html/PassiveAcousticImageInfo.html", Format="html");
+    mdfile = export("toolbox/examples/PassiveAcousticImageExample.m", "toolbox/doc/html/PassiveAcousticImageExample.html", Format="html");
 end
 
 function cleanupReadme(filename)

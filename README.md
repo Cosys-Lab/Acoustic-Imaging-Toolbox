@@ -22,7 +22,7 @@ clait.compileClaitMexFunctions()
 ```
 
 
-<a id="TMP_5e26"></a>
+<a id="TMP_9c1b"></a>
 
 ## Dependencies
 
@@ -31,7 +31,7 @@ This toolbox requires the following other toolboxes installed as well:
 -  Signal Processing Toolbox 
 -  Image Processing Toolbox 
 -  Parallel Computing Toolbox 
-<a id="TMP_463f"></a>
+<a id="TMP_21ba"></a>
 
 ## Publication
 
@@ -48,15 +48,16 @@ title={Delay-Multiply-And-Sum Beamforming for Real-Time In-Air Acoustic Imaging}
     year={2026},
     doi={10.1109/ACCESS.2026.3657901}}
 ```
-<a id="TMP_4a7d"></a>
+<a id="TMP_8dd7"></a>
 
 ## Examples
 
-Five examples are available, to quickly open these files after installing the toolbox, run the following commands or find them manually in the `examples` folder. The 3D acoustic imaging example combines all 3D functions of the toolbox.
+Six examples are available, to quickly open these files after installing the toolbox, run the following commands or find them manually in the `examples` folder. The 3D acoustic imaging example combines all 3D functions of the toolbox, the passive example images sound sources such as leaks with MVDR beamforming.
 
 ```matlab
 clait.openClaitAcousticImageExample
 clait.openClaitAcousticImage3DExample
+clait.openClaitPassiveAcousticImageExample
 clait.openClaitPlottingPolarEnergyscapeExample
 clait.openClaitPlottingSphericalEnergyscapeExample
 clait.openClaitPlotting3DEnergyscapeExample
@@ -65,19 +66,21 @@ clait.openClaitPlotting3DEnergyscapeExample
 
 ## General Usage
 
-The toolbox has 11 functions: 4 main ones and 7 helper ones. The following lists all the available functions:
+The toolbox has 13 functions: 5 main ones and 8 helper ones. The following lists all the available functions:
 
 1.  `calculateAcousticImage:` Primary high\-level function. Executes the full imaging pipeline: Matched Filtering, Delay Calculation, Beamforming, and Post\-processing. m).
-2. `plotPolarEnergyscape:`  Primary high\-level function. It plots advanced 2D polar coordinate visualizations of acoustic imaging data from CLAIT acoustic image generation function algorithms. m).
-3. `plotSphericalEnergyscape:`  Primary high\-level function. It plots the directional energy of 3D acoustic images over azimuth and elevation, on a Lambert equal\-area or equirectangular projection. m).
-4. `plot3DEnergyscape:`  Primary high\-level function. It shows 3D acoustic images in 3D space as a point cloud or as isosurfaces, within a dB window below the peak. m).
-5. `calculateDMASCF:` Core beamforming function. Computes the image using D(M)AS(\-CF).
-6. `calculateDelayMatrix:` Calculates the necessary sample delays array steering to specified directions.
-7. `generalizedMatchedFilter:` Applies various matched filter and generalized correlation transforms (Normal, PHAT, ROTH, SCOT).
-8. `fm_sweep:` Helper function that enerates a hyperbolic FM sweep signal with Hanning windowing.
-9. `normLog:` Helper function that normalizes a matrix and converts it to a logarithmic (dB) scale.
-10. `simulateMicrophoneData:` Helper function that generates simulated microphone data from point targets in a scene.
-11. `generateDirections:` Helper function that generates the azimuth and elevation directions to image: a 2D fan, a regular grid, or nearly uniform equal\-area, Fibonacci or hexagonal patterns within a field of view. Run `help clait.generateDirections` for all options.
+2. `calculatePassiveAcousticImage:` Primary high\-level function. Images sound sources that emit themselves (passive measurements) with frequency\-domain MVDR, robust Capon or DAS beamforming on the GPU or CPU. m).
+3. `plotPolarEnergyscape:`  Primary high\-level function. It plots advanced 2D polar coordinate visualizations of acoustic imaging data from CLAIT acoustic image generation function algorithms. m).
+4. `plotSphericalEnergyscape:`  Primary high\-level function. It plots the directional energy of 3D acoustic images over azimuth and elevation, on a Lambert equal\-area or equirectangular projection. m).
+5. `plot3DEnergyscape:`  Primary high\-level function. It shows 3D acoustic images in 3D space as a point cloud or as isosurfaces, within a dB window below the peak. m).
+6. `calculateDMASCF:` Core beamforming function. Computes the image using D(M)AS(\-CF).
+7. `calculateDelayMatrix:` Calculates the necessary sample delays array steering to specified directions.
+8. `generalizedMatchedFilter:` Applies various matched filter and generalized correlation transforms (Normal, PHAT, ROTH, SCOT).
+9. `fm_sweep:` Helper function that enerates a hyperbolic FM sweep signal with Hanning windowing.
+10. `normLog:` Helper function that normalizes a matrix and converts it to a logarithmic (dB) scale.
+11. `simulateMicrophoneData:` Helper function that generates simulated microphone data from point targets in a scene.
+12. `simulatePassiveMicrophoneData:` Helper function that generates simulated microphone data from broadband sound sources, for passive imaging.
+13. `generateDirections:` Helper function that generates the azimuth and elevation directions to image: a 2D fan, a regular grid, or nearly uniform equal\-area, Fibonacci or hexagonal patterns within a field of view. Run `help clait.generateDirections` for all options.
 <a id="H_4320"></a>
 
 All functions in this Toolbox exist within the `clait` namespace. For calling these functions you therefore have to add the namespace name to the beginning.
@@ -121,7 +124,7 @@ Use the command below to compile the function:
 ```matlab
 mex calculateDMASCFMex.cpp
 ```
-<a id="TMP_2768"></a>
+<a id="TMP_5f3f"></a>
 
 ## License
 

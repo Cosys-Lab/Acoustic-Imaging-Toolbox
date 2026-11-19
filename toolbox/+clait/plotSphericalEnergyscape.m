@@ -39,6 +39,9 @@ function varargout = plotSphericalEnergyscape(varargin)
 %       .rangeReduction      : How the range bins of a direction become one value.
 %                              'max' (peak amplitude) or 'energy' (sum of squares). Default: 'max'.
 %       .rangeWindow         : [minRange maxRange] in m to only use part of the range. Default: [] (all).
+%       .valueType           : 'amplitude' (dB = 20*log10) or 'power' (dB = 10*log10), for example for
+%                              the power maps of calculatePassiveAcousticImage. 'auto' = 'power' for
+%                              rangeReduction 'energy', else 'amplitude'. Default: 'auto'.
 %       .useDbScale          : Flag (true/false) for dB vs. linear scale. Default: true.
 %       .dbCut               : Lower dB limit relative to peak. Default: -60 (dB).
 %       .dbMax               : Upper dB limit relative to peak. Default: 0 (dB).
@@ -103,10 +106,12 @@ function varargout = plotSphericalEnergyscape(varargin)
         directionValues = directionValues / max(directionValues);
     end
     if opts.useDbScale
-        if strcmpi(opts.rangeReduction, 'energy')
-            valuesDB = 10*log10(directionValues + 1e-20);   % energy is a power quantity
+        isPower = strcmpi(opts.valueType, 'power') || ...
+            (strcmpi(opts.valueType, 'auto') && strcmpi(opts.rangeReduction, 'energy'));
+        if isPower
+            valuesDB = 10*log10(directionValues + 1e-20);   % power quantity (energy, MVDR power)
         else
-            valuesDB = 20*log10(directionValues + 1e-10);   % peak is an amplitude quantity
+            valuesDB = 20*log10(directionValues + 1e-10);   % amplitude quantity (peak envelope)
         end
         peakDB = max(valuesDB);
         valuesDB = min(max(valuesDB, peakDB + opts.dbCut), peakDB + opts.dbMax);
@@ -212,6 +217,7 @@ function opts = getDefaultOptions()
     % Range collapse
     opts.rangeReduction = 'max';       % 'max' or 'energy'
     opts.rangeWindow = [];             % [minRange maxRange] in m, [] = all ranges
+    opts.valueType = 'auto';           % 'auto', 'amplitude' (20*log10) or 'power' (10*log10)
 
     % Scale settings
     opts.useDbScale = true;            % true = dB scale, false = linear scale
